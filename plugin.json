@@ -1,0 +1,35 @@
+{
+  "name": "matrix-agentic-framework",
+  "version": "1.0.0",
+  "description": "Fábrica de software agéntica y marco de desarrollo multi-rol con separación de poderes y auditoría externa (The Matrix Crew + The Source). Agnóstico a cualquier IA.",
+  "author": "Andrés Vallejo",
+  "license": "MIT",
+  "homepage": "https://github.com/andresv17/matrix-agentic-framework",
+  "skills": [
+    "skills/source",
+    "skills/crew/morpheus",
+    "skills/crew/architect",
+    "skills/crew/keymaker",
+    "skills/crew/oracle",
+    "skills/crew/trinity",
+    "skills/crew/seraph",
+    "skills/crew/link",
+    "skills/crew/sati",
+    "skills/crew/mifune",
+    "skills/crew/lock",
+    "skills/crew/rama",
+    "skills/crew/merovingian",
+    "skills/crew/zion",
+    "skills/crew/dojo",
+    "skills/crew/neb",
+    "skills/crew/hardline",
+    "skills/crew/hamann",
+    "skills/crew/mouse",
+    "skills/crew/smith",
+    "skills/crew/sentinels"
+  ],
+  "rules": [
+    "rules/protocol-wal.md",
+    "rules/separation-of-powers.md"
+  ]
+}

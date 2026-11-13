@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+node_modules/
+.venv/
+logos.json
+references/bitacoras/
+bitacoras/
+*.tmp
