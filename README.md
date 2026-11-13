@@ -107,22 +107,24 @@ Este repositorio incluye un manifiesto estándar `plugin.json`.
 1. Clona o añade este repositorio en tu directorio de plugins o Plugins Manager.
 2. Activa el plugin **Matrix Agentic Framework**. Todos los roles y reglas quedarán inmediatamente disponibles.
 
-### Opción B: Mediante el Instalador Multiplataforma (`install.sh`)
-Clona el repositorio en tu máquina y ejecuta el script según tu setup:
+### Opción B: Mediante el Instalador Interactivo Multiplataforma (`install.sh`)
+Clona el repositorio en tu máquina y ejecuta el script:
 
 ```bash
 git clone https://github.com/andresv17/matrix-agentic-framework.git
 cd matrix-agentic-framework
 
-# 1. Instalar la tripulación ejecutora (20 roles en tu motor diario, ej. Claude Code):
-./install.sh --crew
-
-# 2. Instalar The Source (en tu motor de auditoría/control, ej. Gemini / Antigravity):
-./install.sh --source
-
-# O si deseas instalar todo en tu máquina:
-./install.sh --all
+# Asistente interactivo adaptativo (pregunta dónde instalar cada parte):
+./install.sh
 ```
+
+El asistente interactivo te guiará paso a paso:
+1. **¿Dónde instalar la Tripulación (Crew)?** (Claude Code, Antigravity, Cursor, ruta personalizada).
+2. **¿Dónde instalar The Source?** Te recomendará automáticamente una IA distinta (ej. Gemini o ChatGPT si elegiste Claude) para garantizar la separación de poderes.
+3. **¿Cómo enlazar los archivos?** (Enlaces simbólicos automáticos o copia física).
+4. **¿Deseas inicializar un proyecto ahora?** (Opcional).
+
+> *Si prefieres el modo no interactivo (CI/CD o scripts directos), puedes usar flags: `./install.sh --crew`, `./install.sh --source`, `./install.sh --all` o `--crew-dir <ruta>` / `--source-dir <ruta>`.*
 
 ### Inicializar un nuevo proyecto con la memoria de la Matrix
 En la raíz de cualquier proyecto nuevo de software, ejecuta:
