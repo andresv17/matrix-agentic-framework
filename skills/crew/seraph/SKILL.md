@@ -55,7 +55,7 @@ La fuente única de verdad para los umbrales de cobertura, mutación, herramient
 
 ```text
 DE: Seraph (Guardián de Acceso, Autenticación & Desafío QA)
-PARA: <The Keymaker | Trinity (Seguridad) | The Oracle | Neo (Andrés Vallejo)>
+PARA: <The Keymaker | Trinity (Seguridad) | The Oracle | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: <En progreso | Bloqueado | Validación requerida>
 DETALLE:
 - Resumen del Desafío de Acceso y Calidad: <Explicación clara de qué flujos de autenticación o suites de pruebas fueron sometidos a combate>

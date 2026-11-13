@@ -47,7 +47,7 @@ La fuente única de verdad para el comportamiento normativo son **los artefactos
 
 ```text
 DE: Comandante Lock (Lente Anti-Sesgo & Abogado del Diablo)
-PARA: <El Consejo de Sion (/zion) | The Architect | Neo (Andrés Vallejo)>
+PARA: <El Consejo de Sion (/zion) | The Architect | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: Validación requerida
 DETALLE:
 - Veredicto Realista (Sin Complacencia y en Español Claro): <Qué punto ciego o exceso de confianza hay en lo que se está proponiendo>

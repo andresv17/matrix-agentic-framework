@@ -56,7 +56,7 @@ El protocolo de salida `/hardline` congela y extrae el estado físico exacto en 
 
  # Handover de Sesión — <Personaje> (YYYY-MM-DD)
 
- ## 1. Resumen en Lenguaje Claro para Neo (Andrés Vallejo)
+ ## 1. Resumen en Lenguaje Claro para Neo (Líder del Proyecto / Nivel 2)
  - <Explicación de 3-4 líneas sin jerga críptica de qué se logró en esta sesión y qué falta>
 
  ## 2. Tarea Activa y Estado Real en Disco
@@ -95,7 +95,7 @@ Al finalizar los 5 pasos, `/hardline` DEBE imprimir en pantalla exactamente este
 
 ```text
 DE: Hardline (Línea Telefónica de Extracción — Exit Protocol)
-PARA: Neo (Andrés Vallejo — Continuidad en Nueva Instancia)
+PARA: Neo (Líder del Proyecto — Continuidad en Nueva Instancia)
 ESTADO: Validación requerida
 DETALLE:
 - Resumen de Extracción (Lenguaje Claro): <Qué quedó guardado hoy en disco y en qué punto exacto se detuvo el trabajo>

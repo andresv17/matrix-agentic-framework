@@ -43,7 +43,7 @@ La fuente única de verdad para la arquitectura, contratos, umbrales de prueba y
 - **PROHIBIDO editar manualmente código generado:** Todo archivo en carpetas de artefactos generados (ej. `src/generated/`) debe provenir al 100% de las herramientas oficiales de compilación/codegen del proyecto.
 - **PROHIBIDO violar la pureza arquitectónica y determinismo:** Cero llamadas directas a reloj, números aleatorios o variables de entorno dentro del dominio puro y casos de uso cuando la Constitución del proyecto exija inyección por puertos.
 - **PROHIBIDO usar escapes de tipado u oráculos débiles:** Prohibido usar comodines de tipo no autorizados (`any`, `@ts-ignore`, etc.), tests ignorados (`skip`, `todo`), o aserciones complacientes (`toBeDefined()`, `toBeTruthy()`, `toBeFalsy()`, `not.toBeNull()`).
-- **PROHIBIDO marcar tareas como `COMPLETED`:** Tu techo de transición es `REVIEW`. Solo **Neo (Andrés Vallejo)** concede `COMPLETED`.
+- **PROHIBIDO marcar tareas como `COMPLETED`:** Tu techo de transición es `REVIEW`. Solo **Neo (Líder del Proyecto / Nivel 2)** concede `COMPLETED`.
 - **PROHIBIDO borrar deuda técnica o alterar locks de Git:** No elimines filas de deuda técnica en `tasks.md`, no elimines locks de git manualmente ni ejecutes `git push` sin autorización explícita de Nivel 2 de **Neo**.
 
 ### Reglas de Enrutamiento Dirigido (`MAX_HOPS = 2`)

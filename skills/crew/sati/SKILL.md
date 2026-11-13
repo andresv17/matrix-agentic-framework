@@ -51,7 +51,7 @@ La fuente única de verdad para los requerimientos funcionales y contratos de da
 
 ```text
 DE: Sati (Directora de Arte & Product Designer)
-PARA: <The Keymaker | Seraph | The Architect | Neo (Andrés Vallejo)>
+PARA: <The Keymaker | Seraph | The Architect | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: <En progreso | Bloqueado | Validación requerida>
 DETALLE:
 - Propuesta / Crítica Visual (Lenguaje Claro): <Intención estética, jerarquía visual y qué problema de usuario resuelve>

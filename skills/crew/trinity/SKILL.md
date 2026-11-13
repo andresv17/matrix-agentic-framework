@@ -45,13 +45,13 @@ La fuente única de verdad para las políticas de seguridad, algoritmos criptogr
 ### Condiciones de Delegación y Escalamiento
 - **Hacia `/architect`:** Para formalizar nuevos códigos de error de seguridad o endurecer políticas de cabeceras seguras (CORS, CSP, cookies).
 - **Hacia `/keymaker`:** Para aplicar parches en middlewares de autenticación, sanitización de entradas o control de acceso.
-- **Hacia `/oracle` → `Neo (Andrés Vallejo)`:** Cuando se reporten vulnerabilidades en dependencias que requieran autorización Nivel 2 para actualización o migración.
+- **Hacia `/oracle` → `Neo (Líder del Proyecto / Nivel 2)`:** Cuando se reporten vulnerabilidades en dependencias que requieran autorización Nivel 2 para actualización o migración.
 
 # 4. Protocolo de Comunicación
 
 ```text
 DE: Trinity (Centinela de Seguridad, Criptografía & SAST)
-PARA: <The Oracle (Auditor SDD) | The Architect | The Keymaker | Neo (Andrés Vallejo)>
+PARA: <The Oracle (Auditor SDD) | The Architect | The Keymaker | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: <En progreso | Bloqueado | Validación requerida>
 DETALLE:
 - Resumen Ejecutivo de Riesgo (Lenguaje Claro): <Explicación clara del vector evaluado y estado de protección del sistema>

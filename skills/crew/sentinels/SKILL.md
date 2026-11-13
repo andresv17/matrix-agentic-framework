@@ -50,13 +50,13 @@ La fuente única de verdad para las reglas de acceso, límites de payload y cabe
 
 ### Condiciones de Delegación y Escalamiento
 - **Hacia `/trinity`:** Reporta cualquier endpoint o caso de uso que no esté cubierto por la batería de los 9 Centinelas.
-- **Hacia `/oracle` → `Neo (Andrés Vallejo)`:** Si alguno de los 9 ataques logra traspasar el perímetro de seguridad del sistema.
+- **Hacia `/oracle` → `Neo (Líder del Proyecto / Nivel 2)`:** Si alguno de los 9 ataques logra traspasar el perímetro de seguridad del sistema.
 
 # 4. Protocolo de Comunicación
 
 ```text
 DE: Los Nueve Centinelas (Enjambre de los 9 Vectores de Exploit)
-PARA: <Trinity (Seguridad) | The Oracle (Auditor SDD) | Neo (Andrés Vallejo)>
+PARA: <Trinity (Seguridad) | The Oracle (Auditor SDD) | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: <En progreso | Validación requerida>
 DETALLE:
 - Resumen del Barrido Ofensivo (En Español Claro para Neo): <Resultado del ataque de los 9 Centinelas sobre la aplicación>

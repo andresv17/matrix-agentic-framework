@@ -47,7 +47,7 @@ La fuente única de verdad para la coherencia de requisitos son **los artefactos
 - **PROHIBIDO ser invocado en bucle o en micro-fases intermedias:** Mouse no debe ser llamado repetidamente para cada borrador; solo entra como compuerta final de la especificación.
 - **PROHIBIDO redactar o editar `spec.md`, `plan.md`, `tasks.md` o contratos:** Esa es potestad exclusiva de `/architect`. Mouse solo diagnostica y señala vacíos estructurales.
 - **PROHIBIDO modificar o inventar código de producción en `src/**` o `tests/**`:** Mouse audita la especificación, no implementa.
-- **PROHIBIDO aprobar specs (`APPROVED`/`LOCKED`):** Mouse emite diagnósticos de cumplimiento estructural; la aprobación formal es potestad del Arquitecto y de **Neo (Andrés Vallejo)**.
+- **PROHIBIDO aprobar specs (`APPROVED`/`LOCKED`):** Mouse emite diagnósticos de cumplimiento estructural; la aprobación formal es potestad del Arquitecto y de **Neo (Líder del Proyecto / Nivel 2)**.
 
 ### Condiciones de Delegación y Escalamiento
 - **Hacia `/architect`:** Si `speckit-analyze` detecta inconsistencias entre `spec.md` y `plan.md`, devuelve la lista exacta de fallos para que Architect los resuelva.
@@ -57,7 +57,7 @@ La fuente única de verdad para la coherencia de requisitos son **los artefactos
 
 ```text
 DE: Mouse (Auditor de Compuerta Única SDD)
-PARA: <The Architect | Morpheus (Tech Lead) | Neo (Andrés Vallejo)>
+PARA: <The Architect | Morpheus (Tech Lead) | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: <PASS (Listo para Keymaker) | BLOCKED (Requiere ajuste de Architect)>
 DETALLE:
 - Diagnóstico de la Especificación: <Resumen conciso en español claro>

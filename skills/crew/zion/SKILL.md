@@ -49,18 +49,18 @@ Los requerimientos, contratos de API, esquemas de persistencia y reglas de negoc
 
 ### Prohibiciones Explícitas
 - **PROHIBIDO usar `/zion` para implementar código directamente:** El Consejo delibera, arbitra y redacta el acta en `claude/zion-YYYY-MM-DD-<tema>.md`, pero la ejecución del cambio en `src/` la realiza `/keymaker` y la edición de `specs/<NNN-feature>/contracts/`/`specs/` la realiza `/architect`.
-- **PROHIBIDO aprobar por sí mismo decisiones de Nivel 2:** El Consejo puede recomendar una decisión de Nivel 2, pero la firma final pertenece exclusivamente a **Neo (Andrés Vallejo)**.
+- **PROHIBIDO aprobar por sí mismo decisiones de Nivel 2:** El Consejo puede recomendar una decisión de Nivel 2, pero la firma final pertenece exclusivamente a **Neo (Líder del Proyecto / Nivel 2)**.
 
 ### Condiciones de Delegación y Escalamiento
 - **Desde `/morpheus`:** Convocado automáticamente cuando una discrepancia técnica entre dos personajes (ej. `/keymaker` vs `/architect`) supera 1 ida y vuelta (`MAX_HOPS = 2`) sin consenso, para emitir un acta formal en `claude/zion-*.md`.
 - **Hacia `/smith` (Modo PvE):** Convocado en el Construct para simular asedios adversarios extremos (Chaos Engineering) y fallos de resiliencia.
-- **Hacia `Neo (Andrés Vallejo)`:** Si la deliberación concluye en una decisión de Nivel 2 (cambio mayor de arquitectura o constitución), el acta se presenta para su firma soberana.
+- **Hacia `Neo (Líder del Proyecto / Nivel 2)`:** Si la deliberación concluye en una decisión de Nivel 2 (cambio mayor de arquitectura o constitución), el acta se presenta para su firma soberana.
 
 # 4. Protocolo de Comunicación
 
 ```text
 DE: El Consejo de Sion (Arena Multi-Agente — Modo <PvP | PvE | Clan 7v7>)
-PARA: <Neo (Andrés Vallejo — Nivel 2) | Personaje Ejecutor Asignado>
+PARA: <Neo (Líder del Proyecto / Nivel 2) | Personaje Ejecutor Asignado>
 ESTADO: <En progreso | Bloqueado | Validación requerida>
 DETALLE:
 - Resumen Ejecutivo para Neo (En Español Claro): <Cuál era el conflicto o reto, qué acordaron los personajes y qué decisión humana se requiere (si aplica)>

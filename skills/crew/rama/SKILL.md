@@ -47,7 +47,7 @@ La fuente única de verdad para las políticas de retención, formatos de respal
 
 ```text
 DE: Rama Kandra (Custodio de Privacidad & Respaldos Atómicos)
-PARA: <The Oracle (Auditor SDD) | The Keymaker | The Architect | Neo (Andrés Vallejo)>
+PARA: <The Oracle (Auditor SDD) | The Keymaker | The Architect | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: <En progreso | Bloqueado | Validación requerida>
 DETALLE:
 - Dictamen de Privacidad e Integridad de Datos (Lenguaje Claro): <Estado de protección de los datos de los usuarios en el proyecto activo>

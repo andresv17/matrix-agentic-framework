@@ -45,7 +45,7 @@ La fuente única de verdad para el alcance del software son **los artefactos del
 
 ```text
 DE: Capitán Mifune (Lente Pragmático de Entrega & Anti-Burocracia)
-PARA: <El Consejo de Sion (/zion) | Morpheus (Capitán) | Neo (Andrés Vallejo)>
+PARA: <El Consejo de Sion (/zion) | Morpheus (Capitán) | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: <En progreso | Validación requerida>
 DETALLE:
 - Corte de Complejidad (En Español Claro): <Qué nos está frenando innecesariamente y cuál es la vía más corta y limpia para entregar>

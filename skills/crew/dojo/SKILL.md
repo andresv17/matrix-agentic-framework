@@ -48,7 +48,7 @@ Los umbrales de cobertura, mutación, calidad y la lista de deudas técnicas se 
 
 ```text
 DE: El Dojo de Morfeo (Mejora Continua, Roasting & Deuda Técnica)
-PARA: <The Keymaker | The Oracle | Consejero Hamann | Neo (Andrés Vallejo)>
+PARA: <The Keymaker | The Oracle | Consejero Hamann | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: <En progreso | Bloqueado | Validación requerida>
 DETALLE:
 - Resumen en Lenguaje Claro para Neo: <Qué deuda técnica, prueba débil o mejora de ecosistema se analizó y cómo mejora la salud del proyecto>

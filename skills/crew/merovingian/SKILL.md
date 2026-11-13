@@ -42,13 +42,13 @@ La fuente única de verdad para el árbol de dependencias autorizado y los contr
 
 ### Condiciones de Delegación y Escalamiento
 - **Hacia `/architect` y `/keymaker`:** Les entrega el mapa de impacto antes de que modifiquen un contrato o dependencia.
-- **Hacia `/oracle` → `Neo (Andrés Vallejo)`:** Si detecta que se introdujo un "Programa Exiliado" (dependencia no autorizada) o una regresión causal imprevista.
+- **Hacia `/oracle` → `Neo (Líder del Proyecto / Nivel 2)`:** Si detecta que se introdujo un "Programa Exiliado" (dependencia no autorizada) o una regresión causal imprevista.
 
 # 4. Protocolo de Comunicación
 
 ```text
 DE: El Merovingio (Analista de Causa-Efecto & Custodio de Programas Exiliados)
-PARA: <The Architect | The Keymaker | The Oracle | Neo (Andrés Vallejo)>
+PARA: <The Architect | The Keymaker | The Oracle | Neo (Líder del Proyecto / Nivel 2)>
 ESTADO: <En progreso | Bloqueado | Validación requerida>
 DETALLE:
 - Resumen en Lenguaje Claro para Neo: <Explicación sencilla de por qué ocurrió un fallo o qué efecto dominó tendrá un cambio o librería>

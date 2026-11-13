@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-scripts/logos.py — Canal de Comunicación Logos (The Source / Gemini <-> Morpheus / Claude Code)
+scripts/logos.py — Canal de Comunicación Logos (The Source / Auditor Soberano <-> Morpheus / Tech Lead)
 
 Maneja el protocolo de intercambio de directivas mediante el archivo compartido (logos.json):
 - Escritura atómica (sin archivos truncados ni condiciones de carrera).
@@ -16,7 +16,7 @@ import time
 import argparse
 from datetime import datetime
 
-# Asegurar salida inmediata sin buffering para entornos no interactivos (Antigravity/CI)
+# Asegurar salida inmediata sin buffering para entornos no interactivos (CLI/CI)
 try:
     sys.stdout.reconfigure(line_buffering=True)
     sys.stderr.reconfigure(line_buffering=True)
@@ -35,7 +35,7 @@ DEFAULT_INITIAL_DATA = {
     "requiere_firma_neo": False,
     "objetivo": "Sesión de trabajo autónomo",
     "ultimo_emisor": "neo",
-    "mensaje": "DE: Neo (Andrés Vallejo)\nPARA: Morpheus (Capitán de la Nabucodonosor)\nESTADO: En progreso\nDETALLE:\n- Despierta sesión en el proyecto activo y reporta el estado actual de la cola de tareas.\nSIGUIENTE PASO RECOMENDADO: Morpheus reporta el estado y cede el turno en la Logos a Neo.",
+    "mensaje": "DE: Neo (Autoridad Soberana Nivel 2)\nPARA: Morpheus (Capitán de la Tripulación & Tech Lead)\nESTADO: En progreso\nDETALLE:\n- Despierta sesión en el proyecto activo y reporta el estado actual de la cola de tareas.\nSIGUIENTE PASO RECOMENDADO: Morpheus reporta el estado y cede el turno en la Logos a Neo.",
     "historial": []
 }
 

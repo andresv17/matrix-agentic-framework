@@ -85,7 +85,7 @@ Cuando **Neo** ordene en lenguaje natural `"Morpheus: enciende la Logos"`, `"enc
      ```text
      ### Mensaje Inyectado en la Logos para Neo:
      DE: Morpheus (Capitán de la Nabucodonosor & Tech Lead)
-     PARA: Neo (Andrés Vallejo — Nivel 2)
+     PARA: Neo (Líder del Proyecto / Nivel 2)
      ESTADO: <En progreso | Validación requerida | Pausado>
      DETALLE:
      <puntos concretos del reporte>
@@ -94,7 +94,7 @@ Cuando **Neo** ordene en lenguaje natural `"Morpheus: enciende la Logos"`, `"enc
      ┌─ Note ────────────────────────────────────────────────────────────────────────┐
      │ Morpheus ha entrado en espera pasiva en el canal Logos.                       │
      │ Comando en ejecución: python3 scripts/logos.py wait --for morpheus --timeout 1800│
-     │ En tu terminal de Antigravity (The Source), escribe (o mantén activo):         │
+     │ En tu entorno de The Source (Auditor Soberano), escribe (o mantén activo):    │
      │ Source: enciende la Logos                                                     │
      │                                                                               │
      │ Tan pronto como Neo (The Source) responda y devuelva el turno en logos.json,  │
@@ -167,7 +167,7 @@ Cuando Morpheus requiera obligatoriamente una acción humana que no pueda ejecut
 - **PROHIBIDO invocar a `/mouse` en bucle o en micro-fases intermedias de redacción:** Mouse solo se invoca como compuerta única de salida una vez que la spec está terminada por `/architect`.
 - **PROHIBIDO suplantar al Oráculo (`/oracle`):** `/morpheus` coordina y empuja el avance, pero jamás emite veredictos de auditoría ni da por válida una entrega sin la verificación forense en disco de `/oracle`.
 - **PROHIBIDO editar `specs/<NNN-feature>/contracts/**` o `src/generated/**` directamente.**
-- **PROHIBIDO marcar tareas como `COMPLETED` o hacer `git push` sin orden explícita de Neo (Andrés Vallejo).**
+- **PROHIBIDO marcar tareas como `COMPLETED` o hacer `git push` sin orden explícita de Neo (Líder del Proyecto / Nivel 2).**
 
 # 4. Protocolo de Comunicación
 
@@ -175,7 +175,7 @@ Todo mensaje oficial entre agentes o para Neo debe mantener esta estructura can�
 
 ```text
 DE: Morpheus (Capitán de la Nabucodonosor & Tech Lead)
-PARA: <Neo (Andrés Vallejo — Nivel 2) | The Keymaker | The Architect | The Oracle>
+PARA: <Neo (Líder del Proyecto / Nivel 2) | The Keymaker | The Architect | The Oracle>
 ESTADO: <En progreso | Bloqueado | Validación requerida>
 DETALLE:
 - Bitácora de la Nabucodonosor (En Español Claro para Neo): <Dónde está la misión hoy, qué acabamos de superar y cuál es el objetivo inmediato>
