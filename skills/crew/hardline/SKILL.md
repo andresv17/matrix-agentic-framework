@@ -116,6 +116,6 @@ RECOMMENDED NEXT STEP (COPY AND PASTE IN NEW SESSION):
 ------------------------------------------------------------------------
 ```
 
-# 5. Session Close Behavior
+# 5. Session Close Behavior (`"cerremos sesión"`, `"close session"`, or `/hardline`)
 
 This skill **IS** the universal session close protocol (`exit-protocol`). Executing it completes the 5 steps above and cleanly disconnects the active conversation session with zero memory loss.
