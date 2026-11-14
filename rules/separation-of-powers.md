@@ -1,18 +1,18 @@
-# Regla: Separación de Poderes (The Source vs. The Matrix Crew)
+# Rule: Separation of Powers (The Source vs. The Matrix Crew)
 
-## 1. El Dilema de la Auto-Auditoría
-Cuando un modelo de IA genera código y simultáneamente es responsable de evaluarlo en la misma conversación, se produce un sesgo de auto-complacencia (*Echo Chamber*): el modelo "recuerda" lo que intentó escribir e ignora los errores reales en disco.
+## 1. The Self-Auditing Dilemma
+When an AI model writes code and simultaneously evaluates its own output within the same chat session, severe confirmation bias (*Echo Chamber*) occurs: the model "remembers" its intent and overlooks errors, regressions, and hallucinations present on disk.
 
-## 2. Los Dos Poderes del Framework
-El framework divide formalmente las responsabilidades en dos planos independientes:
+## 2. The Two Branches of the Framework
+The framework formally divides engineering responsibilities into two independent branches:
 
-### A. Poder Ejecutivo (The Matrix Crew)
+### A. Executive Branch (The Matrix Crew)
 - **Roles:** `Morpheus`, `Architect`, `Keymaker`, `Trinity`, `Seraph`, `Link`, `Sati`, etc.
-- **Misión:** Diseñar contratos, implementar código, estructurar UI, ejecutar tests unitarios/E2E, configurar pipelines de despliegue y escribir bitácoras.
-- **Límite:** Ningún agente del Poder Ejecutivo puede auto-firmar compuertas finales de pase a producción, ni alterar las directivas soberanas sin auditoría.
+- **Mission:** Design contracts, write production code, structure UI, execute test suites, configure CI/CD pipelines, and maintain role logs.
+- **Boundary:** No agent in the Executive Branch may self-approve final production release gates or modify sovereign directives without audit.
 
-### B. Poder Judicial y Soberano (The Source)
-- **Rol:** `The Source` (operando como delegado de la Autoridad Humana / Neo).
-- **Misión:** Auditar con ojos neutros y en frío contra el estado real del disco (`git diff`, reportes de pruebas, cumplimiento de especificaciones y contratos formales).
-- **Entorno Recomendado:** Debe ejecutarse preferiblemente en un motor o instancia de IA independiente (por ejemplo, Google Antigravity o ChatGPT si la tripulación corre en Claude Code, o viceversa).
-- **Canal de Enlace M2M (Logos):** La comunicación autónoma y desatendida entre ambos planos se realiza a través de `logos.json` y `scripts/logos.py`, permitiendo la supervisión continua sin fatiga humana.
+### B. Judicial & Sovereign Branch (The Source)
+- **Role:** `The Source` (operating as the proxy for the Human / Sovereign Level 2 Authority).
+- **Mission:** Audit with neutral, detached rigor directly against real disk state (`git diff`, test reports, contract compliance).
+- **Recommended Environment:** Must run in an independent AI engine or session (e.g., Google Antigravity or ChatGPT if the crew runs in Claude Code, or vice versa).
+- **M2M Link (Logos Channel):** Autonomous, unattended collaboration between both planes is conducted through `logos.json` and `scripts/logos.py`, enabling continuous supervision without human fatigue.

@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CREW_SRC="$SCRIPT_DIR/skills/crew"
 SOURCE_SRC="$SCRIPT_DIR/skills/source"
 
-# Colores para salida de terminal
+# Terminal colors
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
@@ -19,24 +19,24 @@ NC='\033[0m' # No Color
 
 print_banner() {
   echo -e "${BLUE}====================================================================${NC}"
-  echo -e "${GREEN}${BOLD}  ⚡ Matrix Agentic Framework — Asistente de Instalación Adaptativa${NC}"
-  echo -e "${CYAN}     Fábrica de Software Agéntica & Separación de Poderes${NC}"
+  echo -e "${GREEN}${BOLD}  ⚡ Matrix Agentic Framework — Adaptive Setup Wizard${NC}"
+  echo -e "${CYAN}     Autonomous Software Factory & Separation of Powers${NC}"
   echo -e "${BLUE}====================================================================${NC}"
 }
 
 print_help() {
-  echo -e "Uso: ./install.sh [OPCIONES]\n"
-  echo "Si ejecutas ./install.sh sin argumentos, se iniciará el Asistente Interactivo."
+  echo -e "Usage: ./install.sh [OPTIONS]\n"
+  echo "Running ./install.sh without arguments starts the Interactive Setup Wizard."
   echo ""
-  echo "Opciones CLI (Modo No-Interactivo):"
-  echo "  --crew             Instala los 20 roles ejecutores en ~/.claude/skills/"
-  echo "  --source           Instala Source en ~/.gemini/config/skills/source/"
-  echo "  --all              Instala tanto la tripulación como Source en rutas por defecto"
-  echo "  --copy             Copia los archivos físicamente en vez de crear symlinks"
-  echo "  --crew-dir DIR     Especifica una ruta personalizada para la Tripulación"
-  echo "  --source-dir DIR   Especifica una ruta personalizada para Source"
-  echo "  --init-project DIR Inicializa un nuevo proyecto con el bus WAL, templates y hooks"
-  echo "  --help, -h         Muestra este mensaje de ayuda"
+  echo "CLI Options (Non-Interactive Mode):"
+  echo "  --crew             Install the 20 execution roles in ~/.claude/skills/"
+  echo "  --source           Install The Source in ~/.gemini/config/skills/source/"
+  echo "  --all              Install both Crew and Source in default paths"
+  echo "  --copy             Physically copy files instead of creating symlinks"
+  echo "  --crew-dir DIR     Specify custom installation directory for the Crew"
+  echo "  --source-dir DIR   Specify custom installation directory for The Source"
+  echo "  --init-project DIR Initialize a project with WAL memory bus, templates & hooks"
+  echo "  --help, -h         Show this help message"
 }
 
 MODE_COPY=false
@@ -51,23 +51,23 @@ link_or_copy() {
   mkdir -p "$(dirname "$dest")"
   
   if [ -e "$dest" ] || [ -L "$dest" ]; then
-    echo -e "  ${YELLOW}! Ya existe:${NC} $dest (conservado)"
+    echo -e "  ${YELLOW}! Already exists:${NC} $dest (preserved)"
     return
   fi
 
   if [ "$MODE_COPY" = true ]; then
     cp -r "$src" "$dest"
-    echo -e "  ${GREEN}✓ Copiado:${NC} $dest"
+    echo -e "  ${GREEN}✓ Copied:${NC} $dest"
   else
     ln -s "$src" "$dest"
-    echo -e "  ${GREEN}✓ Enlace creado:${NC} $dest -> $src"
+    echo -e "  ${GREEN}✓ Symlink created:${NC} $dest -> $src"
   fi
 }
 
 install_crew_to() {
   local target_dir="$1"
-  echo -e "\n${BLUE}▶ Instalando la tripulación de la Matrix (20 roles ejecutores)...${NC}"
-  echo -e "  Destino: ${target_dir}"
+  echo -e "\n${BLUE}▶ Installing The Matrix Crew (20 execution roles)...${NC}"
+  echo -e "  Destination: ${target_dir}"
   mkdir -p "$target_dir"
 
   for skill_dir in "$CREW_SRC"/*; do
@@ -82,14 +82,14 @@ install_source_to() {
   local target_dir="$1"
   local is_chatgpt_export="$2"
 
-  echo -e "\n${BLUE}▶ Instalando The Source (Plano Soberano / Auditor Externo)...${NC}"
-  echo -e "  Destino: ${target_dir}"
+  echo -e "\n${BLUE}▶ Installing The Source (Sovereign Control Plane / External Auditor)...${NC}"
+  echo -e "  Destination: ${target_dir}"
   mkdir -p "$target_dir"
 
   if [ "$is_chatgpt_export" = true ]; then
     cp "$SOURCE_SRC/SKILL.md" "$target_dir/SOURCE_INSTRUCTIONS_CHATGPT.md"
     cp "$SOURCE_SRC/references/logos.py" "$target_dir/logos.py" 2>/dev/null || true
-    echo -e "  ${GREEN}✓ Exportado prompt listo para Custom GPT o System Prompt:${NC} $target_dir/SOURCE_INSTRUCTIONS_CHATGPT.md"
+    echo -e "  ${GREEN}✓ Exported prompt ready for Custom GPT or System Prompt:${NC} $target_dir/SOURCE_INSTRUCTIONS_CHATGPT.md"
   else
     link_or_copy "$SOURCE_SRC/SKILL.md" "$target_dir/SKILL.md"
     if [ -d "$SOURCE_SRC/references" ]; then
@@ -101,7 +101,7 @@ install_source_to() {
 
 init_project() {
   local project_path="$1"
-  echo -e "\n${BLUE}▶ Inicializando arquitectura de memoria en el proyecto: ${project_path}...${NC}"
+  echo -e "\n${BLUE}▶ Initializing memory architecture in project: ${project_path}...${NC}"
   mkdir -p "$project_path/claude"
   mkdir -p "$project_path/.claude/hooks"
   mkdir -p "$project_path/scripts"
@@ -114,50 +114,50 @@ init_project() {
         -e "s/{{AUTHOR_NAME}}/$USER/g" \
         -e "s/{{DATE}}/$(date +%Y-%m-%d)/g" \
         "$SCRIPT_DIR/templates/registro-proceso.template.md" > "$bus_file"
-    echo -e "  ${GREEN}✓ Bus central creado:${NC} $bus_file"
+    echo -e "  ${GREEN}✓ Central bus created:${NC} $bus_file"
   else
-    echo -e "  ${YELLOW}! Bus central ya existía:${NC} $bus_file"
+    echo -e "  ${YELLOW}! Central bus already exists:${NC} $bus_file"
   fi
 
   local env_file="$project_path/claude/entorno-y-lecciones.md"
   if [ ! -f "$env_file" ]; then
     sed "s/{{PROJECT_NAME}}/$project_name/g" "$SCRIPT_DIR/templates/entorno-y-lecciones.template.md" > "$env_file"
-    echo -e "  ${GREEN}✓ Entorno y lecciones creado:${NC} $env_file"
+    echo -e "  ${GREEN}✓ Environment & lessons created:${NC} $env_file"
   fi
 
   cp "$SCRIPT_DIR/templates/session-context.mjs" "$project_path/.claude/hooks/session-context.mjs"
   chmod +x "$project_path/.claude/hooks/session-context.mjs"
-  echo -e "  ${GREEN}✓ Hook de memoria viva instalado:${NC} .claude/hooks/session-context.mjs"
+  echo -e "  ${GREEN}✓ Live memory hook installed:${NC} .claude/hooks/session-context.mjs"
 
   if [ ! -f "$project_path/.claude/settings.json" ]; then
     cp "$SCRIPT_DIR/templates/settings.hooks.json" "$project_path/.claude/settings.json"
-    echo -e "  ${GREEN}✓ Configuración de hooks creada:${NC} .claude/settings.json"
+    echo -e "  ${GREEN}✓ Hook configuration created:${NC} .claude/settings.json"
   fi
 
   if [ ! -f "$project_path/scripts/logos.py" ]; then
     cp "$SCRIPT_DIR/templates/logos.py" "$project_path/scripts/logos.py"
     chmod +x "$project_path/scripts/logos.py"
-    echo -e "  ${GREEN}✓ Canal Logos aprovisionado:${NC} scripts/logos.py"
+    echo -e "  ${GREEN}✓ Logos M2M channel provisioned:${NC} scripts/logos.py"
   fi
 }
 
 run_interactive_wizard() {
   print_banner
-  echo -e "\n${BOLD}Bienvenido al configurador del Matrix Agentic Framework.${NC}"
-  echo -e "Este asistente te guiará para configurar tu entorno respetando el principio de"
-  echo -e "${YELLOW}Separación de Poderes${NC} (ejecutores vs auditor externo sin cámara de eco).\n"
+  echo -e "\n${BOLD}Welcome to the Matrix Agentic Framework Setup Wizard.${NC}"
+  echo -e "This wizard configures your environment adhering to the"
+  echo -e "${YELLOW}Separation of Powers${NC} principle (execution squad vs external auditor).\n"
 
   # -------------------------------------------------------------
-  # PASO 1: LA TRIPULACIÓN (THE MATRIX CREW)
+  # STEP 1: THE MATRIX CREW
   # -------------------------------------------------------------
-  echo -e "${CYAN}${BOLD}[Paso 1 de 3] ¿Dónde deseas instalar a LA TRIPULACIÓN EJECUTORA (20 roles)?${NC}"
-  echo -e "La tripulación (Morpheus, Architect, Keymaker, etc.) ejecuta código, tests y diseño."
-  echo "  1) Claude Code CLI       (~/.claude/skills/) [Recomendado para desarrollo]"
+  echo -e "${CYAN}${BOLD}[Step 1 of 3] Where would you like to install THE EXECUTION CREW (20 roles)?${NC}"
+  echo -e "The crew (Morpheus, Architect, Keymaker, etc.) writes code, tests, and designs."
+  echo "  1) Claude Code CLI       (~/.claude/skills/) [Recommended for development]"
   echo "  2) Google Antigravity    (~/.gemini/antigravity/skills/)"
   echo "  3) Cursor / VS Code      (~/.cursor/rules/matrix/)"
-  echo "  4) Otra ruta personalizada"
-  echo "  5) Omitir la tripulación por ahora"
-  read -rp "Selecciona una opción [1-5] (por defecto: 1): " crew_choice
+  echo "  4) Custom path"
+  echo "  5) Skip crew installation for now"
+  read -rp "Select an option [1-5] (default: 1): " crew_choice
   crew_choice="${crew_choice:-1}"
 
   local selected_crew_dir=""
@@ -166,31 +166,31 @@ run_interactive_wizard() {
     2) selected_crew_dir="${HOME}/.gemini/antigravity/skills" ;;
     3) selected_crew_dir="${HOME}/.cursor/rules/matrix" ;;
     4)
-      read -rp "Ingresa la ruta absoluta deseada: " selected_crew_dir
+      read -rp "Enter absolute path: " selected_crew_dir
       ;;
     5) selected_crew_dir="" ;;
     *) selected_crew_dir="${HOME}/.claude/skills" ;;
   esac
 
   # -------------------------------------------------------------
-  # PASO 2: THE SOURCE (AUDITOR SOBERANO)
+  # STEP 2: THE SOURCE (SOVEREIGN AUDITOR)
   # -------------------------------------------------------------
-  echo -e "\n${CYAN}${BOLD}[Paso 2 de 3] ¿Dónde deseas instalar a THE SOURCE (Auditor Soberano)?${NC}"
-  echo -e "${YELLOW}💡 Regla de oro:${NC} Para evitar que el auditor valide sus propias alucinaciones,"
-  echo -e "se recomienda fuertemente elegir un motor o entorno ${BOLD}diferente${NC} al del Paso 1."
+  echo -e "\n${CYAN}${BOLD}[Step 2 of 3] Where would you like to install THE SOURCE (Sovereign Auditor)?${NC}"
+  echo -e "${YELLOW}💡 Golden Rule:${NC} To prevent confirmation bias and self-validating hallucinations,"
+  echo -e "it is strongly recommended to select a ${BOLD}different${NC} engine than Step 1."
   
   if [ "$crew_choice" = "1" ]; then
-    echo -e "  → Como elegiste Claude para la tripulación, lo ideal es instalar Source en Gemini o ChatGPT."
+    echo -e "  → Since you selected Claude for the crew, we recommend installing Source in Gemini or ChatGPT."
   elif [ "$crew_choice" = "2" ]; then
-    echo -e "  → Como elegiste Gemini/Antigravity para la tripulación, lo ideal es instalar Source en Claude o ChatGPT."
+    echo -e "  → Since you selected Gemini/Antigravity for the crew, we recommend installing Source in Claude or ChatGPT."
   fi
 
-  echo "  1) Google Antigravity / Gemini   (~/.gemini/config/skills/source/) [Recomendado si usas Claude]"
-  echo "  2) ChatGPT / OpenAI (Exportar)   (~/.matrix-framework/chatgpt-source/)"
-  echo "  3) Claude Code CLI               (~/.claude/skills/source/) [Solo si usas un único motor]"
-  echo "  4) Otra ruta personalizada"
-  echo "  5) Omitir The Source por ahora"
-  read -rp "Selecciona una opción [1-5] (por defecto: 1): " source_choice
+  echo "  1) Google Antigravity / Gemini   (~/.gemini/config/skills/source/) [Recommended if using Claude]"
+  echo "  2) ChatGPT / OpenAI (Export)     (~/.matrix-framework/chatgpt-source/)"
+  echo "  3) Claude Code CLI               (~/.claude/skills/source/) [Only if using a single engine]"
+  echo "  4) Custom path"
+  echo "  5) Skip The Source for now"
+  read -rp "Select an option [1-5] (default: 1): " source_choice
   source_choice="${source_choice:-1}"
 
   local selected_source_dir=""
@@ -203,24 +203,24 @@ run_interactive_wizard() {
       ;;
     3) selected_source_dir="${HOME}/.claude/skills/source" ;;
     4)
-      read -rp "Ingresa la ruta absoluta deseada: " selected_source_dir
+      read -rp "Enter absolute path: " selected_source_dir
       ;;
     5) selected_source_dir="" ;;
     *) selected_source_dir="${HOME}/.gemini/config/skills/source" ;;
   esac
 
   # -------------------------------------------------------------
-  # PASO 3: TIPO DE INSTALACIÓN
+  # STEP 3: LINKING METHOD
   # -------------------------------------------------------------
-  echo -e "\n${CYAN}${BOLD}[Paso 3 de 3] ¿Cómo deseas enlazar los archivos?${NC}"
-  echo "  1) Enlaces simbólicos (symlinks) [Recomendado: se actualizan con cada git pull]"
-  echo "  2) Copia física independiente"
-  read -rp "Selecciona una opción [1-2] (por defecto: 1): " link_choice
+  echo -e "\n${CYAN}${BOLD}[Step 3 of 3] How would you like to link the skill files?${NC}"
+  echo "  1) Symlinks [Recommended: automatically updates with git pull]"
+  echo "  2) Physical copy"
+  read -rp "Select an option [1-2] (default: 1): " link_choice
   if [ "$link_choice" = "2" ]; then
     MODE_COPY=true
   fi
 
-  # Ejecutar instalaciones
+  # Execute installations
   if [ -n "$selected_crew_dir" ]; then
     install_crew_to "$selected_crew_dir"
   fi
@@ -229,19 +229,19 @@ run_interactive_wizard() {
     install_source_to "$selected_source_dir" "$is_chatgpt"
   fi
 
-  # Preguntar si desea inicializar un proyecto ahora
-  echo -e "\n${CYAN}${BOLD}[Opcional] Inicialización de Proyecto${NC}"
-  read -rp "¿Deseas inicializar el bus de memoria en algún proyecto ahora? (Ruta o Enter para omitir): " target_proj
+  # Ask to initialize a project now
+  echo -e "\n${CYAN}${BOLD}[Optional] Project Initialization${NC}"
+  read -rp "Initialize the memory bus in an existing project now? (Path or Enter to skip): " target_proj
   if [ -n "$target_proj" ] && [ -d "$target_proj" ]; then
     init_project "$target_proj"
   fi
 
-  echo -e "\n${GREEN}${BOLD}✔ ¡Configuración completada exitosamente!${NC}\n"
+  echo -e "\n${GREEN}${BOLD}✔ Setup completed successfully!${NC}\n"
   exit 0
 }
 
 # =============================================================
-# MANEJO DE ARGUMENTOS CLI O LANZAMIENTO DE WIZARD
+# CLI ARGUMENT HANDLING OR WIZARD LAUNCH
 # =============================================================
 if [ $# -eq 0 ]; then
   run_interactive_wizard
@@ -286,7 +286,7 @@ while [[ $# -gt 0 ]]; do
       exit 0
       ;;
     *)
-      echo -e "${RED}Opción desconocida: $1${NC}"
+      echo -e "${RED}Unknown option: $1${NC}"
       print_help
       exit 1
       ;;
@@ -309,4 +309,4 @@ if [ -n "$INIT_DIR" ]; then
   init_project "$INIT_DIR"
 fi
 
-echo -e "\n${GREEN}✔ Operación completada con éxito.${NC}\n"
+echo -e "\n${GREEN}✔ Operation completed successfully.${NC}\n"

@@ -1,17 +1,17 @@
-# Regla: Protocolo Write-Ahead Log (WAL) y Bus Central de Memoria
+# Rule: Write-Ahead Log (WAL) Protocol & Central Memory Bus
 
-Este protocolo es obligatorio para todos los agentes del escuadrón.
+This protocol is mandatory for all squad agents.
 
-## 1. Principio Fundamental
-**Cero dependencia de la memoria de contexto del chat.**
-Los LLMs sufren de olvido catastrófico cuando la ventana de contexto se satura o se compacta. Por tanto, la verdad del proyecto no reside en el chat, sino en los archivos de texto persistidos en el disco local.
+## 1. Core Principle
+**Zero reliance on ephemeral chat context memory.**  
+LLMs suffer from catastrophic forgetting and attention degradation as context windows fill or compact. Therefore, the single source of truth for the project does not reside in the chat transcript, but in structured text files persisted to local disk.
 
-## 2. El Mecanismo de Doble Registro
-Ante cualquier micro-hito (decisión arquitectónica, análisis de seguridad, commit realizado, prueba ejecutada o compuerta superada):
-1. **Bitácora Incremental del Rol (`log-<personaje>.md`):**
-   El agente escribe primero un checkpoint detallado con sus notas, consideraciones técnicas y razonamiento en su propio archivo de bitácora (ej. `claude/log-architect.md` o `agent-logs/log-architect.md`).
-2. **Entrada en el Bus Central (`registro-proceso.md`):**
-   Escribe una única línea cronológica resumida en la tabla del bus central del proyecto antes de devolver la respuesta al usuario.
+## 2. Double-Logging Mechanism
+For every micro-milestone (architectural decision, security analysis, commit, test execution, or quality gate verdict):
+1. **Role-Specific Incremental Log (`log-<role>.md`):**  
+   The active agent first writes a detailed checkpoint containing technical notes, reasoning, and considerations into its own log file (e.g., `claude/log-architect.md` or `agent-logs/log-architect.md`).
+2. **Central Bus Entry (`registro-proceso.md`):**  
+   Appends a single, concise chronological row to the project's central bus table before returning the response to the user.
 
-## 3. Comportamiento ante Proyectos Nuevos
-Si la carpeta de logs no existe en el proyecto receptor, el primer agente en activarse la crea de inmediato junto con su archivo de bitácora individual y el bus central de registro.
+## 3. Handling New Projects
+If the project log directory does not yet exist in the target repository, the first agent to activate immediately creates it, along with its individual log file and the central process log bus.

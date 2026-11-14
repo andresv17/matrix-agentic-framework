@@ -1,162 +1,164 @@
 # ⚡ Matrix Agentic Framework — Virtual Software Engineering Squad & Sovereign Control Plane
 
-> **Fábrica de software agéntica y marco de ingeniería multi-agente, agnóstico a cualquier proveedor de IA (Claude, Gemini, OpenAI, Cursor, Antigravity).**
-> Equipa tus proyectos con un escuadrón completo de 21 especialistas de ingeniería de software, memoria persistente en disco (Write-Ahead Log) y separación estricta de poderes mediante auditoría externa.
+> **Autonomous, multi-agent software engineering framework agnostic to any AI provider (Claude, Gemini, OpenAI, Cursor, Antigravity).**  
+> Equips your projects with a complete squad of 21 specialized software engineering roles, disk-persisted memory (Write-Ahead Log), and strict separation of powers through out-of-band external auditing.
+
+🌐 *[Leer esta documentación en Español](README.es.md)*
 
 ---
 
-## 🎯 ¿Para qué sirve este framework?
+## 🎯 What is this framework for?
 
-En el desarrollo asistido por IA habitual, un único asistente de chat intenta abarcar todo: diseñar la base de datos, escribir el backend, maquetar la UI, revisar la seguridad y correr pruebas. El resultado suele ser pérdida catastrófica de contexto, alucinaciones no detectadas y código superficial sin pruebas reales (*"AI Slop"*).
+In traditional AI-assisted coding, a single chat assistant tries to do everything: design the database, write the backend, craft the UI, review security, and run tests. This inevitably results in context drift, undetected hallucinations, and superficial, untested code (*"AI Slop"*).
 
-**Matrix Agentic Framework** resuelve esto convirtiendo tu entorno en una **fábrica de software virtual** con roles técnicos altamente especializados que colaboran, se auditan y debaten entre sí bajo un protocolo estricto de ingeniería guiada por especificaciones (**Spec-Driven Development**).
+**Matrix Agentic Framework** solves this by turning your environment into an **autonomous virtual software factory** with highly specialized engineering roles that collaborate, challenge, and audit each other under strict **Spec-Driven Development (SDD)** discipline.
 
 ---
 
-## 🏢 Los 21 Roles del Escuadrón
+## 🏢 The 21 Squad Roles
 
-### A. Plano Soberano & Control Externo (Poder Judicial)
-- **`The Source`** → **Director de Arquitectura & Auditor Soberano Externo.** Opera fuera de la tripulación ejecutora. Audita las afirmaciones de los agentes contra el disco real (`git diff`, contratos, suites de pruebas), aprueba compuertas formales de pase a producción y toma decisiones ejecutivas de Nivel 2.
+### A. Sovereign Plane & External Control (Judicial Branch)
+- **`The Source`** → **Chief Systems Architect & External Sovereign Auditor.** Operates outside the operational execution crew. Audits agent claims directly against disk (`git diff`, formal contracts, test suites), signs off on production release gates, and enforces Level 2 architectural decisions.
 
-### B. Dirección Técnica & Desarrollo (Poder Ejecutivo)
-- **`/morpheus`** → **Capitán / Tech Lead.** Lee la cola de tareas, coordina subagentes, orquesta al equipo y activa compuertas estratégicas.
-- **`/architect`** → **Arquitecto de Soluciones & SDD.** Diseña arquitectura limpia/hexagonal, define contratos formales (OpenAPI, JSON Schema, máquinas de estado) y blueprints técnicos antes de tocar una línea de código.
-- **`/keymaker`** → **Senior Full-Stack Developer.** Desarrolla el código de producción y las suites de pruebas guiado estrictamente por contratos y especificaciones.
-- **`/oracle`** → **Auditor Forense de Calidad & QA Gate.** Verifica en disco el cumplimiento de especificaciones, cobertura y emite veredictos formales de compuerta.
-- **`/mouse`** → **Auditor Estructural de Trazabilidad.** Valida sintaxis, checklists y trazabilidad de IDs de especificación.
+### B. Technical Leadership & Core Engineering (Executive Branch)
+- **`/morpheus`** → **Captain / Tech Lead.** Dispatches tasks, orchestrates subagents, maintains velocity, and activates strategic quality gates.
+- **`/architect`** → **Solutions Architect & SDD Lead.** Designs clean/hexagonal architecture, formal contracts (OpenAPI, JSON Schema, state machines), and engineering blueprints before any production code is touched.
+- **`/keymaker`** → **Senior Full-Stack Developer.** Implements production code and test suites strictly driven by contracts and specifications.
+- **`/oracle`** → **Forensic Quality Auditor & QA Gatekeeper.** Verifies disk state, specification compliance, coverage thresholds, and issues formal gate verdicts.
+- **`/mouse`** → **Structural Traceability Auditor.** Validates syntax, checklists, and specification ID traceability.
 
-### C. Especialistas Técnicos de Dominio
-- **`/trinity`** → **Ciberseguridad Ofensiva / Defensiva.** Caza vulnerabilidades OWASP, IDOR, CSRF, sanitización y auditoría SAST.
-- **`/seraph`** → **Zero-Trust, Autenticación & Pruebas Extremas.** Audita sesiones seguras y desafía el código con pruebas de mutación (Stryker) y E2E (Playwright).
-- **`/link`** → **Cloud, DevOps & SRE.** Docker, Terraform IaC, despliegues en GCP/AWS y pipelines de CI/CD en GitHub Actions.
-- **`/sati`** → **Frontend, UI/UX & Accesibilidad.** Diseña componentes limpios, tokens de diseño CSS/Tailwind y garantiza WCAG 2.1 AA sin UI artificial.
-- **`/rama`** → **Privacidad de Datos & Respaldos Atómicos.** Protección de PII, redacción de logs y transacciones ACID con rollback garantizado.
-- **`/merovingian`** → **Análisis Causa-Raíz (RCA) & Dependencias.** Analiza el grafo de impacto de cambios y audita paquetes en busca de vulnerabilidades.
+### C. Technical Domain Specialists
+- **`/trinity`** → **Offensive & Defensive AppSec.** Hunts down OWASP vulnerabilities, IDOR, CSRF, input sanitization flaws, and runs SAST audits.
+- **`/seraph`** → **Zero-Trust, Authentication & Extreme QA.** Audits secure session flows and subjects code to mutation testing (Stryker) and end-to-end combat (Playwright).
+- **`/link`** → **Cloud, DevOps & SRE.** Docker containerization, Terraform IaC, GCP/AWS deployments, and CI/CD automation via GitHub Actions.
+- **`/sati`** → **Frontend, UI/UX & Accessibility.** Designs resilient components, CSS/Tailwind design tokens, and ensures WCAG 2.1 AA accessibility with zero superficial decorative bloat.
+- **`/rama`** → **Data Privacy & Atomic Backups.** Enforces PII redaction, audit logging, and ACID-compliant migrations with full rollback capability.
+- **`/merovingian`** → **Root Cause Analysis (RCA) & Dependency Auditor.** Evaluates impact graphs and audits third-party packages for supply-chain vulnerabilities.
 
-### D. Lentes Críticos, Debate & Calidad
-- **`/mifune`** → **Pragmatismo Anti-Sobreingeniería.** Frena soluciones complejas innecesarias y asegura la ruta más directa y mantenible.
-- **`/lock`** → **Abogado del Diablo.** Caza casos borde ocultos (`EDGE-*`), concurrencia y supuestos frágiles.
-- **`/zion`** → **Arena de Debate Técnico.** Conduce debates estructurados (1v1, Clanes) entre agentes para destrabar dilemas de diseño.
-- **`/dojo`** → **Refactorización Continua.** Diseña planes de limpieza y reducción de deuda técnica.
-- **`/hamann`** → **Optimización de Contexto e IA.** Optimiza el consumo de tokens y la efectividad de las instrucciones.
-- **`/neb`** → **Traductor de Estado.** Resume el avance técnico en lenguaje claro para stakeholders humanos.
-- **`/hardline`** → **Protocolo de Cierre & Handover.** Congela el contexto, genera handovers fechados y emite prompts de despertar.
+### D. Critical Lenses, Debate & Continuous Improvement
+- **`/mifune`** → **Anti-Overengineering Pragmatism.** Prevents unnecessary complexity and ensures the leanest, most maintainable path to delivery.
+- **`/lock`** → **Devil's Advocate.** Hunts edge cases (`EDGE-*`), concurrency race conditions, and fragile assumptions.
+- **`/zion`** → **Technical Debate Arena.** Moderates structured debates (1v1, Squads) between agents to resolve tough architectural trade-offs.
+- **`/dojo`** → **Continuous Refactoring.** Designs incremental technical debt cleanup plans (`TECHDEBT-*`).
+- **`/hamann`** → **Context & LLM Efficiency Specialist.** Optimizes token consumption and prompt engineering efficiency.
+- **`/neb`** → **Status Translator.** Translates dense technical and SDD metrics into plain, human-friendly project status updates.
+- **`/hardline`** → **Session Close & Handover Protocol.** Freezes state, creates dated handovers, and generates zero-friction wake-up prompts.
 
 ### E. Red Team (Chaos Engineering)
-- **`/smith`** → **Chaos Engineering.** Simula caídas de base de datos, cortes de red y fallos transaccionales a mitad de ejecución.
-- **`/sentinels`** → **Centinelas de Ataque.** Evalúa los vectores críticos de exploit (inyecciones, fuerza bruta, desbordamientos).
+- **`/smith`** → **Chaos Engineering.** Simulates database crashes, network drops, and transactional failures mid-execution.
+- **`/sentinels`** → **Attack Vectors.** Simulates exploitation attempts (injections, brute-force, buffer overflows).
 
 ---
 
-## ⚖️ ¿Cuándo SÍ y cuándo NO usar este framework?
+## ⚖️ When to Use (and When NOT to Use)
 
-### ✅ Casos de uso ideales:
-1. **Proyectos de software de mediana a alta complejidad:** Aplicaciones full-stack, APIs empresariales, microservicios, plataformas SaaS y librerías donde intervienen múltiples disciplinas técnicas.
-2. **Proyectos con tolerancia cero a la deuda técnica oculta (*AI Slop*):** Donde cada commit debe pasar compuertas de pruebas reales, linters y tipos estrictos antes de considerarse terminado.
-3. **Desarrollos autónomos de larga duración:** Proyectos que requieren múltiples sesiones de trabajo sin perder el hilo ni la memoria de decisiones pasadas.
+### ✅ Ideal Scenarios:
+1. **Real-world medium to high complexity software:** Full-stack apps, enterprise APIs, microservices, SaaS platforms, and libraries requiring multiple technical disciplines (security, cloud, UX, architecture, backend).
+2. **Zero tolerance for hidden technical debt (*AI Slop*):** Where every commit must pass real test suites, linters, and strict static analysis before being marked complete.
+3. **Multi-session, long-running projects:** Projects requiring days or weeks of engineering where context preservation and audit trails are critical.
 
-### ❌ Cuándo NO usarlo:
-- Tareas de 5 minutos, scripts desechables o consultas de texto aisladas.
-- Proyectos sin código ni desarrollo de software (ej. setup básico de cuentas, tareas administrativas o análisis puramente documental).
+### ❌ NOT Designed For:
+- 5-minute quick fixes, throwaway scripts, or simple conversational queries.
+- Projects without software code (e.g., bare cloud account setups without application logic).
 
 ---
 
-## 🏛️ La Regla de Oro: Separación entre Matrix y The Source
+## 🏛️ The Golden Rule: Separation of Powers
 
-El framework establece una división estricta entre **ejecución** y **auditoría**:
+The framework establishes a strict architectural boundary between **execution** and **auditing**:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│  PLANO SOBERANO (Poder Judicial / Auditoría) — THE SOURCE              │
-│  Entorno recomendado: Google Antigravity / Gemini / ChatGPT externo   │
-│  • Audita contra disco real (git diff, contratos, tests).              │
-│  • Emite firmas ejecutivas de Nivel 2 y aprueba compuertas.            │
+│  SOVEREIGN PLANE (Judicial Branch / Auditing) — THE SOURCE             │
+│  Recommended engine: Google Antigravity / Gemini / ChatGPT external    │
+│  • Audits real disk state (git diff, contracts, test results).         │
+│  • Signs off on Level 2 gates and issues sovereign approvals.          │
 └──────────────────────────────────┬─────────────────────────────────────┘
-                                   │ Canal Logos (M2M / scripts/logos.py)
+                                   │ Logos Channel (M2M / scripts/logos.py)
                                    ▼
 ┌────────────────────────────────────────────────────────────────────────┐
-│  LA TRIPULACIÓN (Poder Ejecutivo) — THE MATRIX CREW (20 Roles)         │
-│  Entorno recomendado: Claude Code CLI / Cursor / VS Code               │
-│  • Diseña, programa, refactoriza, asegura y prueba.                    │
-│  • Registra cada hito en el Write-Ahead Log (WAL) en disco.            │
+│  OPERATIONAL CREW (Executive Branch) — THE MATRIX CREW (20 Roles)      │
+│  Recommended engine: Claude Code CLI / Cursor / VS Code                │
+│  • Designs, codes, refactors, secures, and tests.                      │
+│  • Writes every milestone to the on-disk Write-Ahead Log (WAL).        │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-### ¿Por qué se recomienda enfáticamente ejecutarlos en motores de IA separados?
-1. **Ruptura de la cámara de eco (*Echo Chamber*):** Si el mismo modelo que programa el código es el encargado de auditarlo en la misma ventana, validará sus propias alucinaciones por sesgo de confirmación. Un motor externo analiza con ojos fríos el código real en disco.
-2. **Separación de Poderes (Ejecutivo vs. Judicial):** El que construye no puede firmar su propio pase a producción.
-3. **Preservación de Contexto:** La tripulación satura su contexto rápidamente con salidas de terminal y archivos de código. *The Source* mantiene un contexto limpio para tomar decisiones de arquitectura sin niebla de guerra.
+### Why run them in separate AI engines?
+1. **Breaking the Echo Chamber:** If the same model that wrote the code audits it in the same conversation, confirmation bias causes it to approve its own hallucinations. An external engine audits cold disk state without conversational bias.
+2. **Separation of Powers (Executive vs. Judicial):** The builder cannot sign their own production release gate.
+3. **Context Window Preservation:** The execution crew burns thousands of tokens on compiler output, terminal logs, and code diffs. *The Source* maintains a clean, high-level context to make strategic architectural decisions without context fog.
 
-> *Nota: Si no cuentas con dos proveedores de IA distintos, puedes ejecutar Source y Matrix en dos terminales independientes con el mismo modelo, pero **nunca en la misma sesión o conversación**.*
-
----
-
-## 💾 Memoria Persistente: Protocolo Write-Ahead Log (WAL)
-
-Ningún agente confía en la memoria efímera de la ventana de chat. Ante cada decisión o hito:
-1. El agente escribe un checkpoint detallado en su bitácora individual: `claude/log-<personaje>.md` (o `agent-logs/log-<personaje>.md`).
-2. Agrega una línea cronológica al bus central: `claude/registro-proceso-<proyecto>.md`.
-3. Al iniciar sesión o compactar contexto, el hook `session-context.mjs` inyecta automáticamente el estado de Git y las últimas entradas del bus.
+> *Note: If you only have access to one AI model, you can run Source and Matrix in separate terminal windows, but **never within the same chat conversation**.*
 
 ---
 
-## 🚀 Instalación y Uso
+## 💾 Persistent Memory: Write-Ahead Log (WAL) Protocol
 
-### Opción A: Como Plugin Nativo (Google Antigravity)
-Este repositorio incluye un manifiesto estándar `plugin.json`.
-1. Clona o añade este repositorio en tu directorio de plugins o Plugins Manager.
-2. Activa el plugin **Matrix Agentic Framework**. Todos los roles y reglas quedarán inmediatamente disponibles.
+No agent relies on ephemeral chat context memory. For every decision or milestone:
+1. The active agent writes a detailed checkpoint in its role log: `claude/log-<role>.md` (or `agent-logs/log-<role>.md`).
+2. Appends a chronological entry to the central project bus: `claude/registro-proceso-<project>.md`.
+3. Upon startup or context compaction, the `session-context.mjs` hook automatically injects live Git status and the latest bus entries.
 
-### Opción B: Mediante el Instalador Interactivo Multiplataforma (`install.sh`)
-Clona el repositorio en tu máquina y ejecuta el script:
+---
+
+## 🚀 Installation & Setup
+
+### Option A: As a Native Plugin (Google Antigravity)
+This repository includes a standard `plugin.json` manifest.
+1. Add this repository URL to your Plugins Manager or clone it into your plugins directory.
+2. Enable the **Matrix Agentic Framework** plugin. All 21 roles and governance rules will be instantly available.
+
+### Option B: Interactive Adaptive Installer (`install.sh`)
+Clone the repository and run the setup wizard:
 
 ```bash
 git clone https://github.com/andresv17/matrix-agentic-framework.git
 cd matrix-agentic-framework
 
-# Asistente interactivo adaptativo (pregunta dónde instalar cada parte):
+# Launch the interactive setup wizard:
 ./install.sh
 ```
 
-El asistente interactivo te guiará paso a paso:
-1. **¿Dónde instalar la Tripulación (Crew)?** (Claude Code, Antigravity, Cursor, ruta personalizada).
-2. **¿Dónde instalar The Source?** Te recomendará automáticamente una IA distinta (ej. Gemini o ChatGPT si elegiste Claude) para garantizar la separación de poderes.
-3. **¿Cómo enlazar los archivos?** (Enlaces simbólicos automáticos o copia física).
-4. **¿Deseas inicializar un proyecto ahora?** (Opcional).
+The interactive wizard will guide you through:
+1. **Where to install the Execution Crew?** (Claude Code CLI, Antigravity, Cursor, or custom path).
+2. **Where to install The Source?** Automatically recommends an alternate engine (e.g., Gemini or ChatGPT if you chose Claude for the crew) to uphold the separation of powers.
+3. **Linking method:** Symlinks (recommended for seamless `git pull` updates) or physical copy.
+4. **Project initialization:** Optionally initialize the memory bus in an existing project.
 
-> *Si prefieres el modo no interactivo (CI/CD o scripts directos), puedes usar flags: `./install.sh --crew`, `./install.sh --source`, `./install.sh --all` o `--crew-dir <ruta>` / `--source-dir <ruta>`.*
+> *Non-interactive CLI flags for CI/CD or automation: `./install.sh --crew`, `./install.sh --source`, `./install.sh --all`, or `--crew-dir <path>` / `--source-dir <path>`.*
 
-### Inicializar un nuevo proyecto con la memoria de la Matrix
-En la raíz de cualquier proyecto nuevo de software, ejecuta:
+### Initializing a Project with Matrix Memory
+In the root directory of any software repository:
 
 ```bash
-/ruta/hacia/matrix-agentic-framework/install.sh --init-project .
+/path/to/matrix-agentic-framework/install.sh --init-project .
 ```
 
-Esto aprovisionará:
-- El bus central de eventos: `claude/registro-proceso-<tu-proyecto>.md`.
-- El archivo de hechos fijos: `claude/entorno-y-lecciones.md`.
-- El hook automático de inyección de contexto: `.claude/hooks/session-context.mjs`.
-- La configuración de hooks de sesión: `.claude/settings.json`.
-- El canal de comunicación M2M: `scripts/logos.py`.
+This provisions:
+- Central event bus: `claude/registro-proceso-<project>.md`
+- Fixed facts & environment notes: `claude/entorno-y-lecciones.md`
+- Live memory injection hook: `.claude/hooks/session-context.mjs`
+- Session hook configuration: `.claude/settings.json`
+- M2M communication channel: `scripts/logos.py`
 
 ---
 
-## 🛸 El Canal Logos (Supervisión M2M Autónoma)
+## 🛸 The Logos Channel (Autonomous M2M Supervision)
 
-Para habilitar trabajo autónomo desatendido entre **The Source** y **Morpheus**:
-1. En la terminal de la tripulación escribe:
+To enable unattended autonomous collaboration between **The Source** and **Morpheus**:
+1. In the crew terminal, enter:
    ```text
    Morpheus: enciende la Logos
    ```
-2. En la terminal de The Source escribe:
+2. In the sovereign auditor terminal, enter:
    ```text
    Source: enciende la Logos
    ```
-Ambos agentes coordinarán directivas, avances y auditorías forenses automáticamente mediante el bus de intercambio `logos.json` y `scripts/logos.py` sin requerir intervención humana constante. Para desactivar, basta con decir: `"apaga la Logos"`.
+Both agents will negotiate directives, verify code on disk, and execute quality gates via `logos.json` and `scripts/logos.py` without requiring continuous human presence. To disconnect, simply type: `"apaga la Logos"`.
 
 ---
 
-## 📄 Licencia
+## 📄 License
 
-Distribuido bajo licencia MIT. Consulta `LICENSE` para más información.
+Distributed under the MIT License. See `LICENSE` for details.

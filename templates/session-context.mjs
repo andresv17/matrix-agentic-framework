@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Hook ligero de memoria viva para sesiones de agentes (SessionStart / PreCompact).
- * Lee el estado real en disco y lo inyecta por stdout sin modificar archivos ni consumir APIs externas.
+ * Lightweight live memory hook for agent sessions (SessionStart / PreCompact).
+ * Reads real disk state and injects it via stdout without modifying files or consuming external APIs.
  */
 import { execSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
@@ -12,7 +12,7 @@ const safeRun = (cmd) => {
   try {
     return execSync(cmd, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
   } catch {
-    return '(no disponible)';
+    return '(not available)';
   }
 };
 
@@ -23,7 +23,7 @@ const findBusFile = () => {
     if (!existsSync(fullDir)) continue;
     try {
       const files = readdirSync(fullDir);
-      const match = files.find(f => f.startsWith('registro-proceso') && f.endsWith('.md'));
+      const match = files.find(f => (f.startsWith('registro-proceso') || f.startsWith('process-log')) && f.endsWith('.md'));
       if (match) return join(d, match);
     } catch {}
   }
@@ -47,7 +47,7 @@ try {
 } catch {}
 
 if (hookEvent === 'PreCompact') {
-  console.log('[Matrix PreCompact] Contexto a punto de compactarse. Asegúrate de haber persistido el checkpoint actual en tu bitácora de rol y en el bus central de registro de proceso.');
+  console.log('[Matrix PreCompact] Context compaction imminent. Ensure your active checkpoint is persisted to your role log and central process log bus.');
   process.exit(0);
 }
 
@@ -57,8 +57,8 @@ const envLessons = readTail('claude/entorno-y-lecciones.md', 40) || readTail('en
 const busPath = findBusFile();
 const busTail = readTail(busPath, 15);
 
-console.log('=== [Matrix Memoria Viva — SessionStart] ===');
-console.log('--- Git ---\n' + branchStatus + '\nÚltimos commits:\n' + recentCommits);
-if (envLessons) console.log('\n--- Entorno y Lecciones ---\n' + envLessons);
-if (busTail) console.log(`\n--- Últimas entradas de ${busPath} ---\n` + busTail);
+console.log('=== [Matrix Live Memory — SessionStart] ===');
+console.log('--- Git ---\n' + branchStatus + '\nRecent commits:\n' + recentCommits);
+if (envLessons) console.log('\n--- Environment & Lessons ---\n' + envLessons);
+if (busTail) console.log(`\n--- Latest entries from ${busPath} ---\n` + busTail);
 console.log('============================================');

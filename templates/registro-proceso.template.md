@@ -1,23 +1,23 @@
-# Registro Central del Proceso SDD — Proyecto {{PROJECT_NAME}} (Bus Inter-Sesión)
+# Central SDD Process Log — Project {{PROJECT_NAME}} (Inter-Session Memory Bus)
 
-> **Propósito:** Bus central de memoria persistente en disco para las skills de *The Matrix* en {{PROJECT_NAME}}. Ninguna skill depende de la ventana de contexto: toda decisión, commit, hallazgo o transición se registra aquí y en su respectiva bitácora (`claude/log-<personaje>.md` o `agent-logs/log-<personaje>.md`).
-
----
-
-## 1. Fotografía de Estado Inicial en Disco
-
-- **Autoridad Soberana (Nivel 2):** {{AUTHOR_NAME}}
-- **Rama Activa:** `main` (o rama de trabajo)
-- **Estado Inicial:** Bootstrap inicial de la arquitectura.
-- **Directorio de Artefactos de Verdad:**
-  - Especificaciones y Contratos: `specs/`
-  - Código Fuente: `src/`
-  - Pruebas y Compuertas: `tests/`
+> **Purpose:** Central persistent on-disk memory bus for *The Matrix* skills in {{PROJECT_NAME}}. No agent relies on conversational context: every architectural decision, commit, finding, or state transition is logged here and in its respective role log (`claude/log-<role>.md` or `agent-logs/log-<role>.md`).
 
 ---
 
-## 2. Bitácora Cronológica del Bus (Write-Ahead Log)
+## 1. Initial State Snapshot on Disk
 
-| Fecha y Hora | Emisor / Rol | Acción / Commit / Hito | Estado / Veredicto | Siguiente Acción |
+- **Sovereign Authority (Level 2):** {{AUTHOR_NAME}}
+- **Active Branch:** `main` (or active feature branch)
+- **Initial State:** Architecture bootstrap.
+- **Truth Artifact Directory Map:**
+  - Specifications & Contracts: `specs/`
+  - Source Code: `src/`
+  - Tests & Quality Gates: `tests/`
+
+---
+
+## 2. Chronological Bus Log (Write-Ahead Log)
+
+| Timestamp | Sender / Role | Action / Commit / Milestone | State / Verdict | Next Recommended Action |
 | :--- | :--- | :--- | :--- | :--- |
-| {{DATE}} | /architect | Blueprint inicial y mapa de especificaciones | APPROVED | Pasar diseño a /keymaker |
+| {{DATE}} | /architect | Initial architecture blueprint and specification roadmap | APPROVED | Hand off blueprint to /keymaker |
