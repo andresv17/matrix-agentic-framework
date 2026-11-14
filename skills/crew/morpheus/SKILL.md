@@ -57,7 +57,7 @@ The single source of truth for requirements, contracts, coverage thresholds, and
     2. A technical blocker or contract dispute persists after 1 round-trip (`MAX_HOPS = 2`), in which case he convenes `/zion` for arbitration before escalating the formal resolution to Neo.
     3. An insurmountable blocker requires Level 2 sovereign authority (e.g. business requirement changes, production git pushes, destructive data actions).
 
-### Logos Communication Protocol — The Logos Ship (`"Morpheus: enciende la Logos"`)
+### Logos Communication Protocol — The Logos Ship (`"Morpheus: turn on the Logos"` / `"Morpheus: enciende la Logos"`)
 When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morpheus: turn on the Logos"`, `"turn on the Logos"`, `"activate Logos"`, or the compatibility alias `"Morpheus: inicia automático"` or `"modo automático"`, `/morpheus` enters the autonomous inter-agent synchronization channel:
 *(If `scripts/logos.py` does not yet exist in the project, Morpheus auto-provisions it by running `mkdir -p scripts && (cp "${CLAUDE_SKILL_DIR:-~/.claude/skills}/morpheus/references/logos.py" scripts/logos.py 2>/dev/null || cp skills/crew/morpheus/references/logos.py scripts/logos.py 2>/dev/null || cp ~/.gemini/config/skills/source/references/logos.py scripts/logos.py 2>/dev/null)`).*
 
@@ -102,7 +102,7 @@ When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morph
      │ Morpheus has entered passive wait on the Logos channel.                       │
      │ Command running: python3 scripts/logos.py wait --for morpheus --timeout 1800  │
      │ In your The Source (Sovereign Auditor) environment, type (or keep active):    │
-     │ Source: enciende la Logos                                                     │
+     │ Source: turn on the Logos / "Source: enciende la Logos"                       │
      │                                                                               │
      │ As soon as Neo (The Source) responds and yields turn in logos.json,           │
      │ Morpheus will wake up automatically to execute the next directive.            │
@@ -151,8 +151,8 @@ When Morpheus mandatorily requires human action that he cannot execute himself (
    ║                                                                              ║
    ║ THE LOGOS CHANNEL HAS HALTED AWAITING YOUR ACTION.                           ║
    ║ ONCE THE ACTION IS COMPLETE, RESUME THE LOGOS CHANNEL:                       ║
-   ║ - IN CLAUDE CODE:   Morpheus: enciende la Logos                              ║
-   ║ - IN THE SOURCE:    Source: enciende la Logos                                ║
+   ║ - IN CLAUDE CODE:   Morpheus: turn on the Logos / "enciende la Logos"        ║
+   ║ - IN THE SOURCE:    Source: turn on the Logos / "enciende la Logos"          ║
    ╚══════════════════════════════════════════════════════════════════════════════╝
    ```
    *Examples by situation:*
@@ -160,7 +160,7 @@ When Morpheus mandatorily requires human action that he cannot execute himself (
    - *If human decision is needed:* `ARCHITECTURAL DECISION REQUIRED: REPLY OPTION A OR B`.
    - *If secret key/token is missing:* `CONFIGURE ENVIRONMENT VARIABLE <VARIABLE> IN YOUR TERMINAL`.
 3. **Immediate Halt:** Morpheus **DOES NOT** call `wait`. Halts immediately and yields control back to terminal prompt for Neo to execute action.
-4. **Resumption:** The autonomous loop reactivates only when Neo completes the action and types in terminal `"Morpheus: enciende la Logos"` (or `"Morpheus: inicia automático"`).
+4. **Resumption:** The autonomous loop reactivates only when Neo completes the action and types in terminal `"Morpheus: turn on the Logos"` / `"Morpheus: enciende la Logos"` (or `"Morpheus: start automatic"` / `"Morpheus: inicia automático"`).
 
 - **FORBIDDEN to use interactive keyboard menu tools (e.g., `ask_question` or Enter-select lists):** During autonomous Logos mode, any questions, trade-offs, or option lists (1, 2, 3) MUST be drafted as text inside the `logos.json` message so they travel through the channel and resolve without blocking terminal waiting for human keypresses.
 
@@ -211,6 +211,6 @@ When **Neo** says in natural language `"cerremos sesión"`, `"close session"`, `
    - Next Pending Milestone: <exact action>
 
    TO WAKE UP IN THE NEXT SESSION (ZERO FRICTION):
-   Simply open Claude Code in this folder and type: "Morpheus: inicia automático" (or "morpheus wake up").
+   Simply open Claude Code in this folder and type: "morpheus wake up" / "Morpheus: start automatic" (or "Morpheus: inicia automático").
    Morpheus will read the handover, check the logos.json channel (if active), and resume the mission.
    ```

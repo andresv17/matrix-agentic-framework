@@ -62,4 +62,4 @@ RECOMMENDED NEXT STEP: <Invoke /trinity or /keymaker to seal the crack and /orac
 
 # 5. Session Close Behavior (`"cerremos sesión"`, `"close session"`, or `/hardline`)
 
-When `"cerremos sesión"` or `/hardline` is invoked, persist the siege report into `claude/handover-smith-YYYY-MM-DD.md`, update `claude/registro-proceso-*.md`, and delegate closing to `/hardline`.
+When `"close session"`, `"cerremos sesión"`, or `/hardline` is invoked, persist the siege report into `claude/handover-smith-YYYY-MM-DD.md`, update `claude/registro-proceso-*.md`, and delegate closing to `/hardline`.

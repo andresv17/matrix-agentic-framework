@@ -59,7 +59,7 @@ The single source of truth for the system is **the physical state on disk** (`gi
        │ The Source has entered passive wait on the Logos channel.                     │
        │ Command running: python3 scripts/logos.py wait --for neo --timeout 1800       │
        │ In the execution crew terminal, type (or keep active):                        │
-       │ Morpheus: enciende la Logos                                                   │
+       │ Morpheus: turn on the Logos / "Morpheus: enciende la Logos"                   │
        │                                                                               │
        │ As soon as Morpheus processes the directive and yields turn in logos.json,    │
        │ The Source will wake up automatically, audit progress against disk, and       │

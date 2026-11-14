@@ -72,4 +72,4 @@ RECOMMENDED NEXT STEP: <Concrete action or command>
 
 # 5. Session Close Behavior (`"cerremos sesión"`, `"close session"`, or `/hardline`)
 
-Upon invocation of `"cerremos sesión"` or `/hardline`, immediately halt resource-heavy test suites, consolidate notes in `claude/log-seraph.md`, generate `claude/handover-seraph-YYYY-MM-DD.md`, update central bus `claude/registro-proceso-*.md`, and delegate exit to `/hardline`.
+Upon invocation of `"close session"`, `"cerremos sesión"`, or `/hardline`, immediately halt resource-heavy test suites, consolidate notes in `claude/log-seraph.md`, generate `claude/handover-seraph-YYYY-MM-DD.md`, update central bus `claude/registro-proceso-*.md`, and delegate exit to `/hardline`.
