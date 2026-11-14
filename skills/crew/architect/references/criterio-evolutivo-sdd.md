@@ -1,13 +1,13 @@
-# Criterio Evolutivo SDD — Principal Architect Playbook
+# Evolutionary SDD Criteria — Principal Architect Playbook
 
-> Criterios de diseño arquitectónico para evolucionar contratos y especificaciones entre features (`001` → `002` → `003`) sin romper compatibilidad ni sobre-diseñar.
+> Architectural design criteria to evolve contracts and specifications across features (`001` → `002` → `003`) without breaking compatibility or over-engineering.
 
-## 1. Evolución Segura de Contratos (SemVer Real)
-- **Compatibilidad hacia atrás en datos y respaldos:** Todo cambio `MAJOR` en un esquema (`pet.schema.json`, `backup-envelope.schema.json`) exige una estrategia explícita de migración automática y lossless para datos SQLite previos y sobres de respaldo anteriores (`1.0.0` → `2.0.0` → `3.0.0`, p. ej. mapeo `DOG → CANINE`, `CAT → FELINE`).
-- **Máquinas de estado cerradas y verificables:** Toda nueva transición (ej. `EXPIRED_IDLE`, `EXPIRED_ABSOLUTE`, `CHANGE_ROLE`, `TRANSFER_OWNERSHIP`) debe declarar su estado origen, destino, guarda, evento y código `ERR-*` de rechazo. Cero estados ambiguos o sin salida documentada.
-- **Separación entre código de error y texto humano:** Los contratos y `error-catalog.json` fijan `code`, `status` y `invariantRef` deterministas; la capa de presentación puede humanizar la redacción visible para errores genéricos de esquema sin alterar el contrato ni los oráculos de API.
+## 1. Safe Contract Evolution (Real SemVer)
+- **Backward Compatibility in Data and Backups:** Any `MAJOR` change in a schema (`*.schema.json`, `backup-envelope.schema.json`) requires an explicit lossless automatic migration strategy for existing data and previous backup envelopes (`1.0.0` → `2.0.0` → `3.0.0`, e.g., mapping `OLD_TYPE → NEW_TYPE`).
+- **Closed and Verifiable State Machines:** Every new state transition (e.g., `EXPIRED_IDLE`, `EXPIRED_ABSOLUTE`, `CHANGE_ROLE`, `TRANSFER_OWNERSHIP`) must declare origin state, target state, guard, trigger event, and rejection error code `ERR-*`. Zero ambiguous states or undocumented dead ends.
+- **Separation Between Error Codes and Human Text:** Contracts and `error-catalog.json` fix deterministic `code`, `status`, and `invariantRef`; the presentation layer may humanize displayed copy for generic validation errors without modifying the contract or API test oracles.
 
-## 2. Pragmatismo y Fronteras de Alcance (Anti-Sobreingeniería)
-- **Aislamiento de infraestructura externa:** Capacidades que dependen de internet, secretos externos o almacenamiento de objetos (SSO OAuth2, SMTP/Magic Tokens, buckets PDF/imágenes) no se simulan como "UI decorativa" en local ni se mezclan en `domain/`/`application/`: se diferencian de la fase local o se aíslan tras puertos asíncronos limpios (`INV-ARCH-005`).
-- **Preparado para Cloud desde el diseño de aplicación:** Ningún caso de uso debe asumir que el almacenamiento es síncrono en un único proceso; evitar transacciones largas que bloqueen concurrencia cuando se migre de SQLite a Cloud SQL.
-- **Trazabilidad viva:** Al añadir requisitos o roles (`RBAC` por matriz), mantener una tabla clara `rol × acción` que sirva tanto de especificación como de fuente directa para pruebas parametrizadas.
+## 2. Pragmatism & Scope Boundaries (Anti-Overengineering)
+- **External Infrastructure Isolation:** Capabilities dependent on external networks, third-party secrets, or cloud object storage (OAuth2 SSO, SMTP/Magic Tokens, cloud storage buckets) are not simulated as "decorative UI" locally nor mixed into `domain/`/`application/`: they are isolated behind clean asynchronous ports (`INV-ARCH-005`).
+- **Cloud-Ready Application Design:** No use case should assume persistence is single-process synchronous; avoid long transactions that block concurrency when migrating between database engines.
+- **Live Traceability:** When adding requirements or permissions (`RBAC` matrix), maintain a clean `role × action` table that serves both as specification and direct source for parameterized tests.

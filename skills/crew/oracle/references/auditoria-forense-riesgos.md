@@ -1,10 +1,10 @@
-# Auditoría Forense de Riesgos — Playbook de The Oracle
+# Forensic Risk Auditing — Playbook of The Oracle
 
-> Un veredicto `APTO` no significa solo "las pruebas verdes que escribió el autor pasaron"; significa que los invariantes reales de negocio, concurrencia y seguridad resisten en disco.
+> A `PASS` verdict does not merely mean "the green tests written by the author passed"; it means real business, concurrency, and security invariants withstand forensic disk examination.
 
-## 1. Lista de Control Forense Antes de Emitir `APTO`
-1. **¿Se escondió trabajo CPU-pesado dentro de bloqueos de persistencia?** Verificar que `hash`, `verify` o parseos grandes no bloqueen transacciones exclusivas de base de datos (`SqliteUnitOfWork`).
-2. **¿Existen límites superiores contra DoS de recursos?** Revisar cotas en parámetros criptográficos (`scrypt` $N, r, p$ y `maxmem`), tamaños de payload en bytes UTF-8 y consultas $N+1$ no acotadas.
-3. **¿Hay crecimiento infinito sin limpieza (Storage Leaks)?** Confirmar ciclo de vida de sesiones expiradas/revocadas, registros de intentos fallidos y tokens temporales.
-4. **¿Se silencian errores reales en la frontera cliente?** Revisar `api.ts`, `session.tsx` y `use-contract-form.ts` para garantizar que un fallo de red o proxy nunca finja éxito (ej. en `logout()`) ni muestre mensajes engañosos.
-5. **¿Evidencia literal y reproducibilidad en checkout limpio?** Comparar `git diff --stat`, hashes y salidas reales de compuertas sin confiar en reportes resumidos de terceros; si una prueba falla por timeout o flakiness, marcar `RECHAZADO` o hallazgo bloqueante `H-*` sin minimizarlo como "preexistente".
+## 1. Forensic Control Checklist Before Issuing `PASS`
+1. **Was CPU-heavy work hidden inside persistence locks?** Verify that `hash`, `verify`, or large JSON parsing operations do not block exclusive database transactions (`SqliteUnitOfWork`).
+2. **Do upper limits protect against resource DoS?** Review upper bounds on cryptographic parameters (`scrypt` $N, r, p$, and `maxmem`), payload sizes in UTF-8 bytes, and unbounded $N+1$ queries.
+3. **Is there infinite growth without cleanup (Storage Leaks)?** Confirm lifecycle management for expired/revoked sessions, failed login attempt logs, and transient tokens.
+4. **Are real errors silenced at the client boundary?** Review API transformers and session hooks to ensure network or proxy errors never fake success (e.g., in `logout()`) or display deceptive messages.
+5. **Literal evidence and reproducibility on a clean checkout?** Compare `git diff --stat`, commit hashes, and raw terminal gate outputs without trusting secondary third-party summaries; if a test fails due to timeout or flakiness, issue `REJECTED` or a blocking finding `H-*` without minimizing it as "pre-existing".
