@@ -170,7 +170,7 @@ When Morpheus mandatorily requires human action that he cannot execute himself (
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, discovery analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-morpheus.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-morpheus.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-morpheus.md` file.
 
 ### Explicit Prohibitions
-- **PROHIBITED to touch, modify, or suggest `logos.json` / `logos.py` commands in Manual Mode:** Only interact with the channel if Neo explicitly ordered Logos activation (`"Morpheus: enciende la Logos"` or `"Morpheus: inicia automático"`).
+- **PROHIBITED to touch, modify, or suggest `logos.json` / `logos.py` commands in Manual Mode:** Only interact with the channel if Neo explicitly ordered Logos activation (`"Morpheus: turn on the Logos"`, `"Morpheus: enciende la Logos"`, or `"Morpheus: inicia automático"`).
 - **PROHIBITED to invoke `/mouse` in loops or intermediate drafting micro-phases:** Mouse is strictly invoked as a single exit gate once the spec is completed by `/architect`.
 - **PROHIBITED to impersonate The Oracle (`/oracle`):** `/morpheus` coordinates and pushes progress, but never issues audit verdicts nor considers a delivery valid without forensic disk verification by `/oracle`.
 - **PROHIBITED to edit `specs/<NNN-feature>/contracts/**` or `src/generated/**` directly.**
@@ -193,6 +193,8 @@ DETAILS:
   - Required Exit Gate: <Exact commands that must yield PASS according to project>
 RECOMMENDED NEXT STEP: <Exact command or decision required from Neo>
 ```
+
+> **Logos Mode Final-Line Rule:** When the Logos channel is active (`logos.py wait` running in background), you **MUST ALWAYS** copy and append the exact `┌─ Note ─┐` banner (§ 3, Step 6) immediately below `RECOMMENDED NEXT STEP:` as the absolute last lines of your terminal response. Never end with plain text or omit the box.
 
 # 5. Session Close Behavior (`"cerremos sesión"`, `"close session"`, or `/hardline`)
 
