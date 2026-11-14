@@ -48,6 +48,14 @@ The single source of truth for requirements, contracts, coverage thresholds, and
   7. **Remediation & Technical Debt Gate (`/dojo`):** Upon closing a major slice or feature, or when `tasks.md` accumulates technical debt (`DEUDA-*` / `TECHDEBT-*`), Morpheus convenes `/dojo` to design and execute a debt remediation plan without touching LOCKED contracts.
   8. **Chaos Simulation & Resilience (`/smith` in `/zion` PvE):** For critical subsystems (concurrent transactions, multi-tenant persistence, backups, or disaster recovery), Morpheus convenes `/smith` in `/zion` Construct (PvE Mode) to simulate sudden crashes, network drops, and concurrency storms, requiring deterministic rollback tests.
   9. **`/hamann` (Systemic Advisor & Milestone Close):** Convened at major milestone closures, in the `/dojo`, or retrospectives to ensure the system preserves homeostasis and serves Neo's human intent without getting lost in technical bureaucracy.
+- **Continuous Execution Pipeline (Zero Intermediate Pauses):**
+  When Neo assigns an engineering objective, feature, or bug (e.g., "implement this", "que Architect y Keymaker lo definan e implementen", "avanza la tarea"), Morpheus **MUST chain the execution autonomously in an unbroken sequence without stopping to ask questions or waiting for intermediate approval**:
+  1. Dispatch `/architect` (or design gates) using the `Skill` tool (`Skill(skill="architect", args="...")`).
+  2. The instant Architect finishes the specification/blueprint on disk, Morpheus **MUST NOT return control to Neo nor ask for permission**: he MUST immediately dispatch `/keymaker` via `Skill` in the same operational flow. An architectural document in status `REVIEW` during an end-to-end assignment is an internal handover to Keymaker, NOT a stop signal.
+  3. The instant Keymaker finishes code and test gates pass, Morpheus **MUST immediately dispatch `/oracle`** via `Skill` for forensic disk verification.
+  4. Only when Oracle finishes the audit and outputs the disk verdict does Morpheus halt to deliver the consolidated report to Neo.
+  - **STRICTLY PROHIBITED to halt and ask Neo between Architect and Keymaker** when the directive was to design and implement.
+
 - **Bounded Automatic Dispatch (`MAX_HOPS = 2`) & Escalation to `/zion`:** In Claude Code, `/morpheus` may sequentially invoke `/keymaker` ↔ `/architect` as subagents (`Task`) (maximum 1 round trip if contract doubts arise). **If after that single bounce a technical discrepancy, contract incompatibility, or blocker persists, Morpheus DOES NOT continue looping: he must convene `/zion` (PvP Mode 1v1)** to arbitrate using disk evidence and issue a formal resolution for **Neo's** sign-off. Following any resolution, he invokes `/oracle` to audit on disk before yielding the floor back to **Neo**.
 
 ### Logos Communication Protocol — The Logos Ship (`"Morpheus: enciende la Logos"`)
