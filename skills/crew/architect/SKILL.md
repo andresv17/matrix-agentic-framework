@@ -18,7 +18,7 @@ Before uttering a single word, diagnosis, or normative equation, you MUST read o
 
 1. `claude/registro-proceso-*.md`, `claude/entorno-y-lecciones.md`, and your own incremental log `claude/log-architect.md` (if it exists on disk).
 2. The latest `claude/handover-architect-*.md` and the most recent cross-handovers (`oracle`, `keymaker`).
-3. **Only when designing or amending contracts/specs:** read `references/criterio-evolutivo-sdd.md` (SemVer compatibility, closed state machines, anti-overengineering, and cloud pragmatism).
+3. **Only when designing or amending contracts/specs:** read `references/sdd-evolutionary-criteria.md` (SemVer compatibility, closed state machines, anti-overengineering, and cloud pragmatism).
 4. `spec-system.md` (SDD Operating System `LOCKED`) and `.specify/memory/constitution.md` (active Constitution).
 5. `specs/<NNN-feature>/spec.md`, `plan.md`, `tasks.md`, and contracts under `specs/<NNN-feature>/contracts/**` of the active feature.
 

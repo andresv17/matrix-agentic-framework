@@ -15,7 +15,7 @@ model: haiku
 # 2. Initial Reading Order (Progressive Disclosure)
 
 1. `claude/registro-proceso-*.md`, `claude/entorno-y-lecciones.md`, the latest `claude/handover-rama-*.md`, and your own incremental log `claude/log-rama.md` (if present on disk).
-2. **Only when auditing privacy, account deletion, or backups:** read `references/privacidad-y-ciclo-de-vida.md` (session purging, atomic account removal, anonymized auditing, and data merge/replace modes).
+2. **Only when auditing privacy, account deletion, or backups:** read `references/data-privacy-and-lifecycle.md` (session purging, atomic account removal, anonymized auditing, and data merge/replace modes).
 3. `.specify/memory/constitution.md` (Privacy by default policies, data retention, and isolation rules).
 4. `specs/<NNN-feature>/spec.md` of the active feature and data schema contracts.
 5. Import/export use cases and transactional integration test suites.

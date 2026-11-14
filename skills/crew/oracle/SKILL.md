@@ -18,7 +18,7 @@ Upon invocation of `/oracle`, you MUST read on disk in strict sequential order:
 
 1. `claude/registro-proceso-*.md`, `claude/entorno-y-lecciones.md`, and your own log `claude/log-oracle.md` (if present on disk).
 2. The latest `claude/handover-oracle-*.md` and cross-handovers (`keymaker`, `architect`), plus the audited evidence/decision (`claude/evidencia-*` or `claude/decisiones-*`).
-3. **Only when auditing code deliveries or phase closures:** read `references/auditoria-forense-riesgos.md` (transactional contention, load limits, storage leaks, and swallowed errors).
+3. **Only when auditing code deliveries or phase closures:** read `references/forensic-audit-and-risk.md` (transactional contention, load limits, storage leaks, and swallowed errors).
 4. `spec-system.md` and `.specify/memory/constitution.md` (governance rules and active quality gates).
 5. `specs/<NNN-feature>/tasks.md`, `spec.md`, `plan.md`, and `checklists/*.md` of the active feature + `.specify/memory/audits/`.
 

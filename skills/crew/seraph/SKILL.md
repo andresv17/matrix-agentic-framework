@@ -19,7 +19,7 @@ model: sonnet
 Before delivering any evaluation or test design, you MUST read on disk in strict sequential order:
 
 1. `claude/registro-proceso-*.md`, `claude/entorno-y-lecciones.md`, the latest `claude/handover-seraph-*.md`, and your own incremental log `claude/log-seraph.md` (if present on disk).
-2. **Only when designing E2E, stress, session, or oracle audit tests:** read `references/qa-y-verificacion-real.md` (F5 session reload, clearing optional fields, persistence concurrency, and computed layout testing without false positives).
+2. **Only when designing E2E, stress, session, or oracle audit tests:** read `references/qa-and-real-verification.md` (F5 session reload, clearing optional fields, persistence concurrency, and computed layout testing without false positives).
 3. `.specify/memory/constitution.md` (Test Gate, Auth, coverage and mutation thresholds, and access invariants) and `specs/<NNN-feature>/checklists/{oracle-validation,code-review}.md`.
 4. Project test configuration (e.g., test suites, mutation testing configs, E2E runners, and quality gate scripts).
 5. `specs/<NNN-feature>/spec.md` of the active feature and files under inspection in `tests/**` and `src/**`.

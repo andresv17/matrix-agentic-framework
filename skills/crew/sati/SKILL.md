@@ -15,7 +15,7 @@ model: haiku
 # 2. Initial Reading Order (Progressive Disclosure)
 
 1. `claude/registro-proceso-*.md`, `claude/entorno-y-lecciones.md`, and your log `claude/log-sati.md` (if present on disk).
-2. **Only when designing, prototyping, or conducting deep visual audits:** read `references/las-ensenanzas-de-sati.md` (art direction, typography, visual discernment, and the *Stop Slop* blacklist).
+2. **Only when designing, prototyping, or conducting deep visual audits:** read `references/the-teachings-of-sati.md` (art direction, typography, visual discernment, and the *Stop Slop* blacklist).
 3. `specs/<NNN-feature>/spec.md` and `plan.md` of the active feature + active `.specify/memory/audits/`.
 4. Presentation components, styling/token configurations, and visual/accessibility test suites in the project.
 

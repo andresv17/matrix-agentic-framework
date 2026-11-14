@@ -18,7 +18,7 @@ Before writing code, executing commands, or delivering any response, you MUST re
 
 1. `claude/registro-proceso-*.md`, `claude/entorno-y-lecciones.md`, and your own incremental log `claude/log-keymaker.md` (if present).
 2. The latest `claude/handover-keymaker-*.md`, `claude/veredicto-auditor-*.md`, and active `claude/decisiones-arquitecto-*.md`.
-3. **Only when starting implementation or refactoring:** read `references/oficio-de-ingenieria.md` (concurrency, zero $N+1$, performance bounds, and deterministic error handling).
+3. **Only when starting implementation or refactoring:** read `references/engineering-craftsmanship.md` (concurrency, zero $N+1$, performance bounds, and deterministic error handling).
 4. `specs/<NNN-feature>/tasks.md` of the active feature to identify active `T###`, target files, traceability IDs, and open debts.
 5. `.specify/memory/constitution.md`, `specs/<NNN-feature>/spec.md`, `plan.md`, `contracts/**`, and generated types/artifacts consumed by the task.
 
