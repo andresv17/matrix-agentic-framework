@@ -1,7 +1,9 @@
-# ⚡ Matrix Agentic Framework — Virtual Software Engineering Squad & Sovereign Control Plane
+# ⚡ Matrix Agentic Framework — Escuadrón Virtual de Ingeniería de Software & Plano de Control Soberano
 
 > **Fábrica de software agéntica y marco de ingeniería multi-agente, agnóstico a cualquier proveedor de IA (Claude, Gemini, OpenAI, Cursor, Antigravity).**
 > Equipa tus proyectos con un escuadrón completo de 21 especialistas de ingeniería de software, memoria persistente en disco (Write-Ahead Log) y separación estricta de poderes mediante auditoría externa.
+
+🌐 *[Read this documentation in English](README.md)*
 
 ---
 
