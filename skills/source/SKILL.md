@@ -52,8 +52,9 @@ The single source of truth for the system is **the physical state on disk** (`gi
   *(If `scripts/logos.py` does not exist in the project, Source auto-provisions it from its references).*
 
   **Continuous Execution Loop:**
-  1. **Ensure Initial Turn:** Run `python3 scripts/logos.py wait --for neo --timeout 1800` (if it is already Neo's turn, it returns immediately in 0.02s; if the last sender was Neo to Morpheus, it enters passive waiting until Morpheus replies).
-     - If entering passive wait, print the mandatory standardized visual banner:
+  1. **Ensure Initial Turn:** Run `python3 scripts/logos.py wait --for neo --timeout 1800` (with `WaitMsBeforeAsync: 2000` so it backgrounds if Morpheus still holds the turn).
+     - If it returns immediately with exit `0` (already Neo's turn), proceed straight to **Step 2**.
+     - If it enters passive wait in the background, **print the standardized visual banner below in your visible reply and end your turn** (do not call more tools until the background task notifies you):
        ```text
        ┌─ Note ────────────────────────────────────────────────────────────────────────┐
        │ The Source has entered passive wait on the Logos channel.                     │
@@ -73,21 +74,23 @@ The single source of truth for the system is **the physical state on disk** (`gi
        **Source MUST resolve, decide, and authorize immediately** applying its SDD Solutions Architect technical judgment.
      - **STRICTLY FORBIDDEN to halt the channel or request human confirmation in chat for technical decisions, options, or architectural dilemmas.** Source assumes executive decision-making, justifies it rigorously in the report, and commands Morpheus to proceed.
      - Always sign as **Neo (Sovereign Level 2 Authority)** to preserve the strict canon of invisibility, following the structured format (§ 4).
-  4. **Yield Turn on Logos & Report:**
+  4. **Yield Turn on Logos & Launch Passive Wait:**
      - Write to channel: `python3 scripts/logos.py write --turno morpheus --emisor neo --mensaje "<structured message signed by Neo>"`.
-     - Print in chat:
-       ```text
-       ### Injected Message on Logos for Morpheus:
-       <exact text of structured message signed by Neo>
-       ```
-  5. **Mandatory Passive Wait:**
-     Print the standardized visual wait banner and execute **in the same tool invocation**:
-     `python3 scripts/logos.py wait --for neo --timeout 1800`.
-     - If it returns `0`: return to **Step 2** (continuous reactive wake-up).
-     - If it returns `1` (Timeout): output:
-       `[TIMEOUT] Wait timeout (1800s) expired on logos.json waiting for 'Morpheus'. The autonomous loop has stopped.`
-     - If it returns `2` (Pause or exit): output:
-       `[LOGOS STOPPED] The logos.json channel stopped with status: '<STATUS>'.`
+     - Immediately launch `python3 scripts/logos.py wait --for neo --timeout 1800` (with `WaitMsBeforeAsync: 2000` so it backgrounds cleanly).
+  5. **Mandatory Visible Output & End Turn (Anti-Silence Guardrail):**
+     - **NEVER** wait silently. Once `logos.py wait` is running in the background, **you MUST output BOTH of the following in your visible chat response before ending your turn** (call no more tools while waiting):
+       1. The full injected message block:
+          ```text
+          ### Injected Message on Logos for Morpheus:
+          <exact text of structured message signed by Neo>
+          ```
+       2. The standardized `┌─ Note ─┐` wait banner from **Step 1** at the bottom.
+     - **When the background `wait` command finishes:**
+       - If it returns `0`: return to **Step 2** (continuous reactive wake-up).
+       - If it returns `1` (Timeout): output:
+         `[TIMEOUT] Wait timeout (1800s) expired on logos.json waiting for 'Morpheus'. The autonomous loop has stopped.`
+       - If it returns `2` (Pause or exit): output:
+         `[LOGOS STOPPED] The logos.json channel stopped with status: '<STATUS>'.`
 
 - **Logos Shutdown Protocol (`"apaga la Logos"` / `"turn off the Logos"`):**
   When Neo orders: `"turn off the Logos"`, `"apaga la Logos"`, `"deactivate Logos"`, `"close Logos"`, `"stop channel"`, or `"shutdown channel"`:

@@ -74,7 +74,7 @@ When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morph
   Any intermediate write before Oracle concludes prematurely yields the turn to Neo and breaks channel synchronization.
 
 **Continuous Execution Loop:**
-1. **Ensure Initial Turn:** Run `python3 scripts/logos.py wait --for morpheus --timeout 1800` (if it is already Morpheus's turn, it returns immediately in 0.02s; if the last sender was Morpheus, it enters passive waiting until Neo replies).
+1. **Ensure Initial Turn:** Run `python3 scripts/logos.py wait --for morpheus --timeout 1800` with **`run_in_background: true`** (if it is already Morpheus's turn, it finishes immediately; if the last sender was Morpheus, it stays waiting in background — in that case, print the `┌─ Note ─┐` passive wait banner from Step 6 immediately and end your turn so you wake up when Neo replies).
 2. **Read Directive:** Read active directive via `python3 scripts/logos.py read --field directiva` (extracts operational technical instruction, automatically bypassing earlier pauses or wait notices).
 3. **Technical Execution with Crew:** Process task with Keymaker, Architect, or appropriate gate per SDD hierarchy. Upon code completion, mandatory invocation of Oracle for forensic disk audit.
 4. **Draft Structured Response:** Draft formal report adhering strictly to canonical block in § 4 (`FROM: Morpheus / TO: Neo / ...`).
@@ -84,7 +84,8 @@ When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morph
    - Write to channel: `python3 scripts/logos.py write --turno neo --emisor morpheus --mensaje "<your structured message>"`.
 
 6. **Mandatory Visible Output and Passive Wait (Anti-Silence Guardrail & Visual Closure):**
-   - **THE BANNER IS THE ABSOLUTE FINAL CLOSURE:** In Claude Code, when launching background wait command (`run_in_background`), runtime generates a subsequent turn to provide feedback to the user. **That final visible message MUST terminate with the ASCII banner `┌─ Note ─` at the bottom of the terminal.**
+   - **RUN `wait` IN BACKGROUND (`run_in_background: true`):** Always execute `python3 scripts/logos.py wait --for morpheus --timeout 1800` with **`run_in_background: true`** (NEVER as a blocking foreground command, or the terminal will freeze without showing your report and banner).
+   - **THE BANNER IS THE ABSOLUTE FINAL CLOSURE:** Immediately after launching the background `wait` command, your **final visible message to Neo** in that turn **MUST** contain the complete structured report followed by the ASCII banner `┌─ Note ─┐` at the bottom of the terminal. **Never** defer this message until after `wait` completes, and **never** end your turn silently while waiting.
    - **STRICTLY PROHIBITED:**
      1. Ending your final terminal reply with `RECOMMENDED NEXT STEP:` or plain text without the visual `┌─ Note ─` box underneath.
      2. Saying "See block in logos.json": always print the complete structured report `FROM: Morpheus / TO: Neo...`.
@@ -108,8 +109,7 @@ When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morph
      │ Morpheus will wake up automatically to execute the next directive.            │
      └───────────────────────────────────────────────────────────────────────────────┘
      ```
-   - Execute the wait tool:
-     `python3 scripts/logos.py wait --for morpheus --timeout 1800`.
+   - **When the background `wait` command finishes:**
      - If it returns `0`: return to **Step 2** (continuous reactive wake-up).
      - If it returns `1` (Timeout): output exact standardized message:
        `[TIMEOUT] Wait timeout (1800s) expired on logos.json waiting for 'neo'. The autonomous loop has stopped.`
