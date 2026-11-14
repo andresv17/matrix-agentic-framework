@@ -1,16 +1,16 @@
-# Cloud Readiness & GCP Playbook — Link
+# Cloud Readiness & Deployment Playbook — Link
 
-> Estándar operativo de producción y transición a Google Cloud Platform (GCP) bajo `INV-ARCH-005` e `INV-ARCH-006`.
+> Production operating standards and cloud transition guidelines under `INV-ARCH-005` and `INV-ARCH-006`.
 
-## 1. Preparación Obligatoria Antes de Salir de `127.0.0.1`
-- **Red y Contenedores:** `HOST` configurable (`127.0.0.1` en local, `0.0.0.0` en Cloud Run / Docker) y `PORT` inyectado por entorno sin hardcodeos en configuración ni proxys.
-- **Health Checks y Señales:**
-  - Endpoint público `/healthz` (sin sesión, verificando conectividad real a BD con `SELECT 1`) para probes de liveness/readiness.
-  - Manejadores de `SIGTERM` y `SIGINT` para drenar peticiones en vuelo (`app.close()`) y cerrar conexiones limpiamente.
-- **Observabilidad Mínima:** Generación y propagación de `X-Request-ID`, logs estructurados JSON sin secretos (`req.headers.cookie`, `set-cookie`, tokens, passwords redactados) y métricas básicas de latencia/errores.
+## 1. Mandatory Preparation Before Leaving `127.0.0.1`
+- **Networking & Containers:** Configurable `HOST` (`127.0.0.1` locally, `0.0.0.0` in containerized runtimes) and `PORT` injected via environment variables without hardcoded values in configs or reverse proxies.
+- **Health Checks & Process Signals:**
+  - Public endpoint `/healthz` (session-free, validating database connectivity via `SELECT 1`) for liveness/readiness orchestration probes.
+  - Signal handlers for `SIGTERM` and `SIGINT` to gracefully drain in-flight requests (`app.close()`) and shut down connections cleanly.
+- **Baseline Observability:** Generation and propagation of `X-Request-ID`, structured JSON logging with secrets redacted (`req.headers.cookie`, `set-cookie`, tokens, passwords omitted), and baseline latency/error rate metrics.
 
-## 2. Arquitectura Objetivo en GCP (Fase 3)
-- **Cómputo:** Cloud Run (escala a cero, capa gratuita amigable, HTTPS/TLS gestionado).
-- **Persistencia y Archivos:** Adaptador Cloud SQL (Postgres) detrás de `UnitOfWorkPort` / `RepositorySet` sin tocar `domain/` ni `application/`; Cloud Storage (GCS) con URLs firmadas para adjuntos PDF y fotos reales.
-- **Identidad y Secretos:** Secret Manager para secretos de OAuth2/SMTP y rotación; nunca secretos en `.env` versionado ni en `terraform.tfvars` subidos a Git.
-- **CI/CD e IaC:** GitHub Actions reproducible con Node 22 LTS, Terraform modular con estado remoto y principio de mínimo privilegio en IAM.
+## 2. Target Cloud Architecture
+- **Compute:** Serverless containers (scale-to-zero capability, managed TLS/HTTPS, automated scaling).
+- **Persistence & Storage:** Managed database engines behind `UnitOfWorkPort` / `RepositorySet` without touching `domain/` or `application/`; cloud object storage with signed URLs for binary uploads, documents, and assets.
+- **Identity & Secret Management:** Secret management vaults for API keys, OAuth2 secrets, and credentials; never store secrets in version-controlled `.env` files or Git repositories.
+- **CI/CD & IaC:** Reproducible automated workflows pinned to LTS runtimes, modular Infrastructure as Code with remote state storage, and least-privilege IAM policies.

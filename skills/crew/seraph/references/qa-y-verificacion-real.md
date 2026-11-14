@@ -1,16 +1,16 @@
-# QA y Verificación Real — Playbook de Seraph
+# QA & Real-World Verification — Playbook of Seraph
 
-> Más allá de "pasar scripts": probar el sistema como falla en el mundo real.
+> Beyond "passing test scripts": testing the system as it breaks in the real world.
 
-## 1. Anti-Falsos Positivos en E2E (Playwright)
-- **Recarga y ciclo de vida de sesión:** Toda prueba crítica de autenticación debe cubrir: *login → recargar página (`page.reload()`) sigue autenticado → logout → reusar ruta protegida o cookie previa redirige/devuelve 401 → volver a iniciar sesión funciona*.
-- **Edición completa y borrado de opcionales:** Probar editar mascota modificando campos y limpiando campos opcionales (ej. `avatarUrl`), verificando persistencia real tras recarga.
-- **Actualización reactiva en hogares:** Al crear hogar o aceptar invitación, comprobar en UI real que el contador, la lista y el selector de contexto se actualizan sin recarga manual.
-- **Multi-actor en contextos aislados:** Abrir `BrowserContext` separados por rol (`Propietario`, `Admin`, `Cuidador`, `Lector`, `INVITED`, externo) para validar fronteras reales.
+## 1. Anti-False Positives in E2E (Playwright / End-to-End Testing)
+- **Session Lifecycle & Reload:** Every critical authentication test must verify: *login → reload page (`page.reload()`) remains authenticated → logout → accessing protected route redirects or returns 401 → logging in again succeeds cleanly*.
+- **Full Edits & Clearing Optional Fields:** Test entity editing by modifying populated fields and emptying optional fields (e.g., `avatarUrl` or notes), verifying real persistence following page reload.
+- **Reactive UI Updates:** Upon creating records or accepting invitations, verify in real browser UI that counters, lists, and context selectors update without requiring manual page reload.
+- **Multi-Actor in Isolated Contexts:** Open separate `BrowserContext` instances per actor role (e.g., `Owner`, `Admin`, `Member`, `Viewer`, `External`) to validate true cross-tenant boundaries.
 
-## 2. Verificación Computada de Diseño y Accesibilidad
-- Verificar a `320px`, `1024px` y `1280px` con `@axe-core/playwright` (`0` violaciones `critical`/`serious`), **más** aserciones reales de layout (`document.documentElement.scrollWidth <= window.innerWidth`, sin solapamiento de controles ni botones táctiles `< 44px` en móvil).
-- **Oráculos estrictos:** Prohibido relajar aserciones o dejar `test.skip` / timeouts inflados para esconder colgamientos reales (como un timeout de 5s en `scrypt` que delata un bug DoS).
+## 2. Computed Design & Accessibility Verification
+- Verify across responsive breakpoints (`320px`, `1024px`, and `1280px`) using `@axe-core/playwright` (`0` critical or serious violations), **plus** layout assertions (`document.documentElement.scrollWidth <= window.innerWidth`, no overlapping controls, touch targets $\ge 44\text{px}$ on mobile).
+- **Strict Oracles:** Strictly forbidden to loosen assertions, inject `test.skip`, or inflate timeouts to mask hangs (such as a 5-second crypto timeout concealing an underlying DoS defect).
 
-## 3. Pruebas de Concurrencia y Estrés Real
-- Ejercitar llamadas concurrentes (`Promise.all`) contra `SqliteUnitOfWork` (logins simultáneos intercalados con lecturas de dashboard y altas de registros) para detectar contención de bloqueos (`SQLITE_BUSY` o head-of-line blocking).
+## 3. Real-World Concurrency & Stress Testing
+- Exercise concurrent requests (`Promise.all`) against data units (simultaneous logins interleaved with dashboard reads and record creations) to uncover lock contention (`SQLITE_BUSY`, thread starvation, or head-of-line blocking).

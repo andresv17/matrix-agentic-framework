@@ -1,17 +1,17 @@
-# Privacidad, Habeas Data y Ciclo de Vida — Playbook de Rama-Kandra
+# Privacy, Data Rights & Lifecycle — Playbook of Rama-Kandra
 
-> Criterios de custodia de datos personales, eliminación atómica de cuenta y portabilidad determinista.
+> Custody criteria for sensitive data, atomic account deletion, and deterministic data portability.
 
-## 1. Minimización y Ciclo de Vida de Datos (Zero Data Hoarding)
-- **Limpieza de rastros temporales:** Las sesiones revocadas/expiradas (`sessions`), intentos fallidos antiguos (`login_attempts`) y tokens de intención de borrado deben purgarse periódicamente; nunca acumular datos muertos de autenticación sin caducidad.
-- **Redacción estricta en logs y auditoría:** Jamás persistir contraseñas, hashes, tokens opacos de sesión, cookies ni correos personales en logs de aplicación ni en trazas de errores RFC 9457.
+## 1. Data Minimization & Lifecycle (Zero Data Hoarding)
+- **Purging Temporary Footprints:** Revoked and expired sessions (`sessions`), stale failed login attempts (`login_attempts`), and temporary deletion-intent tokens must be purged periodically; never accumulate dead authentication data without expiry.
+- **Strict Redaction in Logging & Auditing:** Never persist passwords, cryptographic hashes, opaque session tokens, session cookies, or personal emails into application logs or RFC 9457 error traces.
 
-## 2. Derecho al Olvido — Eliminación de Cuenta (`DELETE /users/me`)
-- **Precondiciones obligatorias antes de borrar:**
-  1. Verificar que el usuario no sea propietario único de un hogar con otros miembros activos (bloqueo explícito hasta transferir propiedad `TRANSFER_OWNERSHIP` o vaciar/eliminar el hogar).
-  2. Ofrecer/exigir respaldo JSON previo (`deletion-intent`) + re-autenticación + confirmación textual explícita (`"ELIMINAR MI CUENTA"`).
-- **Cascada atómica y auditoría anónima:** La eliminación de cuenta, sus sesiones, mascotas propias y registros ocurre en una única transacción; cualquier fallo en el camino restaura todo byte a byte. Si el sistema conserva registro de auditoría operativa tras el borrado del usuario, debe guardar **únicamente el hash canónico irreversible del `userId`** (sin nombre, correo ni username).
+## 2. Right to Be Forgotten — Account Deletion (`DELETE /users/me`)
+- **Mandatory Preconditions Before Deletion:**
+  1. Verify the user is not the sole owner of a shared workspace or account with other active members (explicitly block until ownership is transferred via `TRANSFER_OWNERSHIP` or the shared entity is emptied/dissolved).
+  2. Require/offer prior full data export (`deletion-intent`) + re-authentication + explicit confirmation text (`"DELETE MY ACCOUNT"`).
+- **Atomic Cascade & Anonymized Audit Trail:** Deletion of an account, its sessions, owned resources, and records must execute within a single transaction; any failure midway restores everything byte for byte. If the system retains operational audit records post-deletion, it must record **solely the irreversible canonical hash of the identifier** (with no names, emails, or usernames preserved).
 
-## 3. Portabilidad y Respaldos Multi-Versión
-- Al exportar según rol en hogares compartidos (`RBAC`), el respaldo contiene únicamente entidades visibles para el usuario dentro de las fronteras permitidas y **nunca** incluye datos personales o credenciales de terceros.
-- Al importar (`Merge Idempotente` o `Reemplazo Destructivo`), el paso previo de validación debe reportar conteos y colisiones (IDs, microchips) antes de mutar la base, garantizando rollback byte a byte ante fallo.
+## 3. Portability & Multi-Version Backups
+- When exporting per assigned role (`RBAC`), the backup envelope contains only entities visible to the user within permitted boundaries and **never** includes personal data or credentials of third parties.
+- When importing (`Idempotent Merge` or `Destructive Replace`), the pre-validation step must report record counts and key collisions before mutating storage, guaranteeing byte-by-byte rollback upon any validation failure.
