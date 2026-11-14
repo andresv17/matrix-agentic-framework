@@ -53,7 +53,10 @@ if (hookEvent === 'PreCompact') {
 
 const branchStatus = safeRun('git status --short --branch');
 const recentCommits = safeRun('git log -3 --oneline');
-const envLessons = readTail('claude/entorno-y-lecciones.md', 40) || readTail('entorno-y-lecciones.md', 40);
+const envLessons = readTail('claude/environment-and-lessons.md', 40) ||
+                   readTail('environment-and-lessons.md', 40) ||
+                   readTail('claude/entorno-y-lecciones.md', 40) ||
+                   readTail('entorno-y-lecciones.md', 40);
 const busPath = findBusFile();
 const busTail = readTail(busPath, 15);
 

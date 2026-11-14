@@ -10,7 +10,7 @@ LLMs suffer from catastrophic forgetting and attention degradation as context wi
 For every micro-milestone (architectural decision, security analysis, commit, test execution, or quality gate verdict):
 1. **Role-Specific Incremental Log (`log-<role>.md`):**  
    The active agent first writes a detailed checkpoint containing technical notes, reasoning, and considerations into its own log file (e.g., `claude/log-architect.md` or `agent-logs/log-architect.md`).
-2. **Central Bus Entry (`registro-proceso.md`):**  
+2. **Central Bus Entry (`process-log.md` / `registro-proceso.md`):**  
    Appends a single, concise chronological row to the project's central bus table before returning the response to the user.
 
 ## 3. Handling New Projects

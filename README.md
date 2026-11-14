@@ -97,7 +97,7 @@ The framework establishes a strict architectural boundary between **execution** 
 
 No agent relies on ephemeral chat context memory. For every decision or milestone:
 1. The active agent writes a detailed checkpoint in its role log: `claude/log-<role>.md` (or `agent-logs/log-<role>.md`).
-2. Appends a chronological entry to the central project bus: `claude/registro-proceso-<project>.md`.
+2. Appends a chronological entry to the central project bus: `claude/process-log-<project>.md` (or `registro-proceso-<project>.md`).
 3. Upon startup or context compaction, the `session-context.mjs` hook automatically injects live Git status and the latest bus entries.
 
 ---
@@ -136,8 +136,8 @@ In the root directory of any software repository:
 ```
 
 This provisions:
-- Central event bus: `claude/registro-proceso-<project>.md`
-- Fixed facts & environment notes: `claude/entorno-y-lecciones.md`
+- Central event bus: `claude/process-log-<project>.md` (or `registro-proceso-<project>.md`)
+- Fixed facts & environment notes: `claude/environment-and-lessons.md` (or `entorno-y-lecciones.md`)
 - Live memory injection hook: `.claude/hooks/session-context.mjs`
 - Session hook configuration: `.claude/settings.json`
 - M2M communication channel: `scripts/logos.py`

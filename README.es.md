@@ -97,7 +97,7 @@ El framework establece una división estricta entre **ejecución** y **auditorí
 
 Ningún agente confía en la memoria efímera de la ventana de chat. Ante cada decisión o hito:
 1. El agente escribe un checkpoint detallado en su bitácora individual: `claude/log-<personaje>.md` (o `agent-logs/log-<personaje>.md`).
-2. Agrega una línea cronológica al bus central: `claude/registro-proceso-<proyecto>.md`.
+2. Agrega una línea cronológica al bus central: `claude/process-log-<proyecto>.md` (o `registro-proceso-<proyecto>.md`).
 3. Al iniciar sesión o compactar contexto, el hook `session-context.mjs` inyecta automáticamente el estado de Git y las últimas entradas del bus.
 
 ---
@@ -136,8 +136,8 @@ En la raíz de cualquier proyecto nuevo de software, ejecuta:
 ```
 
 Esto aprovisionará:
-- El bus central de eventos: `claude/registro-proceso-<tu-proyecto>.md`.
-- El archivo de hechos fijos: `claude/entorno-y-lecciones.md`.
+- El bus central de eventos: `claude/process-log-<tu-proyecto>.md` (o `registro-proceso-<tu-proyecto>.md`).
+- El archivo de hechos fijos: `claude/environment-and-lessons.md` (o `entorno-y-lecciones.md`).
 - El hook automático de inyección de contexto: `.claude/hooks/session-context.mjs`.
 - La configuración de hooks de sesión: `.claude/settings.json`.
 - El canal de comunicación M2M: `scripts/logos.py`.

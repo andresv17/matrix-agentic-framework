@@ -107,21 +107,34 @@ init_project() {
   mkdir -p "$project_path/scripts"
 
   local project_name="$(basename "$(cd "$project_path" && pwd)")"
-  local bus_file="$project_path/claude/registro-proceso-${project_name}.md"
+  local bus_template="$SCRIPT_DIR/templates/process-log.template.md"
+  [ ! -f "$bus_template" ] && bus_template="$SCRIPT_DIR/templates/registro-proceso.template.md"
+
+  local env_template="$SCRIPT_DIR/templates/environment-and-lessons.template.md"
+  [ ! -f "$env_template" ] && env_template="$SCRIPT_DIR/templates/entorno-y-lecciones.template.md"
+
+  local bus_file="$project_path/claude/process-log-${project_name}.md"
+  if [ -f "$project_path/claude/registro-proceso-${project_name}.md" ]; then
+    bus_file="$project_path/claude/registro-proceso-${project_name}.md"
+  fi
 
   if [ ! -f "$bus_file" ]; then
     sed -e "s/{{PROJECT_NAME}}/$project_name/g" \
         -e "s/{{AUTHOR_NAME}}/$USER/g" \
         -e "s/{{DATE}}/$(date +%Y-%m-%d)/g" \
-        "$SCRIPT_DIR/templates/registro-proceso.template.md" > "$bus_file"
+        "$bus_template" > "$bus_file"
     echo -e "  ${GREEN}✓ Central bus created:${NC} $bus_file"
   else
     echo -e "  ${YELLOW}! Central bus already exists:${NC} $bus_file"
   fi
 
-  local env_file="$project_path/claude/entorno-y-lecciones.md"
+  local env_file="$project_path/claude/environment-and-lessons.md"
+  if [ -f "$project_path/claude/entorno-y-lecciones.md" ]; then
+    env_file="$project_path/claude/entorno-y-lecciones.md"
+  fi
+
   if [ ! -f "$env_file" ]; then
-    sed "s/{{PROJECT_NAME}}/$project_name/g" "$SCRIPT_DIR/templates/entorno-y-lecciones.template.md" > "$env_file"
+    sed "s/{{PROJECT_NAME}}/$project_name/g" "$env_template" > "$env_file"
     echo -e "  ${GREEN}✓ Environment & lessons created:${NC} $env_file"
   fi
 
