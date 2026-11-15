@@ -84,7 +84,7 @@ When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morph
    - Write to channel: `python3 scripts/logos.py write --turno neo --emisor morpheus --mensaje "<your structured message>"`.
 
 6. **Mandatory Visible Output and Passive Wait (Anti-Silence Guardrail & Visual Closure):**
-   - **RUN `wait` IN BACKGROUND (`run_in_background: true`):** Always execute `python3 scripts/logos.py wait --for morpheus --timeout 1800` with **`run_in_background: true`** (NEVER as a blocking foreground command, or the terminal will freeze without showing your report and banner).
+   - **RUN `wait` AS A SEPARATE `Bash` TOOL CALL WITH `run_in_background: true`:** Always execute `python3 scripts/logos.py wait --for morpheus --timeout 1800` in its **own dedicated `Bash` tool call** using the tool parameter **`run_in_background: true`**. **NEVER** chain it with `&` or `nohup` inside the `logos.py write` command (if you use `&` in a foreground shell, Claude Code kills the child process when `echo` finishes and will NEVER wake Morpheus up!), and **NEVER** run it synchronously in foreground.
    - **THE BANNER IS THE ABSOLUTE FINAL CLOSURE:** Immediately after launching the background `wait` command, your **final visible message to Neo** in that turn **MUST** contain the complete structured report followed by the ASCII banner `┌─ Note ─┐` at the bottom of the terminal. **Never** defer this message until after `wait` completes, and **never** end your turn silently while waiting.
    - **STRICTLY PROHIBITED:**
      1. Ending your final terminal reply with `RECOMMENDED NEXT STEP:` or plain text without the visual `┌─ Note ─` box underneath.
