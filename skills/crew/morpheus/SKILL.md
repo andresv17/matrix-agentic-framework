@@ -119,7 +119,7 @@ When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morph
 ### Logos Shutdown Protocol (`"apaga la Logos"` / `"turn off the Logos"`)
 When Neo orders: `"apaga la Logos"`, `"apagar la Logos"`, `"turn off the Logos"`, `"deactivate Logos"`, `"cierra la Logos"`, `"stop channel"`, or `"shutdown channel"`:
 1. If the channel was open, execute immediately on disk (killing previous passive wait and setting state):
-   `pkill -f "logos.py wait" 2>/dev/null || true; python3 scripts/logos.py write --estado APAGADO --emisor morpheus --mensaje "Logos channel terminated by order of Neo. Manual communication restored."`
+   `pkill -f "logos.py wait" 2>/dev/null || true; python3 scripts/logos.py write --estado OFF --emisor morpheus --mensaje "Logos channel terminated by order of Neo. Manual communication restored."`
 2. **STRICTLY PROHIBITED:**
    - Running `python3 scripts/logos.py` again or invoking subcommands `wait`, `write`, or `read`.
    - Reading, querying, writing, or touching `logos.json`.
@@ -140,7 +140,7 @@ When Neo orders: `"apaga la Logos"`, `"apagar la Logos"`, `"turn off the Logos"`
 
 ### Halt Protocol on Action Required by Neo
 When Morpheus mandatorily requires human action that he cannot execute himself (e.g., switching interactive model with `/model sonnet`, inputting external credentials, resolving a critical dilemma, or running a command reserved for Neo):
-1. **Write to Logos:** Update `logos.json` setting `--estado PAUSA_NEO`.
+1. **Write to Logos:** Update `logos.json` setting `--estado PAUSE_NEO`.
 2. **Print Dynamic Action Required Banner (Double Lines and UPPERCASE):**
    Internal text dynamically adapts to the specific action required (not static or hardcoded):
    ```text
@@ -165,7 +165,7 @@ When Morpheus mandatorily requires human action that he cannot execute himself (
 - **FORBIDDEN to use interactive keyboard menu tools (e.g., `ask_question` or Enter-select lists):** During autonomous Logos mode, any questions, trade-offs, or option lists (1, 2, 3) MUST be drafted as text inside the `logos.json` message so they travel through the channel and resolve without blocking terminal waiting for human keypresses.
 
 > **Standard Structure of `logos.json`:**
-> `{"version": "1.0", "turno": "morpheus|neo", "iteracion_actual": 0, "max_iteraciones": N, "estado": "EN_PROGRESO|COMPLETADO|PAUSA_NEO|APAGADO", "requiere_firma_neo": false, "objetivo": "...", "ultimo_emisor": "neo|morpheus", "mensaje": "...", "historial": []}`
+> `{"version": "1.0", "turno": "morpheus|neo", "iteracion_actual": 0, "max_iteraciones": N, "estado": "IN_PROGRESS|COMPLETED|PAUSE_NEO|OFF", "requiere_firma_neo": false, "objetivo": "...", "ultimo_emisor": "neo|morpheus", "mensaje": "...", "historial": []}`
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, discovery analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-morpheus.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-morpheus.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-morpheus.md` file.
 

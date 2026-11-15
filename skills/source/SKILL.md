@@ -95,7 +95,7 @@ The single source of truth for the system is **the physical state on disk** (`gi
 - **Logos Shutdown Protocol (`"apaga la Logos"` / `"turn off the Logos"`):**
   When Neo orders: `"turn off the Logos"`, `"apaga la Logos"`, `"deactivate Logos"`, `"close Logos"`, `"stop channel"`, or `"shutdown channel"`:
   1. Execute immediately on disk:
-     `python3 scripts/logos.py write --estado APAGADO --emisor neo --mensaje "Logos channel terminated by order of Neo. Manual communication restored."`
+     `python3 scripts/logos.py write --estado OFF --emisor neo --mensaje "Logos channel terminated by order of Neo. Manual communication restored."`
   2. **STRICTLY FORBIDDEN:** Running `logos.py`, invoking `wait`/`write`/`read`, touching `logos.json`, or suggesting Logos commands in subsequent replies.
   3. **Immediate Restoration of Manual Mode:** Revert control immediately to **Neo** in plain chat text.
   4. Print disconnection confirmation message:
@@ -107,10 +107,10 @@ The single source of truth for the system is **the physical state on disk** (`gi
      ```
 
 - **Unique Halt Conditions for the Logos Channel:**
-  1. **Mission Accomplished (`COMPLETADO` / `COMPLETED`):** Active feature, task queue, or phase fully closed with all quality gates green.
-  2. **Bus Circuit-Breaker Limit (`PAUSA_CIRCUIT_BREAKER`):** Configured maximum iteration count (`max_iteraciones`) reached.
+  1. **Mission Accomplished (`COMPLETED`):** Active feature, task queue, or phase fully closed with all quality gates green.
+  2. **Bus Circuit-Breaker Limit (`PAUSE_CIRCUIT_BREAKER`):** Configured maximum iteration count (`max_iteraciones`) reached.
   3. **Explicit Shutdown Order from Neo (`"apaga la Logos"` / `"turn off Logos"`).
-  4. **External Infrastructure Blocker (Non-Resolvable by Software):** Insurmountable physical blocker (e.g., total network outage to download dependencies, missing secret API key). Only then: update `logos.json` setting `--estado PAUSA_NEO`, display banner, and halt without calling `wait`.
+  4. **External Infrastructure Blocker (Non-Resolvable by Software):** Insurmountable physical blocker (e.g., total network outage to download dependencies, missing secret API key). Only then: update `logos.json` setting `--estado PAUSE_NEO`, display banner, and halt without calling `wait`.
 
 - **Strict Per-Project Isolation:**
   - Each project maintains its own isolated log file in sovereign storage (`references/bitacoras/bitacora-<slug>.md`). Never mix contexts or tasks from different projects in a single file.

@@ -31,12 +31,20 @@ DEFAULT_INITIAL_DATA = {
     "turno": "morpheus",
     "iteracion_actual": 0,
     "max_iteraciones": 10,
-    "estado": "EN_PROGRESO",
+    "estado": "IN_PROGRESS",
     "requiere_firma_neo": False,
-    "objetivo": "Sesión de trabajo autónomo",
+    "objetivo": "Autonomous work session",
     "ultimo_emisor": "neo",
-    "mensaje": "DE: Neo (Autoridad Soberana Nivel 2)\nPARA: Morpheus (Capitán de la Tripulación & Tech Lead)\nESTADO: En progreso\nDETALLE:\n- Despierta sesión en el proyecto activo y reporta el estado actual de la cola de tareas.\nSIGUIENTE PASO RECOMENDADO: Morpheus reporta el estado y cede el turno en la Logos a Neo.",
+    "mensaje": "FROM: Neo (Sovereign Level 2 Authority)\nTO: Morpheus (Captain of the Crew & Tech Lead)\nSTATUS: In Progress\nDETAILS:\n- Wake up session in the active project and report current task queue status.\nRECOMMENDED NEXT STEP: Morpheus reports status and yields turn on Logos to Neo.",
     "historial": []
+}
+
+STATE_ALIASES = {
+    "EN_PROGRESO": "IN_PROGRESS",
+    "COMPLETADO": "COMPLETED",
+    "PAUSA_NEO": "PAUSE_NEO",
+    "BLOQUEADO": "BLOCKED",
+    "APAGADO": "OFF",
 }
 
 def atomic_write(path, data):
@@ -66,7 +74,7 @@ def cmd_init(args):
         "turno": args.turno,
         "iteracion_actual": 0,
         "max_iteraciones": args.max_iter,
-        "estado": "EN_PROGRESO",
+        "estado": "IN_PROGRESS",
         "requiere_firma_neo": False,
         "objetivo": args.objetivo,
         "ultimo_emisor": args.emisor,
@@ -138,15 +146,15 @@ def cmd_write(args):
     if args.mensaje:
         data["mensaje"] = args.mensaje
     if args.estado:
-        data["estado"] = args.estado
+        data["estado"] = STATE_ALIASES.get(args.estado, args.estado)
     if args.requiere_firma is not None:
         data["requiere_firma_neo"] = args.requiere_firma
 
-    # Comprobación de circuit breaker
+    # Circuit breaker check
     if data.get("iteracion_actual", 0) >= data.get("max_iteraciones", 10):
-        if data["estado"] == "EN_PROGRESO":
-            data["estado"] = "PAUSA_CIRCUIT_BREAKER"
-            print(f"[logos] Límite de {data['max_iteraciones']} iteraciones alcanzado. Pausando canal.")
+        if data["estado"] in ("IN_PROGRESS", "EN_PROGRESO"):
+            data["estado"] = "PAUSE_CIRCUIT_BREAKER"
+            print(f"[logos] Max iterations ({data['max_iteraciones']}) reached. Pausing channel.")
 
     atomic_write(args.path, data)
     print(f"[logos] Turno actualizado a: {data['turno']} (Iteración {data['iteracion_actual']}/{data['max_iteraciones']})")
@@ -176,9 +184,12 @@ def cmd_wait(args):
                 print(f"[logos] ¡Turno concedido a '{esperado}'! (Iteración {iter_actual}/{max_iter})")
                 sys.exit(0)
 
-            # Condición de detención: el canal se pausó, completó o apagó
-            if estado in ["COMPLETADO", "PAUSA_NEO", "PAUSA_CIRCUIT_BREAKER", "APAGADO"]:
-                print(f"[LOGOS DETENIDO] El canal logos.json se detuvo con estado: '{estado}'.")
+            # Stop condition: channel paused, completed, or turned off
+            if estado in [
+                "COMPLETED", "PAUSE_NEO", "PAUSE_CIRCUIT_BREAKER", "OFF",
+                "COMPLETADO", "PAUSA_NEO", "PAUSA_CIRCUIT_BREAKER", "APAGADO",
+            ]:
+                print(f"[LOGOS STOPPED] logos.json channel stopped with status: '{estado}'.")
                 sys.exit(2)
 
             # Condición de detención: límite de iteraciones
@@ -215,7 +226,14 @@ def main():
     p_write.add_argument("--turno", choices=["claude", "morpheus", "gemini", "source", "neo"], help="Nuevo turno")
     p_write.add_argument("--emisor", help="Nombre del personaje/agente que escribe")
     p_write.add_argument("--mensaje", help="Cuerpo del mensaje")
-    p_write.add_argument("--estado", choices=["EN_PROGRESO", "COMPLETADO", "PAUSA_NEO", "BLOQUEADO", "APAGADO"], help="Estado del ciclo")
+    p_write.add_argument(
+        "--estado",
+        choices=[
+            "IN_PROGRESS", "COMPLETED", "PAUSE_NEO", "BLOCKED", "OFF",
+            "EN_PROGRESO", "COMPLETADO", "PAUSA_NEO", "BLOQUEADO", "APAGADO",
+        ],
+        help="Cycle state",
+    )
     p_write.add_argument("--requiere-firma", action=argparse.BooleanOptionalAction, default=None, help="Indica si requiere firma de Neo")
 
     # Subcomando: wait
