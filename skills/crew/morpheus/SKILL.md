@@ -70,7 +70,7 @@ When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morph
   1. Morpheus reads incoming directive.
   2. Morpheus dispatches Keymaker to code.
   3. Morpheus dispatches Oracle to audit on disk.
-  4. **ONLY WHEN ORACLE HAS CONCLUDED AND ISSUED FORMAL VERDICT**, Morpheus writes the consolidated report and makes the single call to `python3 scripts/logos.py write --turno neo ...`.
+  4. **WHEN ORACLE CONCLUDES OR WHEN REPORTING A `Blocked` / `Validation Required` ESCALATION TO NEO**, Morpheus writes the consolidated report and makes the single call to `python3 scripts/logos.py write --turno neo ...` (never stop in terminal without writing to Logos when the channel is active).
   Any intermediate write before Oracle concludes prematurely yields the turn to Neo and breaks channel synchronization.
 
 **Continuous Execution Loop:**
@@ -194,7 +194,7 @@ DETAILS:
 RECOMMENDED NEXT STEP: <Exact command or decision required from Neo>
 ```
 
-> **Logos Mode Final-Line Rule:** When the Logos channel is active (`logos.py wait` running in background), you **MUST ALWAYS** copy and append the exact `┌─ Note ─┐` banner (§ 3, Step 6) immediately below `RECOMMENDED NEXT STEP:` as the absolute last lines of your terminal response. Never end with plain text or omit the box.
+> **Logos Mode Final-Line Rule:** Before ending ANY turn addressed `TO: Neo` while the Logos channel is active (`IN_PROGRESS` / `EN_PROGRESO`), you **MUST**: (1) write the report with `python3 scripts/logos.py write --turno neo ...` (even if `STATUS: Blocked`), (2) launch `python3 scripts/logos.py wait --for morpheus --timeout 1800` in a separate `Bash` call with `run_in_background: true`, and (3) copy and append the exact `┌─ Note ─┐` banner (§ 3, Step 6) immediately below `RECOMMENDED NEXT STEP:`. Never end with only terminal text and omit `logos.py write`.
 
 # 5. Session Close Behavior (`"cerremos sesión"`, `"close session"`, or `/hardline`)
 
