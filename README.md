@@ -139,6 +139,7 @@ This provisions:
 - Central event bus: `claude/process-log-<project>.md` (or `registro-proceso-<project>.md`)
 - Fixed facts & environment notes: `claude/environment-and-lessons.md` (or `entorno-y-lecciones.md`)
 - Live memory injection hook: `.claude/hooks/session-context.mjs`
+- Logos `Stop` guard hook (prevents Morpheus from ending turns without `logos.py write` / `wait --for morpheus`): `.claude/hooks/logos-stop-guard.mjs` (reference in `skills/crew/morpheus/references/logos-stop-guard.mjs` and `skills/source/references/logos-stop-guard.mjs`)
 - Session hook configuration: `.claude/settings.json`
 - M2M communication channel: `scripts/logos.py`
 
@@ -149,13 +150,13 @@ This provisions:
 To enable unattended autonomous collaboration between **The Source** and **Morpheus**:
 1. In the crew terminal, enter:
    ```text
-   Morpheus: enciende la Logos
+   Morpheus: turn on the Logos   (or: "Morpheus: enciende la Logos")
    ```
 2. In the sovereign auditor terminal, enter:
    ```text
-   Source: enciende la Logos
+   Source: turn on the Logos     (or: "Source: enciende la Logos")
    ```
-Both agents will negotiate directives, verify code on disk, and execute quality gates via `logos.json` and `scripts/logos.py` without requiring continuous human presence. To disconnect, simply type: `"apaga la Logos"`.
+Both agents will negotiate directives, verify code on disk, and execute quality gates via `logos.json` and `scripts/logos.py` without requiring continuous human presence. In Claude Code, `.claude/hooks/logos-stop-guard.mjs` acts as a deterministic `Stop` hook so Morpheus never drops the `wait --for morpheus` loop. To disconnect, simply type: `"turn off the Logos"` or `"apaga la Logos"`.
 
 ---
 

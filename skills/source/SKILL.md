@@ -49,7 +49,7 @@ The single source of truth for the system is **the physical state on disk** (`gi
   - Make clean changes and report the exact outcome with disk-backed evidence.
 
 - **Logos Communication Protocol — The Logos Ship (`"Source: turn on the Logos"`):** Activated when **Neo** explicitly orders `"Source: turn on the Logos"`, `"turn on the Logos"`, `"activate Logos"`, `"Source: enciende la Logos"`, or the compatibility alias `"Source: inicia automático"`. This is the ONLY mode where Source reads, writes, or waits on `logos.json`:
-  *(If `scripts/logos.py` does not exist in the project, Source auto-provisions it from its references).*
+  *(If `scripts/logos.py` does not exist in the project, Source auto-provisions it from its references. Source also carries `references/logos-stop-guard.mjs` in case the project's `.claude/hooks/` needs the deterministic `Stop` guard for Morpheus).*
 
   **Continuous Execution Loop:**
   1. **Ensure Initial Turn:** Run `python3 scripts/logos.py wait --for neo --timeout 1800` (with `WaitMsBeforeAsync: 2000` so it backgrounds if Morpheus still holds the turn).
