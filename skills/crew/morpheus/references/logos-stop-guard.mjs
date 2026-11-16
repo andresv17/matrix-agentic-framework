@@ -73,6 +73,18 @@ if (['neo', 'source', 'gemini'].includes(turno)) {
         'append the `┌─ Note ─┐` wait banner, and then end your turn.'
     );
   }
+
+  if (
+    !lastMsg.includes('┌─ Note') &&
+    !/^\[(TIMEOUT|LOGOS STOPPED)\]/m.test(lastMsg)
+  ) {
+    block(
+      'You yielded the Logos turn to `' +
+        turno +
+        '` and started the background wait, but omitted the mandatory `┌─ Note ─┐` banner at the end of your reply. ' +
+        'Print the `┌─ Note ─┐` wait banner from morpheus/SKILL.md Step 6 and then end your turn.'
+    );
+  }
   process.exit(0);
 }
 
