@@ -75,15 +75,21 @@ if (['neo', 'source', 'gemini'].includes(turno)) {
   }
 
   const isTerminalNotice = /^\[(TIMEOUT|LOGOS STOPPED)\]/m.test(lastMsg);
-  const hasBanner = lastMsg.includes('┌─ Note');
-  const hasEnvelope = /FROM:\s*Morpheus/i.test(lastMsg) && /TO:\s*Neo/i.test(lastMsg);
+  const noteIdx = lastMsg.indexOf('┌─ Note');
+  const nextStepIdx = lastMsg.search(/RECOMMENDED NEXT STEP:/i);
+  const hasBanner = noteIdx !== -1;
+  const hasEnvelope =
+    /FROM:\s*Morpheus/i.test(lastMsg) &&
+    /TO:\s*Neo/i.test(lastMsg) &&
+    nextStepIdx !== -1;
+  const bannerIsLast = hasBanner && hasEnvelope && nextStepIdx < noteIdx;
 
-  if (!isTerminalNotice && (!hasBanner || !hasEnvelope)) {
+  if (!isTerminalNotice && (!hasBanner || !hasEnvelope || !bannerIsLast)) {
     block(
       'You yielded the Logos turn to `' +
         turno +
-        '` and started the background wait, but your reply must include BOTH the full `FROM: Morpheus / TO: Neo` message sent to Logos AND the `┌─ Note ─┐` wait banner at the end. ' +
-        'Print the complete `FROM: Morpheus` / `TO: Neo` / `STATUS:` / `DETAILS:` / `RECOMMENDED NEXT STEP:` block followed by the `┌─ Note ─┐` banner, then end your turn.'
+        '` and started the background wait, but your reply must include the complete `FROM: Morpheus / TO: Neo / STATUS: / DETAILS: / RECOMMENDED NEXT STEP:` block FIRST, followed by the `┌─ Note ─┐` wait banner at the very bottom (after `RECOMMENDED NEXT STEP:`). ' +
+        'Re-output the full block with the `┌─ Note ─┐` banner strictly at the end, then end your turn.'
     );
   }
   process.exit(0);
