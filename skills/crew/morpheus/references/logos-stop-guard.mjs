@@ -74,15 +74,16 @@ if (['neo', 'source', 'gemini'].includes(turno)) {
     );
   }
 
-  if (
-    !lastMsg.includes('┌─ Note') &&
-    !/^\[(TIMEOUT|LOGOS STOPPED)\]/m.test(lastMsg)
-  ) {
+  const isTerminalNotice = /^\[(TIMEOUT|LOGOS STOPPED)\]/m.test(lastMsg);
+  const hasBanner = lastMsg.includes('┌─ Note');
+  const hasEnvelope = /FROM:\s*Morpheus/i.test(lastMsg) && /TO:\s*Neo/i.test(lastMsg);
+
+  if (!isTerminalNotice && (!hasBanner || !hasEnvelope)) {
     block(
       'You yielded the Logos turn to `' +
         turno +
-        '` and started the background wait, but omitted the mandatory `┌─ Note ─┐` banner at the end of your reply. ' +
-        'Print the `┌─ Note ─┐` wait banner from morpheus/SKILL.md Step 6 and then end your turn.'
+        '` and started the background wait, but your reply must include BOTH the full `FROM: Morpheus / TO: Neo` message sent to Logos AND the `┌─ Note ─┐` wait banner at the end. ' +
+        'Print the complete `FROM: Morpheus` / `TO: Neo` / `STATUS:` / `DETAILS:` / `RECOMMENDED NEXT STEP:` block followed by the `┌─ Note ─┐` banner, then end your turn.'
     );
   }
   process.exit(0);
