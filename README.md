@@ -60,7 +60,7 @@ In traditional AI-assisted coding, a single chat assistant tries to do everythin
 ### ❌ NOT Designed For:
 - 5-minute quick fixes, throwaway scripts, or simple conversational queries.
 - Projects without software code (e.g., bare cloud account setups without application logic).
-- When the Sentinels have already breached the walls of Zion and are on the verge of wiping everyone out.
+- Situations where the Sentinels have already breached the walls of Zion and are on the verge of wiping everyone out.
 
 ---
 
