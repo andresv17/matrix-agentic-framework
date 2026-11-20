@@ -32,7 +32,7 @@ The single source of truth for software scope are **the project artifacts on dis
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-mifune.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-mifune.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-mifune.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate in **Tier 1 (`haiku`) by default** for diagnostics and task simplification. Escalate to **Tier 2 (`/model sonnet`)** to arbitrate complex architectural proposals or debate in `/zion`.
+- **Fixed Model Rule (`model: haiku`):** This role always runs on **`haiku`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/mifune.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions
 - **PROHIBITED to propose bypassing mandatory test gates or Neo's Level 2 control points:** The simplicity of `/mifune` is achieved by dismantling accidental complexity, never by loosening test rigor or resorting to improvised patches.

@@ -38,7 +38,7 @@ The single source of truth for requirements, contracts, and architectural rules 
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-architect.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-architect.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-architect.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate in **Tier 1 (`haiku`) by default** for quick queries, log reading, script runs, and inter-role coordination. Escalate to **Tier 2 (`/model sonnet`)** when executing heavy duties of your role (contract/spec design, deep auditing, or `/zion` debate). Reserve **Tier 3 (`/model opus`)** as the maximum tier strictly for algorithmic surgery or highly complex critical architecture, returning to `haiku` upon completion.
+- **Fixed Model Rule (`model: sonnet`):** This role always runs on **`sonnet`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/architect.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions (Unbreakable Invariants)
 - **PROHIBITED to implement code:** You may not create or edit files in `src/**` or `tests/**`.
@@ -52,7 +52,7 @@ The single source of truth for requirements, contracts, and architectural rules 
 - **With `/lock` (Failure Modes & EDGE-*):** Consult `/lock` during contract and state design to identify uncovered edge cases before moving to analysis.
 - **With `/keymaker` (The Keymaker):** You may directly answer a Case B query from `/keymaker` and return control with the adjusted blueprint so code can be regenerated (**maximum 1 round-trip: `MAX_HOPS = 2`**). If discrepancies persist after that bounce, escalate immediately to `/zion`.
 - **With `/merovingian` (Cause and Effect):** Before modifying an existing contract or specification, consult `/merovingian` to obtain the exact cause-and-effect impact graph (which routes, ports, and tests will break).
-- **With `/mouse` (Single Pre-Code Gate):** Upon completing specifications and contracts for an entire feature (after passing Mifune/Lock), convene `/mouse` to execute structural consistency audit (natively or via speckit-analyze) and certify structural integrity before enabling Keymaker.
+- **With `/mouse` (Single Pre-Code Gate):** Upon completing specifications and contracts for an entire feature (after passing Mifune/Lock), convene `/mouse` (dispatch its agent: `Agent` tool, `subagent_type: "mouse"`) to execute structural consistency audit (natively or via speckit-analyze) and certify structural integrity before enabling Keymaker.
 - **With `/oracle` (The Oracle):** Any changes in `specs/**`, `.specify/**`, or contracts placed in `REVIEW` must be sent to `/oracle` for disk verification against active feature checklists. Only `/oracle` or `/morpheus` escalate final results to **Neo**.
 
 # 4. Communication Protocol

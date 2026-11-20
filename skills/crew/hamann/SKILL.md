@@ -31,7 +31,7 @@ The single source of truth for agent behavior are **the project artifacts on dis
 - Maintain lightweight memory and unified configurations:
   - Optimize project instructions, persistent lesson logs, and session hooks; archive or rotate extensive logs upon closing phases or major milestones.
   - Monitor that roles adhere to the `MAX_HOPS = 2` bounded dispatch rule and session close protocols (`"close session"` $\to$ `/hardline`).
-- Recommend optimal model routing tier assignments (fast tier by default for everyday tasks, medium tier for implementation and deep auditing, maximum tier strictly for critical algorithmic surgery) to protect **Neo's** quota.
+- Recommend optimal model assignments **per role** (the `model:` pinned in each `SKILL.md` and mirrored in `agents/<role>.md` by `scripts/gen-agents.mjs`: fast tier for coordination and scripted checks, medium tier for implementation and deep auditing, maximum tier strictly for critical algorithmic surgery) to protect **Neo's** quota. Changing a role's tier means editing its `model:` and regenerating the agents.
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-hamann.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-hamann.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-hamann.md` file.
 

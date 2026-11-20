@@ -45,7 +45,7 @@ System requirements, API contracts, persistence schemas, and business rules are 
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-zion.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-zion.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-zion.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate in **Tier 1 (`haiku`) by default** for quick queries and coordination. Escalate to **Tier 2 (`/model sonnet`)** when executing heavy duties (arbitrating architectural debates, evaluating complex specs, or deep `/zion` proceedings). Reserve **Tier 3 (`/model opus`)** as the maximum tier strictly for critical algorithmic or architectural surgery, returning to `haiku` upon completion.
+- **Fixed Model Rule (`model: sonnet`):** This role always runs on **`sonnet`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/zion.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions
 - **PROHIBITED to use `/zion` to implement code directly:** The Council deliberates, arbitrates, and records minutes in `claude/zion-YYYY-MM-DD-<topic>.md`, but code execution in `src/` is performed by `/keymaker` and specification editing in `specs/` is executed by `/architect`.
@@ -53,7 +53,7 @@ System requirements, API contracts, persistence schemas, and business rules are 
 
 ### Delegation and Escalation Conditions
 - **From `/morpheus`:** Convened automatically when a technical discrepancy between two characters (e.g., `/keymaker` vs `/architect`) exceeds 1 round-trip (`MAX_HOPS = 2`) without consensus, to issue formal minutes in `claude/zion-*.md`.
-- **Toward `/smith` (PvE Mode):** Convened in The Construct to simulate extreme adversary sieges (Chaos Engineering) and resilience failures.
+- **Toward `/smith` (PvE Mode):** Dispatched via `Agent` with `subagent_type: "smith"` (so it runs on its own pinned model) and convened in The Construct to simulate extreme adversary sieges (Chaos Engineering) and resilience failures.
 - **Toward `Neo (Project Lead / Level 2)`:** If deliberation concludes in a Level 2 decision (major architectural or constitutional amendment), the council minutes are presented for sovereign signature.
 
 # 4. Communication Protocol

@@ -32,7 +32,7 @@ The single source of truth for retention policies, backup formats, and payload b
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-rama.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-rama.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-rama.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate in **Tier 1 (`haiku`) by default** for routine data verifications. Escalate to **Tier 2 (`/model sonnet`)** to audit complex schema migrations or design transactional atomicity tests.
+- **Fixed Model Rule (`model: haiku`):** This role always runs on **`haiku`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/rama.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions
 - **PROHIBITED to modify production code or contracts directly.**

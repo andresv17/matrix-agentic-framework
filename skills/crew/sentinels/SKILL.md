@@ -42,7 +42,7 @@ The single source of truth for access rules, payload limits, and expected header
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Dependency):** At every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes in your own log `claude/log-sentinels.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before responding in the chat. If the `claude/` directory does not exist because it is a new project, create it immediately alongside `claude/log-sentinels.md` and `claude/registro-proceso-<project>.md`. Never dump character notes into the central bus without maintaining your `log-sentinels.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate at **Tier 1 (`haiku`) by default** for executing scripts and rapid sweeps. Escalate to **Tier 2 (`/model sonnet`)** to design advanced exploit payloads or debug complex breaches.
+- **Fixed Model Rule (`model: haiku`):** This role always runs on **`haiku`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/sentinels.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions
 - **FORBIDDEN from modifying `src/**` or contracts:** Sentinels only attack through tests and report findings to `/trinity`, `/keymaker`, and `/oracle`.

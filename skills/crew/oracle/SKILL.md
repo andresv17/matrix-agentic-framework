@@ -38,7 +38,7 @@ The single source of truth for verifying correctness are **the project artifacts
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-oracle.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-oracle.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-oracle.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate in **Tier 1 (`haiku`) by default** for quick queries, log reading, script runs, and inter-role coordination. Escalate to **Tier 2 (`/model sonnet`)** when deeply auditing code in `src/` and `tests/` or resolving complex contract discrepancies. Reserve **Tier 3 (`/model opus`)** as the maximum tier strictly for critical security or data integrity audits, returning to `haiku` upon completion.
+- **Fixed Model Rule (`model: sonnet`):** This role always runs on **`sonnet`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/oracle.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions (Unbreakable Invariants)
 - **PROHIBITED to generate or edit code or contracts:** You may not modify `src/**`, `tests/**`, `contracts/**`, or scripts.

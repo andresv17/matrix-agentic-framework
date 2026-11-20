@@ -1,6 +1,6 @@
 {
   "name": "matrix-agentic-framework",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Autonomous multi-agent software engineering squad & sovereign control plane with separation of powers, out-of-band auditing, and Write-Ahead Log memory. Provider-agnostic.",
   "author": "Andrés Vallejo",
   "license": "MIT",
@@ -30,6 +30,26 @@
   ],
   "rules": [
     "rules/protocol-wal.md",
-    "rules/separation-of-powers.md"
+    "rules/separation-of-powers.md",
+    "rules/subagent-dispatch.md"
+  ],
+  "agents": [
+    "agents/architect.md",
+    "agents/dojo.md",
+    "agents/hamann.md",
+    "agents/keymaker.md",
+    "agents/link.md",
+    "agents/lock.md",
+    "agents/merovingian.md",
+    "agents/mifune.md",
+    "agents/mouse.md",
+    "agents/oracle.md",
+    "agents/rama.md",
+    "agents/sati.md",
+    "agents/sentinels.md",
+    "agents/seraph.md",
+    "agents/smith.md",
+    "agents/trinity.md",
+    "agents/zion.md"
   ]
 }

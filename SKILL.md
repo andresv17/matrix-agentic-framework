@@ -28,7 +28,9 @@ Upon invoking the Matrix Framework, follow this discovery order:
 1. **Check System Environment:** Run `git status` to verify the working tree and branch.
 2. **Review Project Memory:** Read `claude/registro-proceso-*.md` (or central process log) and `claude/entorno-y-lecciones.md`.
 3. **Inspect Active Specifications:** Read `.specify/memory/constitution.md` and active feature specs under `specs/<NNN-feature>/`.
-4. **Convening Roles:** To dispatch specialized roles, use their respective slash commands (e.g., `/morpheus`, `/architect`, `/keymaker`, `/oracle`).
+4. **Convening Roles — two modes:**
+   - **Neo (direct, live):** use the slash commands (e.g., `/morpheus`, `/architect`, `/keymaker`, `/oracle`). The role runs in your chat, you watch its work, and it uses the `model:` of its skill.
+   - **Crew (dispatched, background):** roles call each other with the `Agent` tool and `subagent_type: "<role>"` (e.g., `"keymaker"`). The matching `agents/<role>.md` pins the same model as the skill. Never use the `Skill` tool between roles. See `rules/subagent-dispatch.md`.
 
 # 3. Governance and Strict Guardrails
 

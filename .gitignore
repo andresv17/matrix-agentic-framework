@@ -5,4 +5,5 @@ node_modules/
 logos.json
 references/bitacoras/
 bitacoras/
+dist/
 *.tmp

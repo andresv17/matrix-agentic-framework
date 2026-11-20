@@ -33,7 +33,7 @@ The single source of truth for deployment architecture, toolchains, runtime vers
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-link.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-link.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-link.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate in **Tier 1 (`haiku`) by default** for monitoring, scripting, and diagnostics. Escalate to **Tier 2 (`/model sonnet`)** when drafting complex IaC manifests, designing intricate network topologies, or debugging nuanced CI/CD failures.
+- **Fixed Model Rule (`model: haiku`):** This role always runs on **`haiku`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/link.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions
 - **PROHIBITED to violate hexagonal architecture:** No cloud or infrastructure requirement may necessitate changing domain or use-case signatures and logic.

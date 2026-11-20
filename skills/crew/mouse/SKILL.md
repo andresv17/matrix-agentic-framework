@@ -48,7 +48,7 @@ Mouse operates in **Dual-Mode** to ensure zero external dependency while remaini
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-mouse.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-mouse.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-mouse.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate in **Tier 1 (`haiku`) by default** to run scripts, formatting checks, and structural coherence validations. Escalate to **Tier 2 (`/model sonnet`)** only when auditing complex traceability matrices or validating extraordinarily large specifications.
+- **Fixed Model Rule (`model: haiku`):** This role always runs on **`haiku`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/mouse.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions (Antibodies Against Bureaucracy and Overlap)
 - **PROHIBITED to judge or question business logic, domain rules, or product functional desirability:** Mouse strictly audits formal structure, syntax, templates, and traceability of SDD, never semantic content or product design (that belongs to `/architect`, `/lock`, and **Neo**).

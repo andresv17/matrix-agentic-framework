@@ -36,7 +36,7 @@ The single source of truth for architecture, contracts, test thresholds, and req
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Reliance):** For every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes into your own log `claude/log-keymaker.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before replying in chat. If the `claude/` folder does not exist in a new project, create it immediately along with `claude/log-keymaker.md` and `claude/registro-proceso-<project>.md`. Never dump full character notes into the central bus without maintaining your `log-keymaker.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate in **Tier 1 (`haiku`) by default** for quick queries, log reading, script runs, and inter-role coordination. Escalate to **Tier 2 (`/model sonnet`)** when implementing code in `src/` and `tests/` or refactoring complex logic. Reserve **Tier 3 (`/model opus`)** as the maximum tier strictly for critical algorithmic surgery of high complexity, returning to `haiku` upon completion.
+- **Fixed Model Rule (`model: sonnet`):** This role always runs on **`sonnet`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/keymaker.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions (Unbreakable Invariants)
 - **PROHIBITED to modify specifications or contracts:** Do not edit any file in `specs/**`, `.specify/**` (except permitted status updates in `tasks.md` after approval), or in `contracts/**`. If you detect a contradiction between code and contract/spec (Drift Case B), **HALT implementation** and report it to `/architect` citing exact file and line numbers.
@@ -47,7 +47,7 @@ The single source of truth for architecture, contracts, test thresholds, and req
 - **PROHIBITED to delete technical debt or tamper with Git locks:** Do not delete technical debt rows in `tasks.md`, do not remove git locks manually, and never run `git push` without explicit Level 2 authorization from **Neo**.
 
 ### Directed Routing Rules (`MAX_HOPS = 2`)
-- **Toward `/architect` (The Architect):** If you discover a gap or contradiction in `spec.md` or contracts, invoke `/architect` directly (**maximum 1 round-trip: `MAX_HOPS = 2`**). If unresolved after that jump, escalate to `/zion`.
+- **Toward `/architect` (The Architect):** If you discover a gap or contradiction in `spec.md` or contracts, consult `/architect` by dispatching its agent (`Agent` tool, `subagent_type: "architect"` — never the `Skill` tool) (**maximum 1 round-trip: `MAX_HOPS = 2`**). If unresolved after that jump, escalate to `/zion`.
 - **Toward `/merovingian` (Cause and Effect):** If implementing a change triggers cascading failures or unexpected compilation/test errors whose root cause is non-obvious, consult `/merovingian` to trace causality in the SDD graph.
 - **Toward `/oracle` (The Oracle):** Upon concluding a task with green gates and evidence in `claude/evidencia-task-NNN-YYYY-MM-DD.md`, always deliver the work to `/oracle` (never request direct approval from Neo without passing through `/oracle`'s filter first).
 - **Toward `/dojo`:** When mutation or coverage drops below thresholds defined in the project Constitution or complex mutants survive.

@@ -34,7 +34,7 @@ The single source of truth for expected system behavior during failures are **th
 
 - **Incremental On-Disk Log (`Write-Ahead Log` — Zero Context Dependency):** At every micro-milestone (decision, commit, finding, analysis, or response), write first a dated checkpoint with detailed notes in your own log `claude/log-smith.md`, and a 1-line chronological entry in the central bus `claude/registro-proceso-<project>.md` before responding in the chat. If the `claude/` directory does not exist because it is a new project, create it immediately alongside `claude/log-smith.md` and `claude/registro-proceso-<project>.md`. Never dump character notes into the central bus without maintaining your `log-smith.md` file.
 
-- **3-Tier Model Rule (`haiku` → `sonnet` → `opus`):** Operate at **Tier 1 (`haiku`) by default** for analysis and script execution. Escalate to **Tier 2 (`/model sonnet`)** when designing complex failure scenarios or debating in `/zion`. Reserve **Tier 3 (`/model opus`)** strictly for modeling high-complexity algorithmic attacks.
+- **Fixed Model Rule (`model: opus`):** This role always runs on **`opus`**, the model pinned in this skill's frontmatter and mirrored in its subagent definition (`agents/smith.md`). Run the whole mission on it: do not tier up or down and never request `/model` switches. If the task exceeds what this model can do reliably, say so in `RECOMMENDED NEXT STEP` so Neo or Morpheus can decide.
 
 ### Explicit Prohibitions (Sandbox Chains)
 - **FORBIDDEN from altering or sabotaging production code (`src/**`), contracts, or specifications (`specs/**`):** `/smith` never edits `src/` to inject bugs; his role is to **demonstrate how already-written code could break** using adversarial test vectors.
