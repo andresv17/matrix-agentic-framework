@@ -60,7 +60,7 @@ En el desarrollo asistido por IA habitual, un único asistente de chat intenta a
 ### ❌ Cuándo NO usarlo:
 - Tareas de 5 minutos, scripts desechables o consultas de texto aisladas.
 - Proyectos sin código ni desarrollo de software (ej. setup básico de cuentas, tareas administrativas o análisis puramente documental).
-- **Cuando los centinelas ya rompieron los muros de Sión y están a punto de acabar con todos** *(emergencias en producción que necesitan un hotfix inmediato, no ceremonia SDD completa).*
+- Cuando los centinelas ya rompieron los muros de Sión y están a punto de acabar con todos.
 
 ---
 
