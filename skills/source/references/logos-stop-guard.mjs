@@ -44,6 +44,22 @@ if (!['IN_PROGRESS', 'EN_PROGRESO'].includes(estado)) {
 const turno = String(logos.turno || '').toLowerCase();
 const lastMsg = String(input.last_assistant_message || '');
 
+// Only enforce this guard in sessions where Morpheus is the active role.
+const fromMatch = lastMsg.match(/FROM:\s*([^\n]+)/i);
+if (fromMatch && !/morpheus/i.test(fromMatch[1])) {
+  process.exit(0);
+}
+if (input.transcript_path && existsSync(input.transcript_path)) {
+  try {
+    const transcript = readFileSync(input.transcript_path, 'utf8');
+    if (!/skills[\\/]morpheus/i.test(transcript)) {
+      process.exit(0);
+    }
+  } catch {
+    // If transcript cannot be read, fall back to FROM check above
+  }
+}
+
 const block = (reason) => {
   process.stdout.write(JSON.stringify({ decision: 'block', reason }));
   process.exit(0);
