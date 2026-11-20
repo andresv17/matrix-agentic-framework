@@ -60,6 +60,7 @@ In traditional AI-assisted coding, a single chat assistant tries to do everythin
 ### ❌ NOT Designed For:
 - 5-minute quick fixes, throwaway scripts, or simple conversational queries.
 - Projects without software code (e.g., bare cloud account setups without application logic).
+- **When the Sentinels have already breached the walls of Zion and are on the verge of wiping everyone out** *(production emergencies that need an immediate 1-line hotfix, not full SDD ceremony).*
 
 ---
 
@@ -126,7 +127,7 @@ The interactive wizard will guide you through:
 3. **Linking method:** Symlinks (recommended for seamless `git pull` updates) or physical copy.
 4. **Project initialization:** Optionally initialize the memory bus in an existing project.
 
-> *Non-interactive CLI flags for CI/CD or automation: `./install.sh --crew`, `./install.sh --source`, `./install.sh --all`, or `--crew-dir <path>` / `--source-dir <path>`.*
+> *Non-interactive CLI flags for CI/CD or automation: `./install.sh --crew`, `./install.sh --source`, `./install.sh --all`, or `--crew-dir <path>` / `--source-dir <path>`. With the default Claude Code target, `--crew` also installs the 17 subagent wrappers into `~/.claude/agents/` (see below); use `--agents-dir <path>` to change that or `--no-agents` to skip it. **Restart Claude Code after installing** so it loads the new agents.*
 
 ### Initializing a Project with Matrix Memory
 In the root directory of any software repository:
@@ -142,6 +143,25 @@ This provisions:
 - Logos `Stop` guard hook (prevents Morpheus from ending turns without `logos.py write` / `wait --for morpheus`): `.claude/hooks/logos-stop-guard.mjs` (reference in `skills/crew/morpheus/references/logos-stop-guard.mjs` and `skills/source/references/logos-stop-guard.mjs`)
 - Session hook configuration: `.claude/settings.json`
 - M2M communication channel: `scripts/logos.py`
+
+---
+
+## 🧬 Skills vs. Agents: Pinning Each Role's Model
+
+Every role exists in **two complementary forms**:
+
+| | **Skill** (`skills/crew/<role>/SKILL.md`) | **Agent** (`agents/<role>.md`) |
+|---|---|---|
+| Who uses it | **You (Neo)**, typing `/keymaker` | **The crew** (Morpheus and other roles) via the `Agent` tool |
+| Where it runs | In your chat, live — you watch the work | Isolated subagent — only the final report returns |
+| Model | `model:` in the skill's frontmatter | The **same** `model:`, pinned in the agent definition |
+
+**Why both?** The `model:` of a `SKILL.md` is only honored when the skill is invoked *as a skill*. A generic subagent (`subagent_type: "general-purpose"`) that merely reads the SKILL.md ignores it and inherits the caller's model (Haiku, for Morpheus). The thin agent wrappers fix that: dispatching `Agent(subagent_type: "keymaker")` always runs Keymaker on Sonnet, and `"smith"` on Opus.
+
+- **Single source of truth:** the `model:` lives only in the skill. `agents/*.md` are **generated** — after changing a model, run `node scripts/gen-agents.mjs` (use `--check` in CI to verify they are in sync).
+- **17 agents:** every crew role except `/morpheus` (the orchestrator), `/hardline` and `/neb` (direct interaction with Neo). `/source` lives outside the crew.
+- **Safety net:** `--init-project` sets `CLAUDE_CODE_SUBAGENT_MODEL=sonnet` in the project's `.claude/settings.json`, so a dispatch that forgets the model never lands on Haiku.
+- **Other engines** (Cursor, Antigravity): no agents are installed; Morpheus falls back to generic subagents passing `model:` explicitly. Full protocol: [`rules/subagent-dispatch.md`](rules/subagent-dispatch.md).
 
 ---
 

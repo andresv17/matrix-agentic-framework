@@ -1,28 +1,22 @@
 #!/usr/bin/env python3
 """
-scripts/logos.py — Canal de Comunicación Logos (The Source / Auditor Soberano <-> Morpheus / Tech Lead)
+scripts/logos.py — Logos Inter-Agent Communication Channel (The Source <-> Morpheus)
+Provides atomic read/write and passive polling on logos.json so both agents can
+collaborate autonomously across separate runtimes without race conditions.
 
-Maneja el protocolo de intercambio de directivas mediante el archivo compartido (logos.json):
-- Escritura atómica (sin archivos truncados ni condiciones de carrera).
-- Espera pasiva con timeout seguro.
-- Preservación de mensajes estructurados (DE: / PARA: / ESTADO:).
-- Historial acumulativo y límite de iteraciones (circuit-breaker).
+Features:
+- Atomic writes (no truncated files or race conditions).
+- Structured message preservation (FROM: / TO: / STATUS:).
+- Cumulative history and iteration circuit-breaker.
+- Virtual 'directiva' field that bypasses intermediate pause/wait notices.
 """
 
+import argparse
+import json
 import os
 import sys
-import json
 import time
-import argparse
 from datetime import datetime
-
-# Asegurar salida inmediata sin buffering para entornos no interactivos (CLI/CI)
-try:
-    sys.stdout.reconfigure(line_buffering=True)
-    sys.stderr.reconfigure(line_buffering=True)
-except Exception:
-    pass
-
 
 DEFAULT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "logos.json"))
 
@@ -31,13 +25,22 @@ DEFAULT_INITIAL_DATA = {
     "turno": "morpheus",
     "iteracion_actual": 0,
     "max_iteraciones": 10,
-    "estado": "EN_PROGRESO",
+    "estado": "IN_PROGRESS",
     "requiere_firma_neo": False,
-    "objetivo": "Sesión de trabajo autónomo",
+    "objetivo": "Autonomous work session",
     "ultimo_emisor": "neo",
-    "mensaje": "DE: Neo (Autoridad Soberana Nivel 2)\nPARA: Morpheus (Capitán de la Tripulación & Tech Lead)\nESTADO: En progreso\nDETALLE:\n- Despierta sesión en el proyecto activo y reporta el estado actual de la cola de tareas.\nSIGUIENTE PASO RECOMENDADO: Morpheus reporta el estado y cede el turno en la Logos a Neo.",
-    "historial": []
+    "mensaje": "FROM: Neo (Sovereign Level 2 Authority)\nTO: Morpheus (Captain of the Crew & Tech Lead)\nSTATUS: In Progress\nDETAILS:\n- Wake up session in the active project and report current task queue status.\nRECOMMENDED NEXT STEP: Morpheus reports status and yields turn on Logos to Neo.",
+    "historial": [],
 }
+
+STATE_ALIASES = {
+    "EN_PROGRESO": "IN_PROGRESS",
+    "COMPLETADO": "COMPLETED",
+    "PAUSA_NEO": "PAUSE_NEO",
+    "BLOQUEADO": "BLOCKED",
+    "APAGADO": "OFF",
+}
+
 
 def atomic_write(path, data):
     tmp_path = f"{path}.tmp.{os.getpid()}"
@@ -47,10 +50,12 @@ def atomic_write(path, data):
         os.fsync(f.fileno())
     os.replace(tmp_path, path)
 
+
 def ensure_logos_exists(path):
     if not os.path.exists(path):
         atomic_write(path, DEFAULT_INITIAL_DATA)
-        print(f"[logos] Auto-inicializado logos.json en {path}")
+        print(f"[logos] Auto-initialized logos.json at {path}")
+
 
 def load_logos(path):
     ensure_logos_exists(path)
@@ -60,38 +65,48 @@ def load_logos(path):
     except json.JSONDecodeError:
         return None
 
+
 def cmd_init(args):
     data = {
         "version": "1.0",
         "turno": args.turno,
         "iteracion_actual": 0,
         "max_iteraciones": args.max_iter,
-        "estado": "EN_PROGRESO",
+        "estado": "IN_PROGRESS",
         "requiere_firma_neo": False,
         "objetivo": args.objetivo,
         "ultimo_emisor": args.emisor,
         "mensaje": args.mensaje,
-        "historial": []
+        "historial": [],
     }
     atomic_write(args.path, data)
-    print(f"[logos] Canal inicializado exitosamente en {args.path}")
-    print(f"[logos] Turno inicial: {args.turno} | Max iteraciones: {args.max_iter}")
+    print(f"[logos] Channel initialized at {args.path}")
+    print(f"[logos] Initial turn: {args.turno} | Max iterations: {args.max_iter}")
+
+
+def _is_directive(msg):
+    return (
+        not msg.startswith("PAUSA_")
+        and not msg.startswith("PAUSE_")
+        and not msg.startswith("╔")
+        and ("FROM:" in msg or "DE:" in msg)
+    )
+
 
 def cmd_read(args):
     data = load_logos(args.path)
     if not data:
-        print(f"[logos] Error: No existe {args.path} o está corrupto.", file=sys.stderr)
+        print(f"[logos] Error: {args.path} does not exist or is corrupted.", file=sys.stderr)
         sys.exit(1)
     if args.field:
-        # Campo virtual 'directiva': retorna la última instrucción de trabajo real, saltándose pausas intermedias
         if args.field == "directiva":
             msg = data.get("mensaje", "")
-            if not msg.startswith("PAUSA_") and not msg.startswith("╔") and "DE:" in msg:
+            if _is_directive(msg):
                 print(msg)
                 return
             for h in reversed(data.get("historial", [])):
                 m = h.get("mensaje", "")
-                if not m.startswith("PAUSA_") and not m.startswith("╔") and "DE:" in m:
+                if _is_directive(m):
                     print(m)
                     return
             print(msg)
@@ -105,127 +120,131 @@ def cmd_read(args):
     else:
         print(json.dumps(data, indent=2, ensure_ascii=False))
 
+
 def cmd_write(args):
     data = load_logos(args.path)
     if not data:
-        print(f"[logos] Error: Archivo {args.path} no existe. Usa 'init' primero.", file=sys.stderr)
+        print(f"[logos] Error: {args.path} does not exist. Run 'init' first.", file=sys.stderr)
         sys.exit(1)
 
-    # Si hay mensaje previo, archivarlo en historial (preservando pausas para auditoría, pero sin duplicar instrucciones idénticas)
-    mensaje_previo = data.get("mensaje", "")
-    if mensaje_previo:
+    previous_msg = data.get("mensaje", "")
+    if previous_msg:
         historial = data.get("historial", [])
-        ultimo_historial = historial[-1].get("mensaje", "") if historial else ""
-        es_duplicado = (mensaje_previo.strip() == ultimo_historial.strip()) or (args.mensaje and args.mensaje.strip() == mensaje_previo.strip())
-
-        if not es_duplicado:
-            entrada_historial = {
+        last_hist = historial[-1].get("mensaje", "") if historial else ""
+        is_duplicate = (previous_msg.strip() == last_hist.strip()) or (
+            args.mensaje and args.mensaje.strip() == previous_msg.strip()
+        )
+        if not is_duplicate:
+            historial.append({
                 "timestamp": datetime.now().isoformat(),
                 "iteracion": data.get("iteracion_actual", 0),
-                "emisor": data.get("ultimo_emisor", "desconocido"),
-                "mensaje": mensaje_previo
-            }
-            historial.append(entrada_historial)
+                "emisor": data.get("ultimo_emisor", "unknown"),
+                "mensaje": previous_msg,
+            })
             data["historial"] = historial
 
-    # Incrementar iteración si se cede el turno
     if args.turno and args.turno != data.get("turno"):
         data["iteracion_actual"] = data.get("iteracion_actual", 0) + 1
         data["turno"] = args.turno
-
     if args.emisor:
         data["ultimo_emisor"] = args.emisor
-    if args.mensaje:
+    if args.mensaje is not None:
         data["mensaje"] = args.mensaje
     if args.estado:
-        data["estado"] = args.estado
+        data["estado"] = STATE_ALIASES.get(args.estado, args.estado)
     if args.requiere_firma is not None:
         data["requiere_firma_neo"] = args.requiere_firma
 
-    # Comprobación de circuit breaker
     if data.get("iteracion_actual", 0) >= data.get("max_iteraciones", 10):
-        if data["estado"] == "EN_PROGRESO":
-            data["estado"] = "PAUSA_CIRCUIT_BREAKER"
-            print(f"[logos] Límite de {data['max_iteraciones']} iteraciones alcanzado. Pausando canal.")
+        if data["estado"] in ("IN_PROGRESS", "EN_PROGRESO"):
+            data["estado"] = "PAUSE_CIRCUIT_BREAKER"
+            print(f"[logos] Max iterations ({data['max_iteraciones']}) reached. Pausing channel.")
 
     atomic_write(args.path, data)
-    print(f"[logos] Turno actualizado a: {data['turno']} (Iteración {data['iteracion_actual']}/{data['max_iteraciones']})")
-    print(f"[logos] Estado: {data['estado']}")
+    print(f"[logos] Turn updated to: {data['turno']} (Iteration {data['iteracion_actual']}/{data['max_iteraciones']})")
+    print(f"[logos] Status: {data['estado']}")
+
 
 def cmd_wait(args):
     start = time.time()
-    esperado = args.esperar_a.lower()
+    expected = args.esperar_a.lower()
     timeout = args.timeout
-    intervalo = args.intervalo
+    interval = args.intervalo
 
-    print(f"[logos] Esperando turno para '{esperado}' (timeout: {timeout}s)...")
+    print(f"[logos] Waiting turn for '{expected}' (timeout: {timeout}s)...")
     while True:
         data = load_logos(args.path)
         if data:
-            turno_actual = str(data.get("turno", "")).lower()
+            current_turn = str(data.get("turno", "")).lower()
             estado = data.get("estado", "")
-            iter_actual = data.get("iteracion_actual", 0)
+            iter_curr = data.get("iteracion_actual", 0)
             max_iter = data.get("max_iteraciones", 10)
 
-            # Condición de activación: es nuestro turno (soporte bando Morpheus y bando Source)
-            bando_morpheus = ["claude", "morpheus"]
-            bando_source = ["source", "gemini", "neo"]
-            es_mismo_bando_morpheus = esperado in bando_morpheus and turno_actual in bando_morpheus
-            es_mismo_bando_source = esperado in bando_source and turno_actual in bando_source
-            if turno_actual == esperado or es_mismo_bando_morpheus or es_mismo_bando_source:
-                print(f"[logos] ¡Turno concedido a '{esperado}'! (Iteración {iter_actual}/{max_iter})")
+            morpheus_side = ["claude", "morpheus"]
+            source_side = ["source", "gemini", "neo"]
+            same_morpheus = expected in morpheus_side and current_turn in morpheus_side
+            same_source = expected in source_side and current_turn in source_side
+            if current_turn == expected or same_morpheus or same_source:
+                print(f"[logos] Turn granted to '{expected}'! (Iteration {iter_curr}/{max_iter})")
                 sys.exit(0)
 
-            # Condición de detención: el canal se pausó, completó o apagó
-            if estado in ["COMPLETADO", "PAUSA_NEO", "PAUSA_CIRCUIT_BREAKER", "APAGADO"]:
-                print(f"[LOGOS DETENIDO] El canal logos.json se detuvo con estado: '{estado}'.")
+            if estado in [
+                "COMPLETED", "PAUSE_NEO", "PAUSE_CIRCUIT_BREAKER", "OFF",
+                "COMPLETADO", "PAUSA_NEO", "PAUSA_CIRCUIT_BREAKER", "APAGADO",
+            ]:
+                print(f"[LOGOS STOPPED] logos.json channel stopped with status: '{estado}'.")
                 sys.exit(2)
 
-            # Condición de detención: límite de iteraciones
-            if iter_actual >= max_iter:
-                print(f"[LOGOS DETENIDO] Máximo de iteraciones alcanzado ({iter_actual}/{max_iter}). Deteniendo canal.")
+            if iter_curr >= max_iter:
+                print(f"[LOGOS STOPPED] Max iterations reached ({iter_curr}/{max_iter}). Stopping channel.")
                 sys.exit(2)
 
         elapsed = time.time() - start
         if elapsed >= timeout:
-            print(f"[TIMEOUT] Se agotó el tiempo de espera ({timeout}s) en el canal logos.json esperando a '{esperado}'. El bucle autónomo se ha detenido.", file=sys.stderr)
+            print(
+                f"[TIMEOUT] Wait timeout ({timeout}s) expired on logos.json waiting for '{expected}'. The autonomous loop has stopped.",
+                file=sys.stderr,
+            )
             sys.exit(1)
 
-        time.sleep(intervalo)
+        time.sleep(interval)
+
 
 def main():
-    parser = argparse.ArgumentParser(description="Canal Logos de Comunicación Inter-Agente")
-    parser.add_argument("--path", default=DEFAULT_PATH, help=f"Ruta al archivo logos.json (default: {DEFAULT_PATH})")
+    parser = argparse.ArgumentParser(description="Logos Inter-Agent Communication Channel")
+    parser.add_argument("--path", default=DEFAULT_PATH, help=f"Path to logos.json (default: {DEFAULT_PATH})")
     subparsers = parser.add_subparsers(dest="subcmd", required=True)
 
-    # Subcomando: init
-    p_init = subparsers.add_parser("init", help="Inicializa un nuevo canal de comunicación")
-    p_init.add_argument("--turno", default="morpheus", choices=["claude", "morpheus", "gemini", "source", "neo"], help="Quién tiene el primer turno")
-    p_init.add_argument("--max-iter", type=int, default=10, help="Número máximo de iteraciones permitidas")
-    p_init.add_argument("--objetivo", required=True, help="Objetivo de la sesión")
-    p_init.add_argument("--emisor", default="neo", help="Nombre del emisor inicial")
-    p_init.add_argument("--mensaje", default="", help="Mensaje inicial")
+    p_init = subparsers.add_parser("init", help="Initialize a new communication channel")
+    p_init.add_argument("--turno", default="morpheus", choices=["claude", "morpheus", "gemini", "source", "neo"], help="Who holds the first turn")
+    p_init.add_argument("--max-iter", type=int, default=10, help="Maximum allowed iterations")
+    p_init.add_argument("--objetivo", required=True, help="Session objective")
+    p_init.add_argument("--emisor", default="neo", help="Initial sender name")
+    p_init.add_argument("--mensaje", default="", help="Initial message")
 
-    # Subcomando: read
-    p_read = subparsers.add_parser("read", help="Lee el estado actual del canal")
-    p_read.add_argument("--field", help="Campo específico a extraer (turno, mensaje, estado, directiva, etc.)")
+    p_read = subparsers.add_parser("read", help="Read current channel state")
+    p_read.add_argument("--field", help="Specific field to extract (turno, mensaje, estado, directiva, etc.)")
 
-    # Subcomando: write
-    p_write = subparsers.add_parser("write", help="Actualiza el estado del canal")
-    p_write.add_argument("--turno", choices=["claude", "morpheus", "gemini", "source", "neo"], help="Nuevo turno")
-    p_write.add_argument("--emisor", help="Nombre del personaje/agente que escribe")
-    p_write.add_argument("--mensaje", help="Cuerpo del mensaje")
-    p_write.add_argument("--estado", choices=["EN_PROGRESO", "COMPLETADO", "PAUSA_NEO", "BLOQUEADO", "APAGADO"], help="Estado del ciclo")
-    p_write.add_argument("--requiere-firma", action=argparse.BooleanOptionalAction, default=None, help="Indica si requiere firma de Neo")
+    p_write = subparsers.add_parser("write", help="Update channel state")
+    p_write.add_argument("--turno", choices=["claude", "morpheus", "gemini", "source", "neo"], help="Next turn holder")
+    p_write.add_argument("--emisor", help="Sender character/agent name")
+    p_write.add_argument("--mensaje", help="Message body")
+    p_write.add_argument(
+        "--estado",
+        choices=[
+            "IN_PROGRESS", "COMPLETED", "PAUSE_NEO", "BLOCKED", "OFF",
+            "EN_PROGRESO", "COMPLETADO", "PAUSA_NEO", "BLOQUEADO", "APAGADO",
+        ],
+        help="Cycle status",
+    )
+    p_write.add_argument("--requiere-firma", action=argparse.BooleanOptionalAction, default=None, help="Whether Neo signature is required")
 
-    # Subcomando: wait
-    p_wait = subparsers.add_parser("wait", help="Espera de forma pasiva a que sea el turno especificado")
-    p_wait.add_argument("--for", dest="esperar_a", required=True, choices=["claude", "morpheus", "gemini", "source", "neo"], help="Turno que estamos esperando")
-    p_wait.add_argument("--timeout", type=int, default=1800, help="Segundos máximos de espera (default: 1800s)")
-    p_wait.add_argument("--intervalo", type=int, default=2, help="Intervalo de consulta en segundos (default: 2s)")
+    p_wait = subparsers.add_parser("wait", help="Passively wait for the specified turn")
+    p_wait.add_argument("--for", dest="esperar_a", required=True, choices=["claude", "morpheus", "gemini", "source", "neo"], help="Turn to wait for")
+    p_wait.add_argument("--timeout", type=int, default=1800, help="Max wait seconds (default: 1800s)")
+    p_wait.add_argument("--intervalo", type=int, default=2, help="Polling interval in seconds (default: 2s)")
 
     args = parser.parse_args()
-
     if args.subcmd == "init":
         cmd_init(args)
     elif args.subcmd == "read":
@@ -234,6 +253,7 @@ def main():
         cmd_write(args)
     elif args.subcmd == "wait":
         cmd_wait(args)
+
 
 if __name__ == "__main__":
     main()

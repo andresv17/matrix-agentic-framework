@@ -7,7 +7,7 @@
 ## 1. Art Director Mindset: Grounding in the Subject Matter
 
 1. **Purpose and Domain Over Generic Defaults:** Every great piece of software solves a concrete human problem within a distinct domain. The materials, vernacular, and audience of the subject matter are where true identity comes from:
-   - A veterinary clinic dashboard, a high-frequency trading terminal, a developer tool, and an educational app have fundamentally different visual languages.
+   - A healthcare clinic dashboard, a high-frequency trading terminal, a developer tool, and an educational app have fundamentally different visual languages.
    - Never apply generic SaaS templates across different domains. Identify the audience, the primary job to be done, and the subject's vernacular before placing a single element.
 2. **The 2-Second Mobile Rule:** The user might be sitting calmly at a 1280px desktop or rushing down the street holding a 320px mobile device with one hand. Every screen must answer in under 2 seconds:
    - *What context am I in?*
@@ -25,7 +25,7 @@
 LLMs have distinct aesthetic defaults that immediately scream "AI-generated template." If you detect any of these traits in your proposals, sketches, HTML prototypes, or production CSS, tear them down:
 
 1. **The LLM Color Signature:**
-   - **Forbidden:** The warm cream background (`#F4F1EA`) paired with terracotta/warm-clay accent (`#D97757` — the signature Claude-interaction tell).
+   - **Forbidden:** The warm cream background (`#F4F1EA`) paired with terracotta/warm-clay accent (`#D97757` — a generic AI-template tell).
    - **Forbidden:** Near-black (`#0B0B0B` / `#111111`) paired with a single neon acid-green or vermilion accent unless explicitly specified by the brand.
    - **Forbidden:** Generic purple-to-cyan gradient washes, cosmetic glassmorphism, and neon glow blobs.
 2. **The SaaS-Card Kit Cliché:**

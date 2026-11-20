@@ -7,6 +7,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CREW_SRC="$SCRIPT_DIR/skills/crew"
 SOURCE_SRC="$SCRIPT_DIR/skills/source"
+AGENTS_SRC="$SCRIPT_DIR/agents"
 
 # Terminal colors
 GREEN='\033[0;32m'
@@ -29,11 +30,13 @@ print_help() {
   echo "Running ./install.sh without arguments starts the Interactive Setup Wizard."
   echo ""
   echo "CLI Options (Non-Interactive Mode):"
-  echo "  --crew             Install the 20 execution roles in ~/.claude/skills/"
+  echo "  --crew             Install the 20 execution roles in ~/.claude/skills/ (+ 17 subagent wrappers in ~/.claude/agents/)"
   echo "  --source           Install The Source in ~/.gemini/config/skills/source/"
   echo "  --all              Install both Crew and Source in default paths"
   echo "  --copy             Physically copy files instead of creating symlinks"
   echo "  --crew-dir DIR     Specify custom installation directory for the Crew"
+  echo "  --agents-dir DIR   Specify custom directory for the crew subagent wrappers (default: ~/.claude/agents)"
+  echo "  --no-agents        Skip installing the crew subagent wrappers"
   echo "  --source-dir DIR   Specify custom installation directory for The Source"
   echo "  --init-project DIR Initialize a project with WAL memory bus, templates & hooks"
   echo "  --help, -h         Show this help message"
@@ -43,6 +46,8 @@ MODE_COPY=false
 TARGET=""
 INIT_DIR=""
 CUSTOM_CREW_DIR=""
+CUSTOM_AGENTS_DIR=""
+SKIP_AGENTS=false
 CUSTOM_SOURCE_DIR=""
 
 link_or_copy() {
@@ -76,6 +81,23 @@ install_crew_to() {
       link_or_copy "$skill_dir" "$target_dir/$skill_name"
     fi
   done
+}
+
+install_agents_to() {
+  local target_dir="$1"
+  if [ ! -d "$AGENTS_SRC" ]; then
+    echo -e "  ${YELLOW}! agents/ not found in the repository (run: node scripts/gen-agents.mjs)${NC}"
+    return
+  fi
+  echo -e "\n${BLUE}▶ Installing crew subagent wrappers (model-pinned dispatch targets)...${NC}"
+  echo -e "  Destination: ${target_dir}"
+  mkdir -p "$target_dir"
+
+  for agent_file in "$AGENTS_SRC"/*.md; do
+    [ -f "$agent_file" ] || continue
+    link_or_copy "$agent_file" "$target_dir/$(basename "$agent_file")"
+  done
+  echo -e "  ${CYAN}ℹ Restart Claude Code so it loads the new agents (file-based agents are read at session start).${NC}"
 }
 
 install_source_to() {
@@ -141,6 +163,10 @@ init_project() {
   cp "$SCRIPT_DIR/templates/session-context.mjs" "$project_path/.claude/hooks/session-context.mjs"
   chmod +x "$project_path/.claude/hooks/session-context.mjs"
   echo -e "  ${GREEN}✓ Live memory hook installed:${NC} .claude/hooks/session-context.mjs"
+
+  cp "$SCRIPT_DIR/skills/crew/morpheus/references/logos-stop-guard.mjs" "$project_path/.claude/hooks/logos-stop-guard.mjs"
+  chmod +x "$project_path/.claude/hooks/logos-stop-guard.mjs"
+  echo -e "  ${GREEN}✓ Logos Stop guard hook installed:${NC} .claude/hooks/logos-stop-guard.mjs"
 
   if [ ! -f "$project_path/.claude/settings.json" ]; then
     cp "$SCRIPT_DIR/templates/settings.hooks.json" "$project_path/.claude/settings.json"
@@ -236,6 +262,12 @@ run_interactive_wizard() {
   # Execute installations
   if [ -n "$selected_crew_dir" ]; then
     install_crew_to "$selected_crew_dir"
+    if [ "$crew_choice" = "1" ]; then
+      install_agents_to "${HOME}/.claude/agents"
+    else
+      echo -e "  ${YELLOW}! Subagent wrappers (agents/) are Claude Code-specific; skipped for this target.${NC}"
+      echo -e "    Morpheus falls back to generic subagents with an explicit model (see rules/subagent-dispatch.md)."
+    fi
   fi
 
   if [ -n "$selected_source_dir" ]; then
@@ -282,6 +314,14 @@ while [[ $# -gt 0 ]]; do
       CUSTOM_SOURCE_DIR="$2"
       shift 2
       ;;
+    --agents-dir)
+      CUSTOM_AGENTS_DIR="$2"
+      shift 2
+      ;;
+    --no-agents)
+      SKIP_AGENTS=true
+      shift
+      ;;
     --copy)
       MODE_COPY=true
       shift
@@ -311,6 +351,16 @@ print_banner
 if [ "$TARGET" = "crew" ] || [ "$TARGET" = "all" ]; then
   target_dir="${CUSTOM_CREW_DIR:-$HOME/.claude/skills}"
   install_crew_to "$target_dir"
+  # Subagent wrappers: default to ~/.claude/agents when the crew goes to the default Claude Code path
+  if [ "$SKIP_AGENTS" = false ]; then
+    if [ -n "$CUSTOM_AGENTS_DIR" ]; then
+      install_agents_to "$CUSTOM_AGENTS_DIR"
+    elif [ -z "$CUSTOM_CREW_DIR" ]; then
+      install_agents_to "$HOME/.claude/agents"
+    else
+      echo -e "  ${YELLOW}! Custom --crew-dir given: subagent wrappers skipped (pass --agents-dir <path> to install them).${NC}"
+    fi
+  fi
 fi
 
 if [ "$TARGET" = "source" ] || [ "$TARGET" = "all" ]; then

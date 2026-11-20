@@ -60,6 +60,7 @@ En el desarrollo asistido por IA habitual, un único asistente de chat intenta a
 ### ❌ Cuándo NO usarlo:
 - Tareas de 5 minutos, scripts desechables o consultas de texto aisladas.
 - Proyectos sin código ni desarrollo de software (ej. setup básico de cuentas, tareas administrativas o análisis puramente documental).
+- **Cuando los centinelas ya rompieron los muros de Sión y están a punto de acabar con todos** *(emergencias en producción que necesitan un hotfix inmediato, no ceremonia SDD completa).*
 
 ---
 
@@ -126,7 +127,7 @@ El asistente interactivo te guiará paso a paso:
 3. **¿Cómo enlazar los archivos?** (Enlaces simbólicos automáticos o copia física).
 4. **¿Deseas inicializar un proyecto ahora?** (Opcional).
 
-> *Si prefieres el modo no interactivo (CI/CD o scripts directos), puedes usar flags: `./install.sh --crew`, `./install.sh --source`, `./install.sh --all` o `--crew-dir <ruta>` / `--source-dir <ruta>`.*
+> *Si prefieres el modo no interactivo (CI/CD o scripts directos), puedes usar flags: `./install.sh --crew`, `./install.sh --source`, `./install.sh --all` o `--crew-dir <ruta>` / `--source-dir <ruta>`. Con el destino por defecto de Claude Code, `--crew` instala además los 17 agentes envoltorio en `~/.claude/agents/` (ver más abajo); usa `--agents-dir <ruta>` para cambiarlo o `--no-agents` para omitirlos. **Reinicia Claude Code tras instalar** para que cargue los agentes nuevos.*
 
 ### Inicializar un nuevo proyecto con la memoria de la Matrix
 En la raíz de cualquier proyecto nuevo de software, ejecuta:
@@ -141,6 +142,25 @@ Esto aprovisionará:
 - El hook automático de inyección de contexto: `.claude/hooks/session-context.mjs`.
 - La configuración de hooks de sesión: `.claude/settings.json`.
 - El canal de comunicación M2M: `scripts/logos.py`.
+
+---
+
+## 🧬 Skills vs. Agentes: fijar el modelo de cada rol
+
+Cada rol existe en **dos formas complementarias**:
+
+| | **Skill** (`skills/crew/<rol>/SKILL.md`) | **Agente** (`agents/<rol>.md`) |
+|---|---|---|
+| Quién lo usa | **Tú (Neo)**, escribiendo `/keymaker` | **La tripulación** (Morpheus y otros roles) con la herramienta `Agent` |
+| Dónde corre | En tu chat, en vivo: ves el trabajo | Subagente aislado: solo vuelve el informe final |
+| Modelo | `model:` del frontmatter de la skill | El **mismo** `model:`, fijado en la definición del agente |
+
+**¿Por qué ambos?** El `model:` de un `SKILL.md` solo se respeta cuando la skill se invoca *como skill*. Un subagente genérico (`subagent_type: "general-purpose"`) que solo *lee* el SKILL.md lo ignora y hereda el modelo de quien lo llama (Haiku, en el caso de Morpheus). Los agentes envoltorio lo resuelven: despachar `Agent(subagent_type: "keymaker")` ejecuta siempre a Keymaker en Sonnet, y `"smith"` en Opus.
+
+- **Única fuente de verdad:** el `model:` vive solo en la skill. Los `agents/*.md` se **generan**: tras cambiar un modelo, ejecuta `node scripts/gen-agents.mjs` (con `--check` en CI para verificar que están sincronizados).
+- **17 agentes:** todos los roles de la tripulación salvo `/morpheus` (el orquestador), `/hardline` y `/neb` (interacción directa con Neo). `/source` vive fuera de la tripulación.
+- **Red de seguridad:** `--init-project` fija `CLAUDE_CODE_SUBAGENT_MODEL=sonnet` en el `.claude/settings.json` del proyecto, de modo que un despacho sin modelo nunca caiga en Haiku.
+- **Otros motores** (Cursor, Antigravity): no se instalan agentes; Morpheus recurre a subagentes genéricos pasando `model:` de forma explícita. Protocolo completo: [`rules/subagent-dispatch.md`](rules/subagent-dispatch.md).
 
 ---
 

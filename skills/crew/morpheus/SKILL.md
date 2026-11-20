@@ -107,7 +107,7 @@ When Neo orders: `"apaga la Logos"`, `"apagar la Logos"`, `"turn off the Logos"`
    - Running `python3 scripts/logos.py` again or invoking subcommands `wait`, `write`, or `read`.
    - Reading, querying, writing, or touching `logos.json`.
    - Suggesting Logos commands in subsequent steps or replies.
-   - **Dumping pending tasks, questions, or calls to action upon shutdown:** Forbidden to add task summaries (e.g., T264 decisions or tech debts) or `RECOMMENDED NEXT STEP:` blocks in the shutdown reply.
+   - **Dumping pending tasks, questions, or calls to action upon shutdown:** Forbidden to add task summaries (e.g., open task decisions or tech debts) or `RECOMMENDED NEXT STEP:` blocks in the shutdown reply.
 3. **Immediate Restoration of Manual Mode:**
    - All control reverts immediately to **Neo**: all directives and reports will be managed exclusively when Neo requests them in the terminal.
 4. **Single and Exclusive Output:**
