@@ -159,6 +159,7 @@ Cada rol existe en **dos formas complementarias**:
 
 - **Única fuente de verdad:** el `model:` vive solo en la skill. Los `agents/*.md` se **generan**: tras cambiar un modelo, ejecuta `node scripts/gen-agents.mjs` (con `--check` en CI para verificar que están sincronizados).
 - **17 agentes:** todos los roles de la tripulación salvo `/morpheus` (el orquestador), `/hardline` y `/neb` (interacción directa con Neo). `/source` vive fuera de la tripulación.
+- **Presupuesto de contexto optimizado (`disable-model-invocation: true`):** esas 17 skills respaldadas por agente llevan `disable-model-invocation: true` para no duplicar sus descripciones con `agents/*.md` en la ventana principal — siguen siendo invocables manualmente con `/<rol>`, mientras `morpheus`, `hardline`, `neb` y `source` mantienen `false` para activación en lenguaje natural.
 - **Red de seguridad:** `--init-project` fija `CLAUDE_CODE_SUBAGENT_MODEL=sonnet` en el `.claude/settings.json` del proyecto, de modo que un despacho sin modelo nunca caiga en Haiku.
 - **Otros motores** (Cursor, Antigravity): no se instalan agentes; Morpheus recurre a subagentes genéricos pasando `model:` de forma explícita. Protocolo completo: [`rules/subagent-dispatch.md`](rules/subagent-dispatch.md).
 

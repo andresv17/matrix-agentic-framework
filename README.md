@@ -160,6 +160,7 @@ Every role exists in **two complementary forms**:
 
 - **Single source of truth:** the `model:` lives only in the skill. `agents/*.md` are **generated** — after changing a model, run `node scripts/gen-agents.mjs` (use `--check` in CI to verify they are in sync).
 - **17 agents:** every crew role except `/morpheus` (the orchestrator), `/hardline` and `/neb` (direct interaction with Neo). `/source` lives outside the crew.
+- **Lean context budget (`disable-model-invocation: true`):** those 17 subagent-backed skills set `disable-model-invocation: true` so their descriptions don't duplicate `agents/*.md` in the main context window — they stay manually invocable via `/<role>`, while `morpheus`, `hardline`, `neb`, and `source` keep `false` for natural-language activation.
 - **Safety net:** `--init-project` sets `CLAUDE_CODE_SUBAGENT_MODEL=sonnet` in the project's `.claude/settings.json`, so a dispatch that forgets the model never lands on Haiku.
 - **Other engines** (Cursor, Antigravity): no agents are installed; Morpheus falls back to generic subagents passing `model:` explicitly. Full protocol: [`rules/subagent-dispatch.md`](rules/subagent-dispatch.md).
 
