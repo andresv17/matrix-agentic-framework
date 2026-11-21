@@ -157,7 +157,10 @@ def cmd_write(args):
         else:
             data["estado"] = next_estado
     elif data.get("estado") == "PAUSE_TIMEOUT":
-        print("[logos] Warning: peer wait expired earlier (PAUSE_TIMEOUT). Next wait will stop cleanly.")
+        if str(args.emisor or "").lower() == "neo":
+            data["estado"] = "IN_PROGRESS"
+        else:
+            print("[logos] Warning: peer wait expired earlier (PAUSE_TIMEOUT). Do not launch wait; tell Neo to resume Source.")
     if args.requiere_firma is not None:
         data["requiere_firma_neo"] = args.requiere_firma
 
@@ -169,6 +172,19 @@ def cmd_write(args):
     atomic_write(args.path, data)
     print(f"[logos] Turn updated to: {data['turno']} (Iteration {data['iteracion_actual']}/{data['max_iteraciones']})")
     print(f"[logos] Status: {data['estado']}")
+
+
+def cmd_resume(args):
+    data = load_logos(args.path)
+    if not data:
+        print(f"[logos] Error: {args.path} does not exist. Run 'init' first.", file=sys.stderr)
+        sys.exit(1)
+    prev = data.get("estado", "")
+    data["estado"] = "IN_PROGRESS"
+    if data.get("iteracion_actual", 0) >= data.get("max_iteraciones", 10):
+        data["max_iteraciones"] = data.get("iteracion_actual", 0) + 20
+    atomic_write(args.path, data)
+    print(f"[logos] Resumed channel ({prev} -> IN_PROGRESS). Turn: {data.get('turno')} (Iteration {data.get('iteracion_actual')}/{data.get('max_iteraciones')})")
 
 
 def cmd_wait(args):
@@ -249,6 +265,8 @@ def main():
     )
     p_write.add_argument("--requiere-firma", action=argparse.BooleanOptionalAction, default=None, help="Whether Neo signature is required")
 
+    subparsers.add_parser("resume", help="Resume a paused/stopped channel back to IN_PROGRESS without altering turn or message")
+
     p_wait = subparsers.add_parser("wait", help="Passively wait for the specified turn")
     p_wait.add_argument("--for", dest="esperar_a", required=True, choices=["claude", "morpheus", "gemini", "source", "neo"], help="Turn to wait for")
     p_wait.add_argument("--timeout", type=int, default=1800, help="Max wait seconds (default: 1800s)")
@@ -261,6 +279,8 @@ def main():
         cmd_read(args)
     elif args.subcmd == "write":
         cmd_write(args)
+    elif args.subcmd == "resume":
+        cmd_resume(args)
     elif args.subcmd == "wait":
         cmd_wait(args)
 

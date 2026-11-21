@@ -52,7 +52,7 @@ The single source of truth for the system is **the physical state on disk** (`gi
   *(If `scripts/logos.py` does not exist in the project, Source auto-provisions it from its references. Source also carries `references/logos-stop-guard.mjs` in case the project's `.claude/hooks/` needs the deterministic `Stop` guard for Morpheus).*
 
   **Continuous Execution Loop:**
-  1. **Ensure Initial Turn:** Run `python3 scripts/logos.py wait --for neo --timeout 1800` (with `WaitMsBeforeAsync: 2000` so it backgrounds if Morpheus still holds the turn).
+  1. **Ensure Initial Turn:** If Neo explicitly ordered turning on/resuming Logos and `logos.json` is not `IN_PROGRESS` (e.g., `PAUSE_TIMEOUT` or `OFF`), first run `python3 scripts/logos.py resume`. Then run `python3 scripts/logos.py wait --for neo --timeout 1800` (with `WaitMsBeforeAsync: 2000` so it backgrounds if Morpheus still holds the turn).
      - If it returns immediately with exit `0` (already Neo's turn), proceed straight to **Step 2**.
      - If it enters passive wait in the background, **print the standardized visual banner below in your visible reply and end your turn** (do not call more tools until the background task notifies you):
        ```text

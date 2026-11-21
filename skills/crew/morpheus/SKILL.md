@@ -74,7 +74,7 @@ When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morph
   Any intermediate write before Oracle concludes prematurely yields the turn to Neo and breaks channel synchronization.
 
 **Continuous Execution Loop:**
-1. **Ensure Initial Turn:** Run `python3 scripts/logos.py wait --for morpheus --timeout 1800` with **`run_in_background: true`** (if it is already Morpheus's turn, it finishes immediately; if the last sender was Morpheus, it stays waiting in background — in that case, print the `┌─ Note ─┐` passive wait banner from Step 6 immediately and end your turn so you wake up when Neo replies).
+1. **Ensure Initial Turn:** If Neo explicitly ordered turning on/resuming Logos and `logos.json` is not `IN_PROGRESS` (e.g., `PAUSE_TIMEOUT` or `OFF`), first run `python3 scripts/logos.py resume`. Then run `python3 scripts/logos.py wait --for morpheus --timeout 1800` with **`run_in_background: true`** (if it is already Morpheus's turn, it finishes immediately; if the last sender was Morpheus, it stays waiting in background — in that case, print the `┌─ Note ─┐` passive wait banner from Step 6 immediately and end your turn so you wake up when Neo replies).
 2. **Read Directive:** Read active directive via `python3 scripts/logos.py read --field directiva` (extracts operational technical instruction, automatically bypassing earlier pauses or wait notices).
 3. **Technical Execution with Crew:** Process task with Keymaker, Architect, or appropriate gate per SDD hierarchy. Upon code completion, mandatory invocation of Oracle for forensic disk audit.
 4. **Draft Structured Response:** Draft formal report adhering strictly to canonical block in § 4 (`FROM: Morpheus / TO: Neo / ...`).
@@ -84,7 +84,8 @@ When **Neo** orders in natural language `"Morpheus: enciende la Logos"`, `"Morph
    - Write to channel: `python3 scripts/logos.py write --turno neo --emisor morpheus --mensaje "<your structured message>"`.
 
 6. **Passive Wait & Visual Banner:**
-   - Launch `python3 scripts/logos.py wait --for morpheus --timeout 1800` in a **separate** `Bash` call with **`run_in_background: true`** (never `&` or foreground).
+   - If `logos.py write` warns `PAUSE_TIMEOUT` (peer wait expired), **do NOT launch `wait`**: print your report and tell Neo to run `Source: turn on the Logos` to resume.
+   - Otherwise, launch `python3 scripts/logos.py wait --for morpheus --timeout 1800` in a **separate** `Bash` call with **`run_in_background: true`** (never `&` or foreground).
    - Print the full `§ 4` report (`### Injected Message on Logos for Neo:`) followed immediately by this exact banner before ending your turn:
      ```text
      ┌─ Note ────────────────────────────────────────────────────────────────────────┐
