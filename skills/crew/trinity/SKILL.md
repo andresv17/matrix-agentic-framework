@@ -2,7 +2,7 @@
 name: trinity
 description: "[Security, Cryptography & SAST] Invoke when required to audit or harden offensive/defensive security in the active project, review authentication and access control invariants, design exploit test suites (IDOR, CSRF, XSS, prototype pollution, user enumeration, payload limits) in tests/security/ or configure SAST rules (Semgrep / security linters)."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: sonnet
 ---
 

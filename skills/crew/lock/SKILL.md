@@ -2,7 +2,7 @@
 name: lock
 description: "[Anti-Bias Lens & Devil's Advocate] Invoke individually or within /zion and /dojo to act as Devil's Advocate, expose confirmation bias among agents, uncover catastrophic edge cases (EDGE-*), and challenge 'how will this fail in the real world?'."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: haiku
 ---
 

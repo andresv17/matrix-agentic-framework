@@ -2,7 +2,7 @@
 name: sati
 description: "[Art Director, Product Designer & WCAG Accessibility Lead] Sati, who painted the sunrise in the Matrix. Invoke to bring visual life to the UI: design screens, prototype interactive HTML/CSS artifacts, define typographic hierarchy, design systems, semantic tokens, WCAG 2.1 AA contrast across viewports (320px, 1024px, 1280px), and eliminate all traces of 'AI Slop' from the presentation layer."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: sonnet
 ---
 

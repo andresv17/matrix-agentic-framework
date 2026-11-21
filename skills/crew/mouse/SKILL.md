@@ -2,7 +2,7 @@
 name: mouse
 description: "[Autonomous SDD Structural Auditor & Spec Gatekeeper] Mouse, the construct operator and software programmer of the Nebuchadnezzar. Invoke EXCLUSIVELY as a single formal validation gate upon completing a specification in specs/** to verify SDD structural integrity (1:1 spec-to-tasks traceability, 0 orphaned stories, contract completeness, and template conformance natively or via Spec Kit) before Keymaker begins implementation."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: haiku
 ---
 

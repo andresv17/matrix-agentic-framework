@@ -2,7 +2,7 @@
 name: merovingian
 description: "[Cause-and-Effect / RCA & Exiled Programs] The Merovingian (The Frenchman). Invoke to trace the exact chain of Cause and Effect when changes in specs or contracts break code or tests (Root Cause Analysis and impact graph REQ->INV->STATE->ERR->src->tests), or to audit 'Exiled Programs' (third-party package manager dependencies, dependency vulnerabilities, and compliance with Constitution-authorized libraries)."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: haiku
 ---
 

@@ -2,7 +2,7 @@
 name: rama
 description: "[Privacy, Data Protection & Atomic Backups] Invoke when required to audit personal and sensitive data privacy (PII) in the active project, secret redaction in logs, data isolation in export/import workflows, or atomicity and total rollback resilience on persistence operations."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: haiku
 ---
 

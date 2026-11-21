@@ -2,7 +2,7 @@
 name: sentinels
 description: "[Swarm of 9 Exploit & Fuzzing Vectors] The 9 Sentinels (Squiddies). Invoke when launching an automated offensive hunt across the 9 standard application attack vectors (IDOR, multi-tenant isolation, unauthenticated routes, expired sessions, CSRF, brute force/enumeration, prototype pollution, payload size overflow, and XSS) in security test suites."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: haiku
 ---
 

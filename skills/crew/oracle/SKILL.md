@@ -2,7 +2,7 @@
 name: oracle
 description: "[SDD Auditor & Exclusive Filter to Neo] Invoke to audit and validate directly on disk in the active project what Keymaker or Architect reported (git diff, commit hashes, tests, and contracts) before any sign-off or task advancement. The Oracle is the sole filter that speaks directly to Neo to request Level 2 sovereign authorization."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: sonnet
 ---
 

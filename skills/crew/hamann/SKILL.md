@@ -2,7 +2,7 @@
 name: hamann
 description: "[AI Sensei & Meta-Architect] Invoke when required to optimize the multi-agent AI ecosystem in the active project across Claude Code, Desktop, and CLI environments: configure project rules, settings, session hooks, MCP servers, reduce token/quota consumption, or apply Progressive Disclosure through on-demand knowledge files."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: haiku
 ---
 

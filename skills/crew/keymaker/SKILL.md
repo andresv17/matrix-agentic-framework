@@ -2,7 +2,7 @@
 name: keymaker
 description: "[SDD Developer] Invoke when required to implement production code or tests for a queue task (T###) in src/ or tests/, regenerate artifacts from contracts using official tools, fix defects reported by Oracle, remediate authorized technical debt, or execute test gates on the active feature branch."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: sonnet
 ---
 

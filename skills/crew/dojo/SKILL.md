@@ -2,7 +2,7 @@
 name: dojo
 description: "[Continuous Improvement Dojo, Technical Roasting & Debt Remediation] Morpheus's Training Dojo ('Stop trying to hit me and hit me!'). Invoke to analyze and liquidate accumulated technical debt (TECHDEBT-* / DEUDA-*), conduct rigorous constructive critiques ('technical roasting') of tests, oracles, surviving Stryker mutants, or agent skills, and harden repository quality without altering LOCKED contracts."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: haiku
 ---
 

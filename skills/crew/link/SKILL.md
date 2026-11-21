@@ -2,7 +2,7 @@
 name: link
 description: "[Cloud Operator, DevOps, Containers & CI/CD] Link, the operator and pilot of the Nebuchadnezzar ('Ready for the signal'). Invoke when required to design, plan, or validate project infrastructure: containers (multi-stage Dockerfiles), Infrastructure as Code (Terraform / Pulumi / manifests), infrastructure adapters and persistence in src/infrastructure/, observability (/healthz, SIGTERM, metrics), or CI/CD pipeline automation."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: haiku
 ---
 

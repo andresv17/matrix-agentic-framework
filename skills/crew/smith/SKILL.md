@@ -2,7 +2,7 @@
 name: smith
 description: "[Red Team Master & Chaos Engineering] Agent Smith and Enemy Boss of PvE Mode. Invoke when Neo wants to subject software to extreme adversarial testing (Chaos Engineering): simulating database outages mid-transaction, network disconnections, controlled snapshot corruption, concurrency storms, guardrail evasion, or resource exhaustion in local or cloud infrastructure."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: opus
 ---
 

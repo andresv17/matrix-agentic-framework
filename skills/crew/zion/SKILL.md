@@ -2,7 +2,7 @@
 name: zion
 description: "[Multi-Agent Arena PvP / PvE / Clan 7v7] The Council of Zion and the Simulation Construct. Invoke when a task is blocked, a discrepancy exists between specification/contracts and implementation (Drift Case A vs Case B), or cross-character arbitration is required in PvP (1 vs 1), PvE (Squad vs Smith), or Clan 7v7 (14 voices) modes."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: sonnet
 ---
 

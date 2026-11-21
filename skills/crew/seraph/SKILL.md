@@ -2,7 +2,7 @@
 name: seraph
 description: "[Access Gatekeeper, Authentication & Challenge QA] Seraph, the Golden Code Guardian who protects access to The Oracle ('You do not truly know someone until you fight them'). Invoke to audit authentication flows, sessions, and Zero-Trust access control, or to subject code to rigorous combat: eradicate weak oracles, hunt surviving mutants, design deterministic property tests, and verify multi-session E2E flows and WCAG accessibility."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: sonnet
 ---
 

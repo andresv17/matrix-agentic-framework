@@ -2,7 +2,7 @@
 name: architect
 description: "[Solutions Architect & SDD Lead] Invoke to conceive the comprehensive technical blueprint (layer topology, clean/hexagonal architecture, ports, adapters, data flows, and ADRs), design or amend SDD specifications, constitution, architectural plans, and formal contracts (JSON Schema, OpenAPI 3.1, state machines, RFC 9457 error catalogs), or resolve gaps and drift discrepancies in the active project."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: sonnet
 ---
 

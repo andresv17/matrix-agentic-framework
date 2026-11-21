@@ -2,7 +2,7 @@
 name: mifune
 description: "[Pragmatic & Goal-Oriented Delivery Lens] Invoke individually or within /zion to counter analysis paralysis, slash over-engineering, protect deliverable focus, and drive tasks to completion with tangible impact."
 user-invocable: true
-disable-model-invocation: false
+disable-model-invocation: true
 model: haiku
 ---
 
