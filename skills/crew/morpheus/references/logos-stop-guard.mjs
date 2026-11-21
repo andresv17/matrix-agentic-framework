@@ -129,16 +129,33 @@ if (['morpheus', 'claude'].includes(turno)) {
   let waitingOnSubagent = /waiting for \d+ background agent/i.test(plainMsg);
   if (!waitingOnSubagent && input.transcript_path && existsSync(input.transcript_path)) {
     try {
-      const lines = readFileSync(input.transcript_path, 'utf8').trim().split('\n');
-      // Inspect current turn (lines since previous assistant end_turn)
-      for (let i = lines.length - 1; i >= 0 && i >= lines.length - 40; i--) {
-        const line = lines[i];
-        if (line.includes('Async agent launched successfully') || line.includes('"name":"Agent"')) {
+      const transcript = readFileSync(input.transcript_path, 'utf8');
+      const launched = new Set();
+      const completed = new Set();
+      for (const m of transcript.matchAll(/agentId["\s:=]+([a-f0-9]{10,})/g)) {
+        launched.add(m[1]);
+      }
+      for (const m of transcript.matchAll(/(?:from=|task-id>)["']?([a-f0-9]{10,})/g)) {
+        completed.add(m[1]);
+      }
+      for (const id of launched) {
+        if (!completed.has(id)) {
           waitingOnSubagent = true;
           break;
         }
-        if (i < lines.length - 2 && line.includes('"stop_reason":"end_turn"')) {
-          break;
+      }
+
+      if (!waitingOnSubagent) {
+        const lines = transcript.trim().split('\n');
+        for (let i = lines.length - 1; i >= 0 && i >= lines.length - 40; i--) {
+          const line = lines[i];
+          if (line.includes('Async agent launched successfully') || line.includes('"name":"Agent"')) {
+            waitingOnSubagent = true;
+            break;
+          }
+          if (i < lines.length - 2 && line.includes('"stop_reason":"end_turn"')) {
+            break;
+          }
         }
       }
     } catch {
