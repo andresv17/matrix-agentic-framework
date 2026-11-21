@@ -151,7 +151,13 @@ def cmd_write(args):
     if args.mensaje is not None:
         data["mensaje"] = args.mensaje
     if args.estado:
-        data["estado"] = STATE_ALIASES.get(args.estado, args.estado)
+        next_estado = STATE_ALIASES.get(args.estado, args.estado)
+        if data.get("estado") == "PAUSE_TIMEOUT" and next_estado == "IN_PROGRESS" and str(args.emisor or "").lower() != "neo":
+            print("[logos] Warning: channel is in 'PAUSE_TIMEOUT' (peer wait expired). Preserving PAUSE_TIMEOUT until Neo resumes.")
+        else:
+            data["estado"] = next_estado
+    elif data.get("estado") == "PAUSE_TIMEOUT":
+        print("[logos] Warning: peer wait expired earlier (PAUSE_TIMEOUT). Next wait will stop cleanly.")
     if args.requiere_firma is not None:
         data["requiere_firma_neo"] = args.requiere_firma
 
@@ -189,7 +195,7 @@ def cmd_wait(args):
                 sys.exit(0)
 
             if estado in [
-                "COMPLETED", "PAUSE_NEO", "PAUSE_CIRCUIT_BREAKER", "OFF",
+                "COMPLETED", "PAUSE_NEO", "PAUSE_CIRCUIT_BREAKER", "PAUSE_TIMEOUT", "OFF",
                 "COMPLETADO", "PAUSA_NEO", "PAUSA_CIRCUIT_BREAKER", "APAGADO",
             ]:
                 print(f"[LOGOS STOPPED] logos.json channel stopped with status: '{estado}'.")
@@ -201,8 +207,12 @@ def cmd_wait(args):
 
         elapsed = time.time() - start
         if elapsed >= timeout:
+            latest = load_logos(args.path)
+            if latest and latest.get("estado") in ("IN_PROGRESS", "EN_PROGRESO"):
+                latest["estado"] = "PAUSE_TIMEOUT"
+                atomic_write(args.path, latest)
             print(
-                f"[TIMEOUT] Wait timeout ({timeout}s) expired on logos.json waiting for '{expected}'. The autonomous loop has stopped.",
+                f"[TIMEOUT] Wait timeout ({timeout}s) expired on logos.json waiting for '{expected}'. Channel marked 'PAUSE_TIMEOUT' so the peer stops cleanly.",
                 file=sys.stderr,
             )
             sys.exit(1)
@@ -232,7 +242,7 @@ def main():
     p_write.add_argument(
         "--estado",
         choices=[
-            "IN_PROGRESS", "COMPLETED", "PAUSE_NEO", "BLOCKED", "OFF",
+            "IN_PROGRESS", "COMPLETED", "PAUSE_NEO", "PAUSE_TIMEOUT", "BLOCKED", "OFF",
             "EN_PROGRESO", "COMPLETADO", "PAUSA_NEO", "BLOQUEADO", "APAGADO",
         ],
         help="Cycle status",
