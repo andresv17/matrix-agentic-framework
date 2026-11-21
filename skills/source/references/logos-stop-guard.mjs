@@ -91,12 +91,13 @@ if (['neo', 'source', 'gemini'].includes(turno)) {
   }
 
   const isTerminalNotice = /^\[(TIMEOUT|LOGOS STOPPED)\]/m.test(lastMsg);
-  const noteIdx = lastMsg.indexOf('┌─ Note');
-  const nextStepIdx = lastMsg.search(/RECOMMENDED NEXT STEP:/i);
+  const plainMsg = lastMsg.replace(/[*_`]/g, '');
+  const noteIdx = plainMsg.indexOf('┌─ Note');
+  const nextStepIdx = plainMsg.search(/RECOMMENDED NEXT STEP:/i);
   const hasBanner = noteIdx !== -1;
   const hasEnvelope =
-    /FROM:\s*Morpheus/i.test(lastMsg) &&
-    /TO:\s*Neo/i.test(lastMsg) &&
+    /FROM:\s*Morpheus/i.test(plainMsg) &&
+    /TO:\s*Neo/i.test(plainMsg) &&
     nextStepIdx !== -1;
   const bannerIsLast = hasBanner && hasEnvelope && nextStepIdx < noteIdx;
 
