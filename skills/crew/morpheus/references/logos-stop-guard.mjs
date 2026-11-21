@@ -43,6 +43,7 @@ if (!['IN_PROGRESS', 'EN_PROGRESO'].includes(estado)) {
 
 const turno = String(logos.turno || '').toLowerCase();
 const lastMsg = String(input.last_assistant_message || '');
+const plainMsg = lastMsg.replace(/[*_`]/g, '');
 
 // Only enforce this guard in sessions where Morpheus is the active role.
 const fromMatch = lastMsg.match(/FROM:\s*([^\n]+)/i);
@@ -91,7 +92,6 @@ if (['neo', 'source', 'gemini'].includes(turno)) {
   }
 
   const isTerminalNotice = /^\[(TIMEOUT|LOGOS STOPPED)\]/m.test(lastMsg);
-  const plainMsg = lastMsg.replace(/[*_`]/g, '');
   const noteIdx = plainMsg.indexOf('┌─ Note');
   const nextStepIdx = plainMsg.search(/RECOMMENDED NEXT STEP:/i);
   const hasBanner = noteIdx !== -1;
@@ -112,19 +112,48 @@ if (['neo', 'source', 'gemini'].includes(turno)) {
   process.exit(0);
 }
 
-// Case 2: Turn is still morpheus, but Morpheus is escalating Blocked / Validation Required in terminal without writing to Logos.
-if (
-  ['morpheus', 'claude'].includes(turno) &&
-  /STATUS:\s*(Blocked|Validation Required)/i.test(lastMsg)
-) {
-  block(
-    'Logos channel is active (estado=' +
-      estado +
-      ') and your message reports `STATUS: Blocked` or `STATUS: Validation Required`, but `logos.json` still has `turno=morpheus`. ' +
-      'Write your consolidated report with `python3 scripts/logos.py write --turno neo --emisor morpheus --mensaje "..."`, ' +
-      'then launch `python3 scripts/logos.py wait --for morpheus --timeout 1800` in a separate Bash tool call with `run_in_background: true`, ' +
-      'and close with the `┌─ Note ─┐` wait banner.'
-  );
+// Case 2: Turn is still morpheus while Logos is IN_PROGRESS.
+// Morpheus may only end a turn in turno=morpheus if it is waiting on a background Agent subagent.
+if (['morpheus', 'claude'].includes(turno)) {
+  if (/STATUS:\s*(Blocked|Validation Required)/i.test(plainMsg)) {
+    block(
+      'Logos channel is active (estado=' +
+        estado +
+        ') and your message reports `STATUS: Blocked` or `STATUS: Validation Required`, but `logos.json` still has `turno=morpheus`. ' +
+        'Write your consolidated report with `python3 scripts/logos.py write --turno neo --emisor morpheus --mensaje "..."`, ' +
+        'then launch `python3 scripts/logos.py wait --for morpheus --timeout 1800` in a separate Bash tool call with `run_in_background: true`, ' +
+        'and close with the `┌─ Note ─┐` wait banner.'
+    );
+  }
+
+  let waitingOnSubagent = /waiting for \d+ background agent/i.test(plainMsg);
+  if (!waitingOnSubagent && input.transcript_path && existsSync(input.transcript_path)) {
+    try {
+      const lines = readFileSync(input.transcript_path, 'utf8').trim().split('\n');
+      // Inspect current turn (lines since previous assistant end_turn)
+      for (let i = lines.length - 1; i >= 0 && i >= lines.length - 40; i--) {
+        const line = lines[i];
+        if (line.includes('Async agent launched successfully') || line.includes('"name":"Agent"')) {
+          waitingOnSubagent = true;
+          break;
+        }
+        if (i < lines.length - 2 && line.includes('"stop_reason":"end_turn"')) {
+          break;
+        }
+      }
+    } catch {
+      // Ignore transcript read errors
+    }
+  }
+
+  if (!waitingOnSubagent) {
+    block(
+      'Logos channel is active (estado=' +
+        estado +
+        ', turno=morpheus), and you ended your turn without launching a background Agent and without yielding the turn to Neo. ' +
+        'Do NOT stop idle: either dispatch the next crew subagent now, or write your report to Logos (`python3 scripts/logos.py write --turno neo ...`) + start `logos.py wait --for morpheus` in background.'
+    );
+  }
 }
 
 process.exit(0);
