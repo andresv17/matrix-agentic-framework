@@ -177,7 +177,7 @@ DETAILS:
 RECOMMENDED NEXT STEP: <Exact command or decision required from Neo>
 ```
 
-> **Logos Mode:** If the Logos channel is active, finish every `TO: Neo` turn with `logos.py write --turno neo`, a separate `Bash(..., run_in_background: true)` call to `logos.py wait --for morpheus`, and the `┌─ Note ─┐` banner (§ 3, Step 6).
+> **Logos Mode:** Append the `┌─ Note ─┐` banner (§ 3, Step 6) **only** after yielding `turno=neo` with `logos.py write` and launching `logos.py wait --for morpheus` in background — **never** append it while waiting on internal subagents (`/architect`, `/keymaker`, `/oracle`).
 
 # 5. Session Close Behavior (`"cerremos sesión"`, `"close session"`, or `/hardline`)
 
