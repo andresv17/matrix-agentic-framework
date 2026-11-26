@@ -62,9 +62,8 @@ The single source of truth for the system is **the physical state on disk** (`gi
        │ In the execution crew terminal, type (or keep active):                        │
        │ Morpheus: turn on the Logos / "Morpheus: enciende la Logos"                   │
        │                                                                               │
-       │ As soon as Morpheus processes the directive and yields turn in logos.json,    │
-       │ The Source will wake up automatically, audit progress against disk, and       │
-       │ issue the next replica signed as Neo.                                         │
+       │ As soon as Morpheus responds and yields turn in logos.json,                   │
+       │ The Source will wake up automatically to audit and issue the next reply.      │
        └───────────────────────────────────────────────────────────────────────────────┘
        ```
   2. **Forensic Reading & Audit:** Upon waking, read incoming directive via `python3 scripts/logos.py read --field directiva` (extracts operational report, bypassing intermediate pauses). Audit Morpheus's assertions directly against disk files (`git diff`, `tests/`, `specs/`).
